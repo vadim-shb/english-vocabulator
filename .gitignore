@@ -1,0 +1,28 @@
+*.class
+*.log
+target/
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+#IntelliJ IDEA specific
+**/.idea
+**/*.iml
+
+#js dependencies
+node_modules
+
+#project specific
+/public
+/conf/application.conf
