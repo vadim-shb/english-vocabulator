@@ -1,10 +1,13 @@
 package dao
 
+import javax.inject.Singleton
+
 import domain.User
 import persistence.DbConnected
 import scalikejdbc._
 
-object UserDao extends DbConnected {
+@Singleton
+class UserDao extends DbConnected {
 
   def userMapper(rs: WrappedResultSet)(implicit session: DBSession) = {
     val userId = rs.long("id")
