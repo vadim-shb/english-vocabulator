@@ -33,6 +33,7 @@ var config = {
     ],
     jsSource: [
         srcFolder + '/app.js',
+        srcFolder + '/interceptors/**/*.js',
         srcFolder + '/config/**/*.js',
         srcFolder + '/filters/**/*.js',
         srcFolder + '/injectables/**/*.js',
@@ -54,19 +55,19 @@ var devConfig = {
     npmLibJs: [
         'node_modules/jquery/dist/jquery.js',
         'node_modules/angular/angular.js',
-        'node_modules/angular-ui-router/release/angular-ui-router.js'
+        'node_modules/angular-ui-router/release/angular-ui-router.js',
         // 'node_modules/angular-file-upload/dist/angular-file-upload.js',
         // 'node_modules/buckets-js/dist/buckets.js',
         // 'node_modules/angular-auto-validate/dist/jcs-auto-validate.js',
         // 'node_modules/angular-auto-validate/dist/lang/jcs-auto-validate_ru-ru.json',
         // 'node_modules/ng-table/dist/ng-table.js',
         // 'node_modules/moment/min/moment.min.js',
-        // 'node_modules/angularjs-toaster/toaster.js'
+        'node_modules/angularjs-toaster/toaster.js'
     ],
     npmLibCss: [
         // 'node_modules/bootstrap/dist/css/bootstrap.css',
         // 'node_modules/ng-table/dist/ng-table.css',
-        // 'node_modules/angularjs-toaster/toaster.css'
+        'node_modules/angularjs-toaster/toaster.css'
     ],
     npmLibFonts: [
         // 'node_modules/bootstrap/fonts/*'

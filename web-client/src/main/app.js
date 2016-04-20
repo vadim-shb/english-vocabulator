@@ -2,8 +2,12 @@
 
 angular
     .module('webClient', [
-        'ui.router'
+        'ui.router',
+        'toaster'
     ])
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push('authorizationHttpInterceptor');
+    })
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/sign-in');
 
@@ -13,9 +17,14 @@ angular
                 templateUrl: '/pages/sign-in/sign-in.html',
                 controller: 'SignInController'
             })
-            .state('dictionaries', {
-                url: '/cabinet/dictionaries',
-                templateUrl: '/pages/dictionaries/dictionaries.html',
-                controller: 'DictionariesController'
+            .state('createWord', {
+                url: '/cabinet/word/new',
+                templateUrl: '/pages/edit-word/edit-word.html',
+                controller: 'CreateWordController'
+            })
+            .state('learnCollections', {
+                url: '/cabinet/learn-collections',
+                templateUrl: '/pages/learn-collections/learn-collections.html',
+                controller: 'LearnCollectionsController'
             })
     });

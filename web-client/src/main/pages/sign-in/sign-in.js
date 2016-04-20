@@ -10,7 +10,7 @@ angular.module('webClient').controller('SignInController', function($scope, $htt
         $http.post('/api/security/sign-in', $scope.credentials)
             .then(function(response) {
                 userService.signIn(response.data.accessToken, response.data.user);
-                $state.go('dictionaries');
+                $state.go('learnCollections');
             });
     };
 });

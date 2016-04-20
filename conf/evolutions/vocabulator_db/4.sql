@@ -1,17 +1,22 @@
-# --- Words
+# --- examples of words usage
 
 # --- !Ups
 
-CREATE TABLE t_word (
-  id            BIGSERIAL     NOT NULL PRIMARY KEY,
-  word_group_id BIGINT        NOT NULL REFERENCES t_word_group (id),
-  word          VARCHAR(1024) NOT NULL
+CREATE TABLE t_word_usage_example (
+  id                BIGSERIAL     NOT NULL PRIMARY KEY,
+  word_id           BIGINT        NOT NULL REFERENCES t_word (id),
+  position_in_order INTEGER       NOT NULL,
+  example           VARCHAR(4000) NOT NULL,
+  example_meaning   VARCHAR(4000) NOT NULL
 );
 
-ALTER TABLE t_word ADD CONSTRAINT word_min_length CHECK (length(word) > 0);
+--@formatter:off
+ALTER TABLE t_word_usage_example ADD CONSTRAINT example_min_length CHECK (length(example) > 0);
+ALTER TABLE t_word_usage_example ADD CONSTRAINT example_meaning_min_length CHECK (length(example_meaning) > 0);
+--@formatter:on
 
-CREATE INDEX t_word_word_group_id ON t_word (word_group_id);
+CREATE INDEX t_word_usage_example__word_id ON t_word_usage_example (word_id);
 
 # --- !Downs
 
-DROP TABLE t_word;
+DROP TABLE t_word_usage_example;

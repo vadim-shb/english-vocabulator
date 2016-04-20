@@ -1,17 +1,20 @@
-# --- Groups of words
+# --- meanings of words
 
 # --- !Ups
 
-CREATE TABLE t_word_group (
-  id            BIGSERIAL     NOT NULL PRIMARY KEY,
-  dictionary_id BIGINT        NOT NULL REFERENCES t_dictionary (id),
-  name          VARCHAR(1024) NOT NULL
+CREATE TABLE t_word_meaning (
+  id                BIGSERIAL     NOT NULL PRIMARY KEY,
+  word_id           BIGINT        NOT NULL REFERENCES t_word (id),
+  position_in_order INTEGER       NOT NULL,
+  meaning           VARCHAR(1024) NOT NULL
 );
 
-ALTER TABLE t_word_group ADD CONSTRAINT name_min_length CHECK (length(name) > 0);
+--@formatter:off
+ALTER TABLE t_word_meaning ADD CONSTRAINT meaning_min_length CHECK (length(meaning) > 0);
+--@formatter:on
 
-CREATE INDEX t_word_group_vocabulary_id ON t_word_group (dictionary_id);
+CREATE INDEX t_word_meaning__word_id ON t_word_meaning (word_id);
 
 # --- !Downs
 
-DROP TABLE t_word_group;
+DROP TABLE t_word_meaning;

@@ -3,10 +3,14 @@
 # ~~~~
 
 # API
-POST       /api/security/sign-in         @controllers.SecurityController.signIn
-GET        /api/security/sign-out        @controllers.SecurityController.signOut
+POST        /api/security/sign-in                      @controllers.SecurityController.signIn
+GET         /api/security/sign-out                     @controllers.SecurityController.signOut
+GET         /api/words                                 @controllers.WordController.findWords
+POST        /api/word                                  @controllers.WordController.createWord
+GET         /api/user/:userId/learn-collections        @controllers.LearnCollectionController.findLearnCollections(userId: Long)
+POST        /api/user/:userId/learn-collection         @controllers.LearnCollectionController.createLearnCollection(userId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /                    @controllers.Assets.at(path="/public", file="index.html")
-GET        /*file               @controllers.Assets.at(path="/public", file)
+GET         /                                          @controllers.Assets.at(path="/public", file="index.html")
+GET         /*file                                     @controllers.Assets.at(path="/public", file)
 

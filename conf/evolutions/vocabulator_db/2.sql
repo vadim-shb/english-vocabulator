@@ -1,17 +1,16 @@
-# --- Vocabularies
+# --- Words
 
 # --- !Ups
 
-CREATE TABLE t_dictionary (
-  id      BIGSERIAL     NOT NULL PRIMARY KEY,
-  user_id BIGINT        NOT NULL REFERENCES t_user (id),
-  name    VARCHAR(1024) NOT NULL
+CREATE TABLE t_word (
+  id   BIGSERIAL     NOT NULL PRIMARY KEY,
+  word VARCHAR(1024) NOT NULL
 );
 
-ALTER TABLE t_dictionary ADD CONSTRAINT name_min_length CHECK (length(name) > 0);
-
-CREATE INDEX t_dictionary_user_id ON t_dictionary (user_id);
+--@formatter:off
+ALTER TABLE t_word ADD CONSTRAINT word_min_length CHECK (length(word) > 0);
+--@formatter:on
 
 # --- !Downs
 
-DROP TABLE t_dictionary;
+DROP TABLE t_word;

@@ -7,16 +7,16 @@ import javax.inject.{Inject, Singleton}
 import dao.UserDao
 import domain.{AuthenticatedUser, Credentials, User}
 import org.joda.time.{DateTime, Seconds}
-import play.api.Play._
+import play.api.Configuration
 import play.api.mvc.{AnyContent, Request}
 
 import scala.collection.concurrent
 import scala.collection.convert.decorateAsScala._
 
 @Singleton
-class SecurityService @Inject() (userDao: UserDao) {
+class SecurityService @Inject()(configuration: Configuration, userDao: UserDao) {
 
-//  val accessTokenTTL = current.configuration.getInt("security.accessToken.ttl").get
+  val accessTokenTTL = configuration.getInt("security.accessToken.ttl").get
 
   private val sessions: concurrent.Map[String, (DateTime, User)] = new ConcurrentHashMap[String, (DateTime, User)]().asScala //todo: Memory leak here. Need to clean old sessions ones per month (for example)
 
@@ -28,42 +28,41 @@ class SecurityService @Inject() (userDao: UserDao) {
     })
   }
 
-  def logout(implicit request: Request[AnyContent]) = {
+  def logout[A](implicit request: Request[A]) = {
     val accessTokenOpt = getAccessToken
     accessTokenOpt.foreach(accessToken => sessions.remove(accessToken))
   }
 
-  def getAccessToken(implicit request: Request[AnyRef]) = {
+  def getAccessToken[A](implicit request: Request[A]) = {
     request.headers.get("Authorization")
   }
-//
-//  def getUser(implicit request: Request[AnyRef]) = {
-//    val accessTokenOpt = getAccessToken
-//    accessTokenOpt.flatMap(accessToken => getUserByAccessToken(accessToken))
-//  }
-//
-//  private def getUserByAccessToken(accessToken: String) = {
-//    sessions.get(accessToken)
-//      .filter(authentication => isAlive(authentication._1))
-//      .map(authentication => authentication._2)
-//  }
-//
-//  private def isAlive(authDateTime: DateTime) = {
-//    Seconds.secondsBetween(DateTime.now(), authDateTime).getSeconds < accessTokenTTL
-//  }
-//
-//
-//  def cleanUnavailable() = {
-//    getOldAccessTokens.foreach(accessToken => sessions.remove(accessToken))
-//  }
-//
-//  private def getOldAccessTokens = {
-//    sessions.filter({
-//      case (accessToken, (authDateTime, user)) => !isAlive(authDateTime)
-//    }).map({
-//      case (accessToken, (authDateTime, user)) => accessToken
-//    })
-//  }
+
+  def getUser[A](implicit request: Request[A]) = {
+    val accessTokenOpt = getAccessToken
+    accessTokenOpt.flatMap(accessToken => getUserByAccessToken(accessToken))
+  }
+
+  private def getUserByAccessToken(accessToken: String) = {
+    sessions.get(accessToken)
+      .filter(authentication => isAlive(authentication._1))
+      .map(authentication => authentication._2)
+  }
+
+  private def isAlive(authDateTime: DateTime) = {
+    Seconds.secondsBetween(DateTime.now(), authDateTime).getSeconds < accessTokenTTL
+  }
+
+  def cleanUnavailable() = {
+    getOldAccessTokens.foreach(accessToken => sessions.remove(accessToken))
+  }
+
+  private def getOldAccessTokens = {
+    sessions.filter({
+      case (accessToken, (authDateTime, user)) => !isAlive(authDateTime)
+    }).map({
+      case (accessToken, (authDateTime, user)) => accessToken
+    })
+  }
 
 }
 
@@ -71,18 +70,19 @@ class SecurityService @Inject() (userDao: UserDao) {
   * Unsafe !!!
   * Only for authenticated users
   */
-//object AuthorizedSecurityService {
-//
-//  def getUserId(implicit request: Request[AnyRef]) = {
-//    getUser(request).id
-//  }
-//
-//  def getUser(implicit request: Request[AnyRef]) = {
-//    SecurityService.getUser(request).get
-//  }
-//
-//  def getAccessToken(implicit request: Request[AnyRef]) = {
-//    SecurityService.getAccessToken.get
-//  }
-//}
+@Singleton
+class AuthorizedSecurityService @Inject() (securityService: SecurityService) {
+
+  def getUserId[A](implicit request: Request[A]) = {
+    getUser(request).id
+  }
+
+  def getUser[A](implicit request: Request[A]) = {
+    securityService.getUser(request).get
+  }
+
+  def getAccessToken[A](implicit request: Request[A]) = {
+    securityService.getAccessToken.get
+  }
+}
 

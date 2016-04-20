@@ -29,6 +29,7 @@
     "bootstrap": "~3.3.6",
     "buckets-js": "^1.98.1",
     "jquery": "~2.2.1",
-    "angular-file-upload": "~2.2.0"
+    "angular-file-upload": "~2.2.0",
+    "angularjs-toaster": "^1.2.1"
   }
 }
