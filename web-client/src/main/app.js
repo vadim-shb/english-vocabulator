@@ -32,4 +32,9 @@ angular
                 templateUrl: '/pages/edit-learn-collection/edit-learn-collection.html',
                 controller: 'EditLearnCollectionController'
             })
+            .state('studyMeanings', {
+                url: '/study/learn-collection/{learnCollectionId}/meanings',
+                templateUrl: '/pages/study/study-meanings/study-meanings.html',
+                controller: 'StudyMeaningsController'
+            })
     });

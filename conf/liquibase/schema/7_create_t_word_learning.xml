@@ -12,10 +12,10 @@
                 user_id            BIGINT    NOT NULL REFERENCES t_user (id),
                 word_id            BIGINT    NOT NULL REFERENCES t_word (id),
                 word_importance    INT       NOT NULL,
-                right_know_meaning INT       NOT NULL,
-                right_write        INT       NOT NULL,
-                right_pronounce    INT       NOT NULL,
-                fail_know_meaning  INT       NOT NULL,
+                success_meaning    INT       NOT NULL,
+                success_write      INT       NOT NULL,
+                success_pronounce  INT       NOT NULL,
+                fail_meaning       INT       NOT NULL,
                 fail_write         INT       NOT NULL,
                 fail_pronounce     INT       NOT NULL
             );

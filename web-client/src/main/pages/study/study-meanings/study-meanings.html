@@ -1,0 +1,15 @@
+<div class="study-meaning">
+    <a ui-sref="learnCollections">back</a>
+
+    <div ng-if="stage === 'CHOICE_STAGE'">
+        <p>{{studyingWord.word}}</p>
+        <button ng-click="knowWord(studyingWord)">Know</button>
+        <button ng-click="doNotKnowWord(studyingWord)">Don't know</button>
+    </div>
+    <div ng-if="stage === 'CHECK_STAGE'">
+        <p ng-repeat="meaning in studyingWord.meanings | orderBy: 'positionInOrder'">{{meaning.meaning}}</p>
+        <button ng-click="knowWord(studyingWord)">Know</button>
+        <button ng-click="doNotKnowWord(studyingWord)">Don't know</button>
+    </div>
+
+</div>
