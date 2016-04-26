@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="function-4" author="vdshb">
+        <createProcedure>
+            CREATE OR REPLACE FUNCTION delete_word_from_learn_collection(p_word_and_learn_collection_owner_id BIGINT,
+                                                                         p_word_id                            BIGINT,
+                                                                         p_learn_collection_id                BIGINT)
+                RETURNS VOID AS $$
+            DECLARE
+            BEGIN
+                IF (SELECT check_if_owner_of_word(p_word_id, p_word_and_learn_collection_owner_id) AND
+                   (SELECT check_if_owner_of_learn_collection(p_learn_collection_id, p_word_and_learn_collection_owner_id)))
+                THEN
+                    DELETE FROM t_word_in_learn_collection WHERE learn_collection_id = p_learn_collection_id AND word_id = p_word_id;
+                ELSE
+                    RAISE EXCEPTION 'Business logic exception. Access denied';
+                END IF;
+            END
+            $$ LANGUAGE plpgsql;
+        </createProcedure>
+        <rollback>
+            <sql>
+                DROP FUNCTION delete_word_from_learn_collection( BIGINT, BIGINT, BIGINT );
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -14,7 +14,7 @@
         <tr ng-repeat="learnCollection in learnCollections">
             <td>{{::learnCollection.name}}</td>
             <td>
-                <button ng-click="changeLearnCollection()">change</button>
+                <a ui-sref="learnCollection({learnCollectionId: learnCollection.id})">change</a>
             </td>
         </tr>
     </table>

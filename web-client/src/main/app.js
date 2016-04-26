@@ -27,4 +27,9 @@ angular
                 templateUrl: '/pages/learn-collections/learn-collections.html',
                 controller: 'LearnCollectionsController'
             })
+            .state('learnCollection', {
+                url: '/cabinet/learn-collection/{learnCollectionId}',
+                templateUrl: '/pages/edit-learn-collection/edit-learn-collection.html',
+                controller: 'EditLearnCollectionController'
+            })
     });

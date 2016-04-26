@@ -34,7 +34,7 @@ angular.module('webClient').controller('CreateWordController', function($scope, 
     };
     
     $scope.saveWord = function(word) {
-        $http.post('/api/word', word)
+        $http.post('/api/user/' + userService.getUser().id + '/word', word)
             .then(function() {
                 toaster.pop('success', "Word have been saved successfully");
             });

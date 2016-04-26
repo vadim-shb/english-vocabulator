@@ -23,17 +23,27 @@ class WordDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
       .map(wordMapper).single.apply
   }
 
-  def findWords(implicit session: DBSession): List[Word] = {
-    sql"SELECT * FROM t_word"
+  def findWords(ownerId: Long)(implicit session: DBSession): List[Word] = {
+    sql"SELECT * FROM t_word WHERE owner_id = ${ownerId}"
       .map(wordMapper).list.apply
   }
 
-  def create(word: Word)(implicit session: DBSession) = {
+  def findWordsInLearnCollection(learnCollectionId: Long)(implicit session: DBSession): List[Word] = {
+    sql"""SELECT t_word.*
+          FROM t_word
+          JOIN t_word_in_learn_collection ON t_word_in_learn_collection.word_id = t_word.id
+          WHERE t_word_in_learn_collection.learn_collection_id = ${learnCollectionId}"""
+      .map(wordMapper).list.apply
+  }
+
+  def create(word: Word, ownerId: Long)(implicit session: DBSession) = {
     val persistedWordId =
       sql"""INSERT INTO t_word(
-          word
+          word,
+          owner_id
          ) VALUES (
-          ${word.word}
+          ${word.word},
+          ${ownerId}
          )"""
         .updateAndReturnGeneratedKey.apply
     val persistedWordMeanings = word.meanings.map(wordMeaning => wordMeaningDao.create(persistedWordId, wordMeaning))

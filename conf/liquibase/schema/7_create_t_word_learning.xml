@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="schema-7" author="vdshb">
+        <sql><![CDATA[
+            CREATE TABLE t_word_learning (
+                id                 BIGSERIAL NOT NULL PRIMARY KEY,
+                user_id            BIGINT    NOT NULL REFERENCES t_user (id),
+                word_id            BIGINT    NOT NULL REFERENCES t_word (id),
+                word_importance    INT       NOT NULL,
+                right_know_meaning INT       NOT NULL,
+                right_write        INT       NOT NULL,
+                right_pronounce    INT       NOT NULL,
+                fail_know_meaning  INT       NOT NULL,
+                fail_write         INT       NOT NULL,
+                fail_pronounce     INT       NOT NULL
+            );
+
+            ALTER TABLE t_word_learning ADD CONSTRAINT word_importance_min CHECK (word_importance >= 0);
+            ALTER TABLE t_word_learning ADD CONSTRAINT word_importance_max CHECK (word_importance <= 10);
+
+        ]]></sql>
+        <rollback>
+            <sql>
+            DROP TABLE t_word_learning;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
