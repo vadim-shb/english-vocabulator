@@ -21,9 +21,34 @@
     padding-left: 11px;
     padding-right: 11px;
     border: 1px solid #2F6FAD;
-    line-height:24px;
+    line-height: 24px;
     .font-normal();
   }
 }
 
+.ng-if-vertical-animation(@ngIfClass, @showTime, @hideTime) {
+  .@{ngIfClass}.ng-enter {
+    transition: @showTime linear all;
+  }
 
+  .@{ngIfClass}.ng-leave {
+    transition: @hideTime linear all;
+  }
+
+  .@{ngIfClass}.ng-enter {
+    max-height: 0;
+    opacity: 0;
+  }
+  .@{ngIfClass}.ng-enter.ng-enter-active {
+    max-height: 100%;
+    opacity: 1;
+  }
+  .@{ngIfClass}.ng-leave {
+    max-height: 100%;
+    opacity: 1;
+  }
+  .@{ngIfClass}.ng-leave.ng-leave-active {
+    max-height: 0;
+    opacity: 1;
+  }
+}

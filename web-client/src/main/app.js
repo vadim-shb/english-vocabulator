@@ -2,6 +2,7 @@
 
 angular
     .module('webClient', [
+        'ngAnimate',
         'ui.router',
         'toaster'
     ])
