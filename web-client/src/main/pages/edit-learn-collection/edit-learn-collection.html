@@ -2,7 +2,7 @@
 
     <h1>Fill learn collection with words</h1>
 
-    <span class="words-in-collection-block">
+    <div class="words-in-collection-block">
         <h2>Words in collection "{{::learnCollection.name}}"</h2>
         <table ng-repeat="wordInCollection in wordsInLearnCollection">
             <tr>
@@ -12,15 +12,13 @@
                 </td>
             </tr>
         </table>
-    </span>
+    </div>
 
     <div class="side-block">
 
         <div class="add-words-block">
-            <h1>Create new word</h1>
-            <label>word:
-                <input type="text" ng-model="newWord.word"/>
-            </label>
+            <h2 class="new-word">Create new word:</h2>
+            <input class="new-word" type="text" ng-model="newWord.word"/>
 
             <h2>Meanings:</h2>
             <table>
