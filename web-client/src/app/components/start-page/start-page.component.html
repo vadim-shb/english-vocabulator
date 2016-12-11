@@ -1,0 +1,10 @@
+<h1>{{title}}</h1>
+<div>
+  <label>email: </label>
+  <input [(ngModel)]="credentials.email">
+</div>
+<div>
+  <label>password: </label>
+  <input [(ngModel)]="credentials.password" type="password">
+</div>
+<button (click)="signIn()">sign in</button>
