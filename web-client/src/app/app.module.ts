@@ -5,11 +5,13 @@ import {HttpModule} from "@angular/http";
 import {AppRoutingModule} from "./app-routing.module";
 import {RootComponent} from "./components/root/root.component";
 import { StartPageComponent } from './components/start-page/start-page.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     RootComponent,
-    StartPageComponent
+    StartPageComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
