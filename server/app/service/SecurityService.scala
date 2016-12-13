@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap
 import javax.inject.{Inject, Singleton}
 
 import dao.UserDao
-import domain.{AuthenticatedUser, Credentials, User}
+import domain.{AuthenticatedUser, EmailCredentials, User}
 import org.joda.time.{DateTime, Seconds}
 import play.api.Configuration
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{Request}
 
 import scala.collection.concurrent
 import scala.collection.convert.decorateAsScala._
@@ -20,8 +20,8 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao) 
 
   private val sessions: concurrent.Map[String, (DateTime, User)] = new ConcurrentHashMap[String, (DateTime, User)]().asScala //todo: Memory leak here. Need to clean old sessions ones per month (for example)
 
-  def authenticate(credentials: Credentials): Option[AuthenticatedUser] = {
-    userDao.findUserByUsername(credentials.username).map(user => {
+  def authenticate(credentials: EmailCredentials): Option[AuthenticatedUser] = {
+    userDao.findUserByUsername(credentials.email).map(user => {
       val accessToken = UUID.randomUUID().toString
       sessions.put(accessToken, (DateTime.now(), user))
       AuthenticatedUser(accessToken, user)
