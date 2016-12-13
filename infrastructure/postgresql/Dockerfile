@@ -25,8 +25,7 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/${PG_VERSION}/main
 
 ## Create new user and database
 USER postgres
-RUN /etc/init.d/postgresql stop;\
-    /etc/init.d/postgresql start;\
+RUN /etc/init.d/postgresql restart;\
     psql --command "CREATE USER pguser WITH SUPERUSER PASSWORD '1234';";\
     createdb -O pguser -E UTF8 vocabulator
 
