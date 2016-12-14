@@ -6,12 +6,16 @@ import {AppRoutingModule} from "./app-routing.module";
 import {RootComponent} from "./components/root/root.component";
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LearningComponent } from './components/learning/learning.component';
+import { WordPacksComponent } from './components/word-packs/word-packs.component';
 
 @NgModule({
   declarations: [
     RootComponent,
     StartPageComponent,
-    DashboardComponent
+    DashboardComponent,
+    LearningComponent,
+    WordPacksComponent
   ],
   imports: [
     BrowserModule,
