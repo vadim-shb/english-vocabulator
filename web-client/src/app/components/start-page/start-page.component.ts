@@ -11,7 +11,6 @@ import {Router} from "@angular/router";
 })
 export class StartPageComponent implements OnInit {
 
-  title = 'Very First Page!';
   credentials: SecurityEmailPasswordCredentials = {
     email: '',
     password: ''
