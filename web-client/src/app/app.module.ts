@@ -4,10 +4,11 @@ import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {AppRoutingModule} from "./app-routing.module";
 import {RootComponent} from "./components/root/root.component";
-import { StartPageComponent } from './components/start-page/start-page.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LearningComponent } from './components/learning/learning.component';
-import { WordPacksComponent } from './components/word-packs/word-packs.component';
+import {StartPageComponent} from "./components/start-page/start-page.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {LearningComponent} from "./components/learning/learning.component";
+import { WordBundlesComponent } from './components/word-bundles/word-bundles.component';
+import { WordsComponent } from './components/words/words.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { WordPacksComponent } from './components/word-packs/word-packs.component
     StartPageComponent,
     DashboardComponent,
     LearningComponent,
-    WordPacksComponent
+    WordBundlesComponent,
+    WordsComponent
   ],
   imports: [
     BrowserModule,

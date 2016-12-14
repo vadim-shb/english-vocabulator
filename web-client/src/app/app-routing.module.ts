@@ -3,7 +3,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {StartPageComponent} from "./components/start-page/start-page.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {LearningComponent} from "./components/learning/learning.component";
-import {WordPacksComponent} from "./components/word-packs/word-packs.component";
+import {WordBundlesComponent} from "./components/word-bundles/word-bundles.component";
+import {WordsComponent} from "./components/words/words.component";
 
 const routes: Routes = [
   {
@@ -20,8 +21,12 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'word-packs',
-    component: WordPacksComponent
+    path: 'word-bundles',
+    component: WordBundlesComponent
+  },
+  {
+    path: 'words',
+    component: WordsComponent
   },
   {
     path: 'learning',
@@ -33,4 +38,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
