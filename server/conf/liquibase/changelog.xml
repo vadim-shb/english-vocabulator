@@ -6,7 +6,6 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <includeAll path="conf/liquibase/schema" relativeToChangelogFile="false"/>
-    <includeAll path="conf/liquibase/functions" relativeToChangelogFile="false"/>
     <includeAll path="conf/liquibase/fixtures" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

@@ -1,20 +1,20 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {StartPageComponent} from "./components/start-page/start-page.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {LearningComponent} from "./components/learning/learning.component";
 import {WordBundlesComponent} from "./components/word-bundles/word-bundles.component";
 import {WordsComponent} from "./components/words/words.component";
+import {LoginComponent} from "./components/login/login.component";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/start-page',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
-    path: 'start-page',
-    component: StartPageComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'dashboard',

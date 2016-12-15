@@ -8,21 +8,13 @@
     <changeSet id="schema-7" author="vdshb">
         <sql><![CDATA[
             CREATE TABLE t_word_learning (
-                id                 BIGSERIAL NOT NULL PRIMARY KEY,
-                user_id            BIGINT    NOT NULL REFERENCES t_user (id),
-                word_id            BIGINT    NOT NULL REFERENCES t_word (id),
-                word_importance    INT       NOT NULL,
-                success_meaning    INT       NOT NULL,
-                success_write      INT       NOT NULL,
-                success_pronounce  INT       NOT NULL,
-                fail_meaning       INT       NOT NULL,
-                fail_write         INT       NOT NULL,
-                fail_pronounce     INT       NOT NULL
+                id                 BIGSERIAL                    NOT NULL PRIMARY KEY,
+                user_id            BIGINT                       NOT NULL REFERENCES t_user (id),
+                word_id            BIGINT                       NOT NULL REFERENCES t_word (id),
+                learning_type      VARCHAR(255)                 NOT NULL,
+                answer_time        TIMESTAMP WITHOUT TIME ZONE  NOT NULL DEFAULT (now() at time zone 'utc'),
+                answer_duration    INTERVAL                     NOT NULL
             );
-
-            ALTER TABLE t_word_learning ADD CONSTRAINT word_importance_min CHECK (word_importance >= 0);
-            ALTER TABLE t_word_learning ADD CONSTRAINT word_importance_max CHECK (word_importance <= 10);
-
         ]]></sql>
         <rollback>
             <sql>

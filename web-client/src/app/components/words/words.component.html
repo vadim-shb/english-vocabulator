@@ -1,3 +1,31 @@
-<p>
-  words works!
-</p>
+<div class="word-editor">
+  <h1>{{title}}</h1>
+  <div>
+    <label for="word">Word:</label>
+    <input id="word" [(ngModel)]="word.word"/>
+  </div>
+  <div>
+    <label for="importance">Importance:</label>
+    <select id="importance" [(ngModel)]="word.importance">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+  </div>
+  <label>Meanings:</label>
+  <textarea *ngFor="let meaning of word.meanings" [(ngModel)]="meaning.meaning"></textarea>
+  <div class="controls">
+    <button id="add-meaning" class="btn green" (click)="addMeaning()">+</button>
+  </div>
+  <div class="controls">
+    <button (click)="saveWord()">Save</button>
+  </div>
+</div>

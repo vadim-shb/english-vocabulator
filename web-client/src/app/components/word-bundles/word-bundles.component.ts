@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-word-bundles',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WordBundlesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.logInIfNot();
   }
 
 }

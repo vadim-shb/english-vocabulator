@@ -13,14 +13,14 @@ class UserDao extends DbConnected {
     val userId = rs.long("id")
     User(
       id = userId,
-      username = rs.string("username")
+      email = rs.string("email")
     )
   }
 
-  def findUserByUsername(username: String): Option[User] = {
+  def findUserByUsername(email: String): Option[User] = {
     insideReadOnly { implicit session =>
       sql"""SELECT * FROM t_user
-            WHERE username = ${username}"""
+            WHERE email = ${email}"""
         .map(userMapper).single.apply
     }
   }

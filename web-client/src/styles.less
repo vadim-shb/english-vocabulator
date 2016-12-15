@@ -20,6 +20,40 @@ input {
   color: #111;
 }
 
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border: 1px solid #aaaaaa;
+  border-radius: 0;
+  background: transparent;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border: 1px solid #aaaaaa;
+  border-radius: 0;
+  background: transparent;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+}
+
 button {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -29,16 +63,27 @@ button {
   padding-right: 10px;
   padding-top: 6px;
   padding-bottom: 6px;
-  border: 1px solid #2e6da4;
   border-radius: 0;
-  background: #337ab7;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
   color: #fff;
 }
-button:hover {
-  border-color: #204d74;
-  background: #286090;
+
+a.btn, button {
+  border: 1px solid #2e6da4;
+  background: #337ab7;
   color: #fff;
-  cursor: pointer;
+  &:hover {
+    border-color: #204d74;
+    background: #286090;
+    cursor: pointer;
+  }
+  &.green {
+    border-color: #4cae4c;
+    background: #5cb85c;
+    &:hover {
+      border-color: #398439;
+      background: #449d44;
+    }
+  }
 }

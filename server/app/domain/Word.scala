@@ -5,7 +5,8 @@ import play.api.libs.json.Json
 case class Word(
                  id: Option[Long],
                  word: String,
-                 meanings: Seq[WordMeaning]
+                 meanings: Seq[WordMeaning],
+                 importance: Byte
                )
 
 object Word {

@@ -6,16 +6,19 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="schema-2" author="vdshb">
-        <sql>
+        <sql><![CDATA[
             CREATE TABLE t_word (
                 id          BIGSERIAL     NOT NULL PRIMARY KEY,
                 owner_id    BIGSERIAL     NOT NULL REFERENCES t_user (id),
-                word        VARCHAR(1024) NOT NULL
+                word        VARCHAR(1024) NOT NULL,
+                importance  INT           NOT NULL
             );
 
             CREATE INDEX t_word__owner_user_id ON t_word (owner_id);
             ALTER TABLE t_word ADD CONSTRAINT word_min_length CHECK (length(word) > 0);
-        </sql>
+            ALTER TABLE t_word ADD CONSTRAINT importance_min CHECK (importance >= 0);
+            ALTER TABLE t_word ADD CONSTRAINT importance_max CHECK (importance <= 10);
+        ]]></sql>
         <rollback>
             <sql>
             DROP TABLE t_word;

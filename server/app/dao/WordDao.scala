@@ -14,7 +14,8 @@ class WordDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
     Word(
       id = Some(id),
       word = rs.string("word"),
-      meanings = wordMeaningDao.findMeanings(id)
+      meanings = wordMeaningDao.findMeanings(id),
+      importance = rs.byte("importance")
     )
   }
 
@@ -40,9 +41,11 @@ class WordDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
     val persistedWordId =
       sql"""INSERT INTO t_word(
           word,
+          importance,
           owner_id
          ) VALUES (
           ${word.word},
+          ${word.importance},
           ${ownerId}
          )"""
         .updateAndReturnGeneratedKey.apply
