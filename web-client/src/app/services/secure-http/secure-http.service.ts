@@ -12,11 +12,20 @@ export class SecureHttpService {
               private userService: UserService) {
   }
 
+  get(url: string): Observable<Response> {
+    let user = this.userService.getUser();
+    if (user) {
+      return this.http.get(`/api/user/${user.id}/${url}`, {headers: new Headers({'Authorization': user.accessToken})});
+    }
+    else {
+      this.notLoggedInUserErrorHandler();
+    }
+  }
+
   put(url: string, data: Object): Observable<Response> {
     let user = this.userService.getUser();
     if (user) {
-      console.log(data);
-      return this.http.put(`/api/user/${user.id}/${url}`, data, {headers: new Headers({'Authorization' : user.accessToken})});
+      return this.http.put(`/api/user/${user.id}/${url}`, data, {headers: new Headers({'Authorization': user.accessToken})});
     }
     else {
       this.notLoggedInUserErrorHandler();
@@ -26,5 +35,4 @@ export class SecureHttpService {
   private notLoggedInUserErrorHandler(): void {
     this.router.navigate(['/login']);
   }
-
 }

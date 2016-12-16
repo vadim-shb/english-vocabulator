@@ -18,4 +18,10 @@ export class WordService {
       .catch((error) => this.errorHandleService.handleHttpError(error));
   }
 
+  getMyWords(): Promise<Word[]> {
+    return this.secureHttpService.get('words')
+      .toPromise()
+      .then(response => response.json() as Word[])
+      .catch((error) => this.errorHandleService.handleHttpError(error));
+  }
 }

@@ -10,18 +10,7 @@ import {UserService} from "../../services/user/user.service";
 })
 export class WordsComponent implements OnInit {
 
-  title = 'Add new word';
-
-  word: Word = {
-    id: null,
-    word: '',
-    meanings: [{
-      id: null,
-      positionInOrder: 1,
-      meaning: ''
-    }],
-    importance: 5
-  };
+  words: Word[];
 
   constructor(private userService: UserService,
               private wordService: WordService) {
@@ -29,19 +18,8 @@ export class WordsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.logInIfNot();
-  }
-
-  addMeaning() {
-    this.word.meanings.push({
-      id: null,
-      positionInOrder: this.word.meanings.length,
-      meaning: ''
-    });
-  }
-
-  saveWord() {
-    this.wordService.addWord(this.word)
-      .then(word => this.word = word);
+    this.wordService.getMyWords()
+      .then(words => this.words = words);
   }
 
 }

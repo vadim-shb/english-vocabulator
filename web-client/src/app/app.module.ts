@@ -14,6 +14,7 @@ import {UserService} from "./services/user/user.service";
 import {WordService} from "./services/word/word.service";
 import {LoginComponent} from "./components/login/login.component";
 import {SecureHttpService} from "./services/secure-http/secure-http.service";
+import { WordEditorComponent } from './components/word-editor/word-editor.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {SecureHttpService} from "./services/secure-http/secure-http.service";
     DashboardComponent,
     LearningComponent,
     WordBundlesComponent,
-    WordsComponent
+    WordsComponent,
+    WordEditorComponent
   ],
   imports: [
     BrowserModule,

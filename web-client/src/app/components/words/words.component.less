@@ -1,28 +1,19 @@
-div.word-editor {
-  width: 300px;
-  margin: 10px;
-  input {
-    width: 95%;
-    margin-bottom: 15px;
-  }
-  textarea {
-    width: 95%;
-    height: 60px;
-    margin-bottom: 15px;
-  }
-  select {
-    margin-bottom: 15px;
-    width: 95%;
-  }
-  #add-meaning {
-    margin-bottom: 20px;
-  }
+div.word-list {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
 }
-div.controls {
-  text-align: center;
+
+word-editor {
+  display: inline-block;
+  top: 0;
 }
 
 @media screen and (max-width: 700px) {
+  div.word-list {
+    width: 90%;
+    margin: auto;
+  }
   div.word-editor {
     width: 90%;
     margin: auto;
