@@ -1,7 +1,16 @@
 div {
+  &.about {
+    width: auto;
+    margin-left: 50px;
+    overflow: hidden;
+    li {
+      margin-bottom: 0.7em;
+    }
+  }
   &.sign-up-component {
+    float: right;
     width: 300px;
-    margin: auto;
+    margin-right: 50px;
   }
   &.title, &.controls, &.sign-up-link {
     text-align: center;
@@ -30,5 +39,10 @@ input, label {
 @media screen and (max-width: 700px) {
   div.sign-up-component {
     width: 100%;
+    margin: auto;
+  }
+  div.about {
+    width: 100%;
+    margin: auto;
   }
 }
