@@ -12,14 +12,16 @@ import {ErrorHandleService} from "./services/error-handle/error-handle.service";
 import {SecurityService} from "./services/security/security.service";
 import {UserService} from "./services/user/user.service";
 import {WordService} from "./services/word/word.service";
-import {LoginComponent} from "./components/login/login.component";
 import {SecureHttpService} from "./services/secure-http/secure-http.service";
 import { WordEditorComponent } from './components/word-editor/word-editor.component';
+import {SignUpComponent} from "./components/sign-up/sign-up.component";
+import {SignInComponent} from "./components/sign-in/sign-in.component";
 
 @NgModule({
   declarations: [
     RootComponent,
-    LoginComponent,
+    SignUpComponent,
+    SignInComponent,
     DashboardComponent,
     LearningComponent,
     WordBundlesComponent,

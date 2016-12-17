@@ -7,13 +7,11 @@ import domain.Word
 import persistence.DbConnected
 import play.api.libs.json.Json
 import play.api.mvc._
-import service.AuthorizedSecurityService
 import utils.CurrentUserOrForbidden
 
 class WordController @Inject()(
                                 currentUserOrForbidden: CurrentUserOrForbidden,
-                                wordDao: WordDao,
-                                authorizedSecurityService: AuthorizedSecurityService
+                                wordDao: WordDao
                               ) extends Controller with DbConnected {
 
   def findWords(userId: Long) = currentUserOrForbidden(userId) { Action { implicit request =>

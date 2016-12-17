@@ -33,6 +33,6 @@ export class SecureHttpService {
   }
 
   private notLoggedInUserErrorHandler(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/sign-in']);
   }
 }

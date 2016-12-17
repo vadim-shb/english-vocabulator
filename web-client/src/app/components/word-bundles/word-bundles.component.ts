@@ -11,7 +11,7 @@ export class WordBundlesComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.logInIfNot();
+    this.userService.signInIfNot();
   }
 
 }

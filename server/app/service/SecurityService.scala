@@ -1,88 +1,96 @@
 package service
 
+import java.time.LocalDateTime
 import java.util.UUID
-import java.util.concurrent.ConcurrentHashMap
 import javax.inject.{Inject, Singleton}
 
 import dao.UserDao
-import domain.{AuthenticatedUser, EmailCredentials, User}
-import org.joda.time.{DateTime, Seconds}
+import domain._
+import org.apache.commons.codec.digest.DigestUtils
+import org.apache.commons.lang3.RandomStringUtils
 import play.api.Configuration
-import play.api.mvc.{Request}
+import play.api.mvc.Request
+import throwables.DuplicateInsertionException
 
-import scala.collection.concurrent
-import scala.collection.convert.decorateAsScala._
+import scala.util.{Failure, Success, Try}
 
 @Singleton
 class SecurityService @Inject()(configuration: Configuration, userDao: UserDao) {
 
-  val accessTokenTTL = configuration.getInt("security.accessToken.ttl").get
+  private val accessTokenTTL = configuration.getInt("security.accessTokenTTL").get
+  private val refreshTokenTTL = configuration.getInt("security.refreshTokenTTL").get
 
-  private val sessions: concurrent.Map[String, (DateTime, User)] = new ConcurrentHashMap[String, (DateTime, User)]().asScala //todo: Memory leak here. Need to clean old sessions ones per month (for example)
+  def signUp(credentials: EmailCredentials): Try[AuthenticatedUser] = {
+    val lowerCaseEmail = credentials.email.toLowerCase
+    userDao.findSecurityUserByEmail(lowerCaseEmail) match {
+      case Some(_) => Failure(DuplicateInsertionException("User with such email is already exists"))
+      case None => {
+        val salt = RandomStringUtils.randomAlphanumeric(6)
+        val persistedSecurityUser = userDao.addUser(
+          SecurityUser(
+            email = credentials.email.toLowerCase,
+            salt = salt,
+            passwordHash = DigestUtils.sha512Hex(credentials.password + salt)
+          )
+        )
+        Success(signIn(credentials).get)
+      }
+    }
+  }
 
-  def authenticate(credentials: EmailCredentials): Option[AuthenticatedUser] = {
-    userDao.findUserByUsername(credentials.email).map(user => {
-      val accessToken = UUID.randomUUID().toString
-      sessions.put(accessToken, (DateTime.now(), user))
-      AuthenticatedUser(accessToken, user)
+  def signIn(credentials: EmailCredentials): Option[AuthenticatedUser] = {
+    userDao.findSecurityUserByEmail(credentials.email.toLowerCase).flatMap(securityUser => {
+      val passwordHash = DigestUtils.sha512Hex(credentials.password + securityUser.salt)
+      if (passwordHash == securityUser.passwordHash) {
+        val sessionTokens = SecurityUserSessionTokens(
+          userId = securityUser.id.get,
+          accessToken = UUID.randomUUID().toString,
+          refreshToken = UUID.randomUUID().toString,
+          accessTokenExpirationTime = LocalDateTime.now().plusSeconds(accessTokenTTL),
+          refreshTokenExpirationTime = LocalDateTime.now().plusSeconds(refreshTokenTTL)
+        )
+        userDao.createAuthSession(sessionTokens)
+        Some(AuthenticatedUser(
+          accessToken = sessionTokens.accessToken,
+          refreshToken = sessionTokens.refreshToken,
+          user = User(
+            id = securityUser.id.get,
+            email = securityUser.email
+          )
+        ))
+      } else {
+        None
+      }
     })
   }
 
-  def logout[A](implicit request: Request[A]) = {
+  def signOut[A](implicit request: Request[A]) = {
     val accessTokenOpt = getAccessToken
-    accessTokenOpt.foreach(accessToken => sessions.remove(accessToken))
+    accessTokenOpt.foreach(accessToken => userDao.removeAuthSessionByAccessToken(accessToken))
   }
 
-  def getAccessToken[A](implicit request: Request[A]) = {
+  //  def refreshAccessToken(refreshToken: String): Try[AuthenticatedUser] = {
+  //    userDao.findUserByRefreshToken(refreshToken).map(user => {
+  //      sessions.put(accessToken, (DateTime.now(), user))
+  //      userDao.updateTokens(userId = user.id.get, accessToken = UUID.randomUUID().toString, refreshToken = UUID.randomUUID().toString)
+  //      Success(AuthenticatedUser(
+  //        accessToken = persistedSecurityUser.accessToken.get,
+  //        refreshToken = persistedSecurityUser.refreshToken.get,
+  //        user = User(
+  //          id = persistedSecurityUser.id.get,
+  //          email = persistedSecurityUser.email
+  //        )
+  //      ))
+  //    })
+  //  }
+
+  private def getAccessToken[A](implicit request: Request[A]) : Option[String] = {
     request.headers.get("Authorization")
   }
 
-  def getUser[A](implicit request: Request[A]) = {
+  def getUserId[A](implicit request: Request[A]) : Option[Long]= {
     val accessTokenOpt = getAccessToken
-    accessTokenOpt.flatMap(accessToken => getUserByAccessToken(accessToken))
-  }
-
-  private def getUserByAccessToken(accessToken: String) = {
-    sessions.get(accessToken)
-      .filter(authentication => isAlive(authentication._1))
-      .map(authentication => authentication._2)
-  }
-
-  private def isAlive(authDateTime: DateTime) = {
-    Seconds.secondsBetween(DateTime.now(), authDateTime).getSeconds < accessTokenTTL
-  }
-
-  def cleanUnavailable() = {
-    getOldAccessTokens.foreach(accessToken => sessions.remove(accessToken))
-  }
-
-  private def getOldAccessTokens = {
-    sessions.filter({
-      case (accessToken, (authDateTime, user)) => !isAlive(authDateTime)
-    }).map({
-      case (accessToken, (authDateTime, user)) => accessToken
-    })
+    accessTokenOpt.flatMap(accessToken => userDao.findAuthSessionByAccessToken(accessToken).map(_.userId))
   }
 
 }
-
-/**
-  * Unsafe !!!
-  * Only for authenticated users
-  */
-@Singleton
-class AuthorizedSecurityService @Inject() (securityService: SecurityService) {
-
-  def getUserId[A](implicit request: Request[A]) = {
-    getUser(request).id
-  }
-
-  def getUser[A](implicit request: Request[A]) = {
-    securityService.getUser(request).get
-  }
-
-  def getAccessToken[A](implicit request: Request[A]) = {
-    securityService.getAccessToken.get
-  }
-}
-

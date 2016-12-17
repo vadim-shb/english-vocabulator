@@ -12,13 +12,14 @@ unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
-val scalikejdbcV = "2.3.5"
+val scalikejdbcV = "2.5.0"
 
 libraryDependencies ++= Seq(
   "org.postgresql"          %  "postgresql"                     % "9.4-1201-jdbc41",
   "org.scalikejdbc"         %% "scalikejdbc"                    % scalikejdbcV,
   "org.scalikejdbc"         %% "scalikejdbc-config"             % scalikejdbcV,
-  "org.scalikejdbc"         %% "scalikejdbc-play-dbapi-adapter" % "2.5.0",
+  "org.scalikejdbc"         %% "scalikejdbc-jsr310"             % scalikejdbcV,
+  "org.scalikejdbc"         %% "scalikejdbc-play-dbapi-adapter" % scalikejdbcV,
   "org.apache.commons"      %  "commons-lang3"                  % "3.4",
   "com.ticketfly"           %% "play-liquibase"                 % "1.0",
   "org.lazyluke"            %  "log4jdbc-remix"                 % "0.2.7"

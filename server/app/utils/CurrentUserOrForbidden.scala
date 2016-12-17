@@ -12,8 +12,8 @@ import scala.concurrent.Future
 class CurrentUserOrForbidden @Inject()(securityService: SecurityService) extends Controller {
 
   def apply[A](userId: Long)(action: Action[A]) = Action.async(action.parser) { implicit request =>
-    securityService.getUser(request).map(currentUser => {
-      if (userId == currentUser.id) {
+    securityService.getUserId(request).map(currentUserId => {
+      if (userId == currentUserId) {
         action(request)
       } else Future {
         Forbidden

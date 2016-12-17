@@ -4,11 +4,11 @@ import {SecurityService} from "../../services/security/security.service";
 import {SecurityEmailPasswordCredentials} from "../../domain/security";
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  selector: 'sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.less']
 })
-export class LoginComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   credentials: SecurityEmailPasswordCredentials = {
     email: '',

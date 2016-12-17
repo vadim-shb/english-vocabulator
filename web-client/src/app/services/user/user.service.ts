@@ -24,9 +24,9 @@ export class UserService {
     localStorage.setItem('user', JSON.stringify(this.user));
   }
 
-  logInIfNot(): void {
+  signInIfNot(): void {
     if (!this.user) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/sign-in']);
     }
   }
 }

@@ -29,4 +29,18 @@ export class SecurityService {
       .catch(this.errorHandleService.handleHttpError);
   }
 
+  signUp(credentials: SecurityEmailPasswordCredentials) {
+    return this.http.post('/api/security/sign-up', credentials)
+      .toPromise()
+      .then(response => {
+        let authenticationResponse = response.json() as SecurityAuthenticationResponse;
+        let user: User = {
+          id: authenticationResponse.user.id,
+          accessToken: authenticationResponse.accessToken
+        };
+        this.userService.setUser(user);
+        return user;
+      })
+      .catch(this.errorHandleService.handleHttpError);
+  }
 }

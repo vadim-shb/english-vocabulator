@@ -1,0 +1,12 @@
+DROP TABLE databasechangelog;
+DROP TABLE databasechangeloglock;
+DROP TABLE t_word_meaning;
+DROP TABLE t_word_usage_example;
+DROP TABLE t_word_learning;
+DROP TABLE t_word_in_learn_collection;
+DROP TABLE t_word_in_group;
+DROP TABLE t_word_group;
+DROP TABLE t_learn_collection;
+DROP TABLE t_word;
+DROP TABLE t_user_auth_tokens;
+DROP TABLE t_user;

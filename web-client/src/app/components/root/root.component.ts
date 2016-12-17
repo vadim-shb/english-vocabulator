@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.less']
 })
-export class RootComponent {
-  title = 'app works!';
-}
+export class RootComponent {}

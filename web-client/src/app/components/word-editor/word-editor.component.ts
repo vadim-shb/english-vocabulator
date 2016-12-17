@@ -29,7 +29,7 @@ export class WordEditorComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Add new word';
-    this.userService.logInIfNot();
+    this.userService.signInIfNot();
   }
 
   addMeaning() {

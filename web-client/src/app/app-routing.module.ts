@@ -4,17 +4,22 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {LearningComponent} from "./components/learning/learning.component";
 import {WordBundlesComponent} from "./components/word-bundles/word-bundles.component";
 import {WordsComponent} from "./components/words/words.component";
-import {LoginComponent} from "./components/login/login.component";
+import {SignUpComponent} from "./components/sign-up/sign-up.component";
+import {SignInComponent} from "./components/sign-in/sign-in.component";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/sign-in',
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'sign-in',
+    component: SignInComponent
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent
   },
   {
     path: 'dashboard',

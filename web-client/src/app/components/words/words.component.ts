@@ -17,7 +17,7 @@ export class WordsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.logInIfNot();
+    this.userService.signInIfNot();
     this.wordService.getMyWords()
       .then(words => this.words = words);
   }

@@ -8,19 +8,31 @@
     <changeSet id="schema-1" author="vdshb">
         <sql>
             CREATE TABLE t_user (
-                id             BIGSERIAL     NOT NULL PRIMARY KEY,
-                email          VARCHAR(1000) NOT NULL UNIQUE,
-                password_cache VARCHAR(255)  NOT NULL
+                id                              BIGSERIAL                       NOT NULL PRIMARY KEY,
+                email                           VARCHAR(1000)                   NOT NULL UNIQUE,
+                salt                            VARCHAR(6)                      NOT NULL,
+                password_hash                   VARCHAR(128)                    NOT NULL
+            );
+
+            CREATE TABLE t_user_auth_tokens (
+                user_id                         BIGINT                          NOT NULL REFERENCES t_user (id),
+                access_token                    VARCHAR(40)                     NOT NULL UNIQUE,
+                refresh_token                   VARCHAR(40)                     NOT NULL UNIQUE,
+                access_token_expiration_time    TIMESTAMP WITHOUT TIME ZONE     NOT NULL,
+                refresh_token_expiration_time   TIMESTAMP WITHOUT TIME ZONE     NOT NULL
             );
 
             ALTER TABLE t_user ADD CONSTRAINT email_min_length CHECK (length(email) >= 3);
 
             CREATE INDEX t_user__email ON t_user (email);
-            CREATE INDEX t_user__password_cache ON t_user (password_cache);
+
+            CREATE INDEX t_user_auth_tokens__access_token ON t_user_auth_tokens (access_token);
+            CREATE INDEX t_user_auth_tokens__refresh_token ON t_user_auth_tokens (refresh_token);
         </sql>
         <rollback>
             <sql>
                 DROP TABLE t_user;
+                DROP TABLE t_user_auth_tokens;
             </sql>
         </rollback>
     </changeSet>
