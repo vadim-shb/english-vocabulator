@@ -1,6 +1,6 @@
-<div class="center">
+<div class="sign-in-component">
   <div class="title">
-    <h1>Sign in to vocabulator</h1>
+    <h2>Sign in to vocabulator</h2>
   </div>
   <div>
     <label for="email">Email:</label>
@@ -13,7 +13,7 @@
   <div class="controls">
     <button (click)="signIn()">Sign in</button>
   </div>
-  <div class="controls">
-    <a [routerLink]="['/sign-up']">sign up</a>
+  <div class="sign-up-link">
+    <p>New to vocabulator? <a class="link" [routerLink]="['/sign-up']">Create an account</a>.</p>
   </div>
 </div>

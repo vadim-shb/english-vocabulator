@@ -1,10 +1,13 @@
-.center {
-  width: 300px;
-  margin: auto;
-}
-
 div {
-  .title, .controls {
+  &.sign-in-component {
+    width: 300px;
+    margin: auto;
+  }
+  &.title, &.controls, &.sign-up-link {
+    text-align: center;
+  }
+  &.sign-up-link {
+    margin-top: 45px;
     text-align: center;
   }
 }
@@ -25,7 +28,7 @@ input, label {
 }
 
 @media screen and (max-width: 700px) {
-  .center {
+  div.sign-in-component {
     width: 100%;
   }
 }

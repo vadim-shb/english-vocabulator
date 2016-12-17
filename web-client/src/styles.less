@@ -3,69 +3,31 @@ body {
   font-size: 16px;
 }
 
-input {
+input, textarea, select, button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border: 1px solid #aaaaaa;
   border-radius: 0;
-  background: transparent;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
-  color: #111;
 }
 
-textarea {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
+input, textarea, select {
   padding-left: 6px;
   padding-right: 6px;
   padding-top: 4px;
   padding-bottom: 4px;
   border: 1px solid #aaaaaa;
-  border-radius: 0;
   background: transparent;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #111;
-}
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border: 1px solid #aaaaaa;
-  border-radius: 0;
-  background: transparent;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
   color: #111;
 }
 
 button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 6px;
   padding-bottom: 6px;
-  border-radius: 0;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
   color: #fff;
 }
 
@@ -85,5 +47,15 @@ a.btn, button {
       border-color: #398439;
       background: #449d44;
     }
+  }
+}
+
+a.link {
+  color: #337ab7;
+  font-weight: 400;
+  text-decoration: none;
+  &:hover {
+    color: #23527c;
+    text-decoration: underline;
   }
 }
