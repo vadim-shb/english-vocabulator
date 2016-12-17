@@ -13,14 +13,12 @@ export class WordService {
 
   addWord(word: Word): Promise<Word> {
     return this.secureHttpService.put('word', word)
-      .toPromise()
       .then(response => response.json() as Word)
       .catch((error) => this.errorHandleService.handleHttpError(error));
   }
 
   getMyWords(): Promise<Word[]> {
     return this.secureHttpService.get('words')
-      .toPromise()
       .then(response => response.json() as Word[])
       .catch((error) => this.errorHandleService.handleHttpError(error));
   }

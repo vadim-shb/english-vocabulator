@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http, Response, Headers} from "@angular/http";
 import {UserService} from "../user/user.service";
-import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 
 @Injectable()
@@ -12,27 +11,39 @@ export class SecureHttpService {
               private userService: UserService) {
   }
 
-  get(url: string): Observable<Response> {
+  get(url: string): Promise<Response> {
     let user = this.userService.getUser();
     if (user) {
-      return this.http.get(`/api/user/${user.id}/${url}`, {headers: new Headers({'Authorization': user.accessToken})});
+      return this.http.get(`/api/user/${user.id}/${url}`, {headers: new Headers({'Authorization': user.accessToken})})
+        .toPromise()
+        .then(this.signInChecker)
     }
     else {
-      this.notLoggedInUserErrorHandler();
+      this.notSignedInUserErrorHandler();
     }
   }
 
-  put(url: string, data: Object): Observable<Response> {
+  put(url: string, data: Object): Promise<Response> {
     let user = this.userService.getUser();
     if (user) {
-      return this.http.put(`/api/user/${user.id}/${url}`, data, {headers: new Headers({'Authorization': user.accessToken})});
+      return this.http.put(`/api/user/${user.id}/${url}`, data, {headers: new Headers({'Authorization': user.accessToken})})
+        .toPromise()
+        .then(this.signInChecker)
     }
     else {
-      this.notLoggedInUserErrorHandler();
+      this.notSignedInUserErrorHandler();
     }
   }
 
-  private notLoggedInUserErrorHandler(): void {
+  private notSignedInUserErrorHandler(): void {
     this.router.navigate(['/sign-in']);
+  }
+
+  private signInChecker(response: Response): Response {
+    if (response.status == 403) {
+      this.notSignedInUserErrorHandler();
+      throw "user must be signed in";
+    }
+    return response
   }
 }
