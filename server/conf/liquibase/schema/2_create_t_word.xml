@@ -8,10 +8,12 @@
     <changeSet id="schema-2" author="vdshb">
         <sql><![CDATA[
             CREATE TABLE t_word (
-                id          BIGSERIAL     NOT NULL PRIMARY KEY,
-                owner_id    BIGSERIAL     NOT NULL REFERENCES t_user (id),
-                word        VARCHAR(1024) NOT NULL,
-                importance  INT           NOT NULL
+                id              BIGSERIAL     NOT NULL PRIMARY KEY,
+                owner_id        BIGSERIAL     NOT NULL REFERENCES t_user (id),
+                word            VARCHAR(100)  NOT NULL,
+                importance      SMALLINT      NOT NULL,
+                meaning         VARCHAR(1000) NOT NULL,
+                usage_examples  VARCHAR(1000) NOT NULL
             );
 
             CREATE INDEX t_word__owner_user_id ON t_word (owner_id);

@@ -11,15 +11,27 @@ export class WordService {
               private errorHandleService: ErrorHandleService) {
   }
 
-  addWord(word: Word): Promise<Word> {
-    return this.secureHttpService.put('word', word)
-      .then(response => response.json() as Word)
-      .catch((error) => this.errorHandleService.handleHttpError(error));
+  saveWord(word: Word): Promise<Word> {
+    if (typeof word.id === 'undefined') {
+      return this.secureHttpService.post('word', word)
+        .then(response => response.json() as Word)
+        .catch(this.errorHandleService.handleHttpError);
+    } else {
+      return this.secureHttpService.put(`word/${word.id}`, word)
+        .then(response => word)
+        .catch(this.errorHandleService.handleHttpError);
+    }
   }
 
   getMyWords(): Promise<Word[]> {
     return this.secureHttpService.get('words')
       .then(response => response.json() as Word[])
-      .catch((error) => this.errorHandleService.handleHttpError(error));
+      .catch(this.errorHandleService.handleHttpError);
+  }
+
+  getWord(wordId: number): Promise<Word> {
+    return this.secureHttpService.get(`word/${wordId}`)
+      .then(response => response.json() as Word)
+      .catch(this.errorHandleService.handleHttpError);
   }
 }

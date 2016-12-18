@@ -7,7 +7,7 @@ import persistence.DbConnected
 import scalikejdbc._
 
 @Singleton
-class LearnCollectionDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
+class LearnCollectionDao extends DbConnected {
 
   private def learnCollectionMapper(rs: WrappedResultSet)(implicit session: DBSession) = {
     LearnCollection(

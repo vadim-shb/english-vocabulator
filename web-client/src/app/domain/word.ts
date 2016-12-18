@@ -1,7 +1,7 @@
-import {WordMeaning} from "./word-meaning";
 export class Word {
-  id: number;
+  id?: number;
   word: string;
-  meanings: WordMeaning[];
   importance: number;
+  meaning: string;
+  usageExamples: string;
 }

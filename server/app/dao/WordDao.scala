@@ -1,26 +1,27 @@
 package dao
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.Singleton
 
 import domain.Word
 import persistence.DbConnected
 import scalikejdbc._
 
 @Singleton
-class WordDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
+class WordDao extends DbConnected {
 
   private def wordMapper(rs: WrappedResultSet)(implicit session: DBSession) = {
     val id = rs.long("id")
     Word(
       id = Some(id),
       word = rs.string("word"),
-      meanings = wordMeaningDao.findMeanings(id),
-      importance = rs.byte("importance")
+      importance = rs.byte("importance"),
+      meaning = rs.string("meaning"),
+      usageExamples = rs.string("usage_examples")
     )
   }
 
-  def findWord(wordId: Long)(implicit session: DBSession): Option[Word] = {
-    sql"SELECT * FROM t_word WHERE id = ${wordId}"
+  def findWord(wordId: Long, ownerId: Long)(implicit session: DBSession): Option[Word] = {
+    sql"SELECT * FROM t_word WHERE id = ${wordId} AND owner_id = ${ownerId}"
       .map(wordMapper).single.apply
   }
 
@@ -42,16 +43,29 @@ class WordDao @Inject()(wordMeaningDao: WordMeaningDao) extends DbConnected {
       sql"""INSERT INTO t_word(
           word,
           importance,
+          meaning,
+          usage_examples,
           owner_id
          ) VALUES (
           ${word.word},
           ${word.importance},
+          ${word.meaning},
+          ${word.usageExamples},
           ${ownerId}
          )"""
         .updateAndReturnGeneratedKey.apply
-    val persistedWordMeanings = word.meanings.map(wordMeaning => wordMeaningDao.create(persistedWordId, wordMeaning))
 
-    word.copy(id = Some(persistedWordId), meanings = persistedWordMeanings)
+    word.copy(id = Some(persistedWordId))
+  }
+
+  def update(word: Word)(implicit session: DBSession) : Unit = {
+    sql"""UPDATE t_word SET
+            word = ${word.word},
+            importance = ${word.importance},
+            meaning = ${word.meaning},
+            usage_examples = ${word.usageExamples}
+          WHERE id = ${word.id}"""
+      .execute.apply
   }
 
 }

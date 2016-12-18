@@ -1,7 +1,8 @@
 <div class="word-list">
-  <h1>Words</h1>
+  <h2>Words</h2>
+  <button id="add-word" class="btn green" (click)="addWord()">+</button>
   <div *ngFor="let word of words">
-    <p>{{word.word}}</p>
+    <p (click)="pickWord(word.id)">{{word.word}}</p>
   </div>
 </div>
 <word-editor></word-editor>

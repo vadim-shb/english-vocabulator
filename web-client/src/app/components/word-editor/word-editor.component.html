@@ -1,12 +1,12 @@
 <div class="word-editor">
-  <h1>{{title}}</h1>
+  <h2>{{title}}</h2>
   <div>
     <label for="word">Word:</label>
-    <input id="word" [(ngModel)]="word.word"/>
+    <input id="word" [(ngModel)]="word.word" [disabled]="wordEditorDisabled"/>
   </div>
   <div>
     <label for="importance">Importance:</label>
-    <select id="importance" [(ngModel)]="word.importance">
+    <select id="importance" [(ngModel)]="word.importance" [disabled]="wordEditorDisabled">
       <option>0</option>
       <option>1</option>
       <option>2</option>
@@ -20,12 +20,11 @@
       <option>10</option>
     </select>
   </div>
-  <label>Meanings:</label>
-  <textarea *ngFor="let meaning of word.meanings" [(ngModel)]="meaning.meaning"></textarea>
+  <label for="meaning">Meaning:</label>
+  <textarea id="meaning" [(ngModel)]="word.meaning" [disabled]="wordEditorDisabled"></textarea>
+  <label for="usageExamples">Usage examples:</label>
+  <textarea id="usageExamples" [(ngModel)]="word.usageExamples" [disabled]="wordEditorDisabled"></textarea>
   <div class="controls">
-    <button id="add-meaning" class="btn green" (click)="addMeaning()">+</button>
-  </div>
-  <div class="controls">
-    <button (click)="saveWord()">Save</button>
+    <button (click)="saveWord()" [disabled]="wordEditorDisabled">Save</button>
   </div>
 </div>

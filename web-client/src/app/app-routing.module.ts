@@ -34,6 +34,10 @@ const routes: Routes = [
     component: WordsComponent
   },
   {
+    path: 'word/:wordId',
+    component: WordsComponent
+  },
+  {
     path: 'learning',
     component: LearningComponent
   }

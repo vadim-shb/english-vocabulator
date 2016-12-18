@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
-import {Http, Response, Headers} from "@angular/http";
+import {Http, Response, Headers, RequestOptionsArgs} from "@angular/http";
 import {UserService} from "../user/user.service";
 import {Router} from "@angular/router";
+import {User} from "../../domain/user";
 
 @Injectable()
 export class SecureHttpService {
@@ -11,10 +12,10 @@ export class SecureHttpService {
               private userService: UserService) {
   }
 
-  get(url: string): Promise<Response> {
+  get(url: string, options?: RequestOptionsArgs): Promise<Response> {
     let user = this.userService.getUser();
     if (user) {
-      return this.http.get(`/api/user/${user.id}/${url}`, {headers: new Headers({'Authorization': user.accessToken})})
+      return this.http.get(`/api/user/${user.id}/${url}`, this.modifyOptions(user, options))
         .toPromise()
         .then(this.signInChecker)
     }
@@ -23,10 +24,22 @@ export class SecureHttpService {
     }
   }
 
-  put(url: string, data: Object): Promise<Response> {
+  post(url: string, data: Object, options?: RequestOptionsArgs) : Promise<Response>{
     let user = this.userService.getUser();
     if (user) {
-      return this.http.put(`/api/user/${user.id}/${url}`, data, {headers: new Headers({'Authorization': user.accessToken})})
+      return this.http.post(`/api/user/${user.id}/${url}`, data, this.modifyOptions(user, options))
+        .toPromise()
+        .then(this.signInChecker)
+    }
+    else {
+      this.notSignedInUserErrorHandler();
+    }
+  }
+
+  put(url: string, data: Object, options?: RequestOptionsArgs): Promise<Response> {
+    let user = this.userService.getUser();
+    if (user) {
+      return this.http.put(`/api/user/${user.id}/${url}`, data, this.modifyOptions(user, options))
         .toPromise()
         .then(this.signInChecker)
     }
@@ -46,4 +59,20 @@ export class SecureHttpService {
     }
     return response
   }
+
+  private modifyOptions(user: User, options?: RequestOptionsArgs):RequestOptionsArgs {
+    let result: RequestOptionsArgs;
+    if (options) {
+      result = Object.assign({}, options);
+      if (result.headers) {
+        result.headers.append('Authorization', user.accessToken);
+      } else {
+        result.headers = new Headers({'Authorization': user.accessToken});
+      }
+    } else {
+      result = {headers: new Headers({'Authorization': user.accessToken})};
+    }
+    return result;
+  }
+
 }
