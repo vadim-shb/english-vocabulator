@@ -25,7 +25,11 @@ export class WordsComponent implements OnInit {
     this.wordService.getFullWordsListStream()
       .subscribe(wordsPromise => {
         wordsPromise
-          .then(words => this.words = words);
+          .then(words => this.words = words.sort((word1, word2) => {
+            if (word1.word > word2.word) return 1;
+            if (word1.word < word2.word) return -1;
+            return 0;
+          }));
       });
     this.route.params.subscribe((params: Params) => {
       this.selectedWordId = params['wordId'];
