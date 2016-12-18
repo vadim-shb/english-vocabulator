@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Word} from "../../domain/word";
 import {WordService} from "../../services/word/word.service";
 import {UserService} from "../../services/user/user.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'app-words',
@@ -12,10 +12,12 @@ import {Router} from "@angular/router";
 export class WordsComponent implements OnInit {
 
   words: Word[];
+  selectedWordId: number;
 
   constructor(private userService: UserService,
               private wordService: WordService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -25,13 +27,16 @@ export class WordsComponent implements OnInit {
         wordsPromise
           .then(words => this.words = words);
       });
+    this.route.params.subscribe((params: Params) => {
+      this.selectedWordId = params['wordId'];
+    });
   }
 
   addWord() {
     this.router.navigate(['/word', 'new']);
   }
 
-  pickWord(wordId) {
+  pickWord(wordId: number) {
     this.router.navigate(['/word', wordId]);
   }
 }
