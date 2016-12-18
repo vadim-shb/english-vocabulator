@@ -15,7 +15,7 @@ export class WordEditorComponent implements OnInit {
   title: string;
   word: Word;
   wordEditorDisabled: boolean = false;
-
+  importanceValues = [];
   constructor(private userService: UserService,
               private wordService: WordService,
               private route: ActivatedRoute,
@@ -24,6 +24,7 @@ export class WordEditorComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Add new word';
+    for (var i = 0; i <=10; i++) {this.importanceValues.push({value: i, view: i})};
     this.userService.signInIfNot();
     this.newWord();
     this.route.params
@@ -39,8 +40,11 @@ export class WordEditorComponent implements OnInit {
           return;
         }
         this.loadWord(wordId);
-
       });
+  }
+
+  importanceChanged(newImportance: string) {
+    this.word.importance = parseInt(newImportance);
   }
 
   newWord() {

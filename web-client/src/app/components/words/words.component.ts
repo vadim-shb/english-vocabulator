@@ -20,8 +20,11 @@ export class WordsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.signInIfNot();
-    this.wordService.getMyWords()
-      .then(words => this.words = words);
+    this.wordService.getFullWordsListStream()
+      .subscribe(wordsPromise => {
+        wordsPromise
+          .then(words => this.words = words);
+      });
   }
 
   addWord() {
