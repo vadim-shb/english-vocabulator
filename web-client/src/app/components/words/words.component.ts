@@ -28,7 +28,7 @@ export class WordsComponent implements OnInit {
           .then(words => this.words = words.sort((word1, word2) => {
             if (word1.word > word2.word) return 1;
             if (word1.word < word2.word) return -1;
-            return 0;
+            return word1.id - word2.id;
           }));
       });
     this.route.params.subscribe((params: Params) => {
