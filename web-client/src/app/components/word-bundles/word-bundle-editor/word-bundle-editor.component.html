@@ -1,0 +1,14 @@
+<div class="word-bundle-edit">
+  <h2>Edit word bundle</h2>
+  <div>
+    <label for="word-bundle-name">Name:</label>
+    <input id="word-bundle-name" [(ngModel)]="wordBundle.name">
+  </div>
+  <div>
+    <label for="word-bundle-importance">Importance:</label>
+    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance" (change)="importanceChanged(wordBundle.importance)" [disabled]="wordBundleEditorDisabled" >
+      <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">{{importanceValue.view}}</option>
+    </select>
+  </div>
+  <button (click)="saveWordBundle()">Save</button>
+</div>

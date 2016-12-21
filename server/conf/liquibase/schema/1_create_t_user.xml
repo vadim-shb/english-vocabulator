@@ -31,8 +31,8 @@
         </sql>
         <rollback>
             <sql>
-                DROP TABLE t_user;
                 DROP TABLE t_user_auth_tokens;
+                DROP TABLE t_user;
             </sql>
         </rollback>
     </changeSet>

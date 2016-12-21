@@ -10,6 +10,8 @@ POST          /api/user/:userId/word                                            
 PUT           /api/user/:userId/word/:wordId                                            @controllers.WordController.updateWord(userId: Long, wordId: Long)
 GET           /api/user/:userId/word/:wordId                                            @controllers.WordController.findWord(userId: Long, wordId: Long)
 GET           /api/user/:userId/words                                                   @controllers.WordController.findWords(userId: Long)
+GET           /api/user/:userId/word-bundles                                            @controllers.WordBundleController.findWordBundles(userId: Long)
+POST          /api/user/:userId/word-bundle                                             @controllers.WordBundleController.createWordBundle(userId: Long)
 GET           /api/user/:userId/learn-collections                                       @controllers.LearnCollectionController.findLearnCollections(userId: Long)
 GET           /api/user/:userId/learn-collection/:learnCollectionId                     @controllers.LearnCollectionController.findLearnCollection(userId: Long, learnCollectionId: Long)
 POST          /api/user/:userId/learn-collection                                        @controllers.LearnCollectionController.createLearnCollection(userId: Long)

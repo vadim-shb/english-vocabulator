@@ -24,7 +24,7 @@ export class WordEditorComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Add new word';
-    for (var i = 0; i <=10; i++) {this.importanceValues.push({value: i, view: i})};
+    for (var i = 0; i <=10; i++) {this.importanceValues.push({value: i, view: i})}
     this.userService.signInIfNot();
     this.newWord();
     this.route.params
