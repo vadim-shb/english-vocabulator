@@ -13,6 +13,7 @@ export class WordBundleEditorComponent implements OnInit {
   @Input() wordBundleObs: Observable<WordBundle>;
   private wordBundle: WordBundle;
   private importanceValues = [];
+  private title: string;
 
   constructor(private wordBundleService: WordBundleService) {
   }
@@ -22,6 +23,11 @@ export class WordBundleEditorComponent implements OnInit {
 
     this.wordBundleObs.subscribe(wordBundle => {
       this.wordBundle = wordBundle;
+      if (this.wordBundle.id) {
+        this.title = 'Edit word bundle';
+      } else {
+        this.title = 'New word bundle';
+      }
     });
   }
 

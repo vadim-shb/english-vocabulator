@@ -24,8 +24,13 @@ export class WordBundlePickerComponent implements OnInit {
   }
 
   ngOnInit() {
+    var isPageLoad = true;
     this.wordBundlesObs.subscribe(wordBundles => {
       this.wordBundles = wordBundles.sort(this.wordBundleAscNameComporator);
+      if (isPageLoad) {
+        this.activeWordBundleSubj.next(this.wordBundles[0]);
+        isPageLoad = false;
+      }
     });
     this.activeWordBundleSubj.subscribe(activeWordBundle => {
       this.activeWordBundle = activeWordBundle;
