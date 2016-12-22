@@ -6,9 +6,14 @@
   </div>
   <div>
     <label for="word-bundle-importance">Importance:</label>
-    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance" (change)="importanceChanged(wordBundle.importance)" [disabled]="wordBundleEditorDisabled" >
-      <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">{{importanceValue.view}}</option>
+    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance"
+            (change)="importanceChanged(wordBundle.importance)" [disabled]="wordBundleEditorDisabled">
+      <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
+        {{importanceValue.view}}
+      </option>
     </select>
   </div>
-  <button (click)="saveWordBundle()">Save</button>
+  <div class="controls">
+    <button (click)="saveWordBundle()">Save</button>
+  </div>
 </div>

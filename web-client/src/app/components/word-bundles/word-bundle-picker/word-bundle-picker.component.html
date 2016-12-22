@@ -1,4 +1,4 @@
-<div class="word-bundle-list">
+<div class="word-bundle-picker">
   <h2>Words bundles</h2>
   <button id="add-word-bundle" class="btn green" (click)="addWordBundle()">+</button>
   <div *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
