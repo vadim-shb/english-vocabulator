@@ -2,60 +2,51 @@ import {Injectable} from "@angular/core";
 import {Word} from "../../domain/word";
 import "rxjs/add/operator/toPromise";
 import "rxjs/Rx";
-import {ErrorHandleService} from "../error-handle/error-handle.service";
-import {SecureHttpService} from "../secure-http/secure-http.service";
 import {Observable, BehaviorSubject} from "rxjs";
+import {WordDao} from "../../dao/word/word.dao";
 
 @Injectable()
 export class WordService {
 
-  private fullWordListStream: BehaviorSubject<Promise<Word[]>> = new BehaviorSubject<Promise<Word[]>>(this.getFullWordsList());
+  private wordVault = new Map<number, BehaviorSubject<Word>>();
 
-  constructor(private secureHttpService: SecureHttpService,
-              private errorHandleService: ErrorHandleService) {
+  constructor(private wordDao: WordDao) {
+    wordDao.loadFullWordsList()
+      .forEach((words: Word[]) => {
+        words.forEach(word => this.wordVault.set(word.id, new BehaviorSubject(word)));
+      });
   }
 
-  private wordsListChanged() {
-    this.loadFullWordListToStream();
-  }
-
-  private loadFullWordListToStream() {
-    this.fullWordListStream.next(this.getFullWordsList());
-  }
-
-  saveWord(word: Word): Promise<Word> {
-    if (typeof word.id === 'undefined') {
-      return this.secureHttpService.post('word', word)
-        .then(response => response.json() as Word)
-        .then(word => {
-          this.wordsListChanged();
-          return word;
-        })
-        .catch(this.errorHandleService.handleHttpError);
+  getWord(wordId: number): Observable<Word> {
+    let result = this.wordVault.get(wordId);
+    if (result) {
+      return result;
     } else {
-      return this.secureHttpService.put(`word/${word.id}`, word)
-        .then(response => word) //fixme: is this hack appropreate?
-        .then(word => {
-          this.wordsListChanged();
-          return word;
-        })
-        .catch(this.errorHandleService.handleHttpError);
+      return this.loadWord(wordId);
     }
   }
 
-  getFullWordsListStream(): Observable<Promise<Word[]>> {
-    return this.fullWordListStream;
+  private loadWord(wordId: number): Observable<Word> {
+    return this.wordDao.loadWord(wordId)
+      .flatMap(word => {
+        let result = new BehaviorSubject<Word>(word);
+        this.wordVault.set(word.id, result);
+        return result;
+      });
   }
 
-  getFullWordsList(): Promise<Word[]> {
-    return this.secureHttpService.get('words')
-      .then(response => response.json() as Word[])
-      .catch(this.errorHandleService.handleHttpError);
+  addWord(word: Word): Observable<Word> {
+    return this.wordDao.addWord(word)
+      .flatMap(word => {
+        let result = new BehaviorSubject<Word>(word);
+        this.wordVault.set(word.id, result);
+        return result;
+      });
   }
 
-  getWord(wordId: number): Promise<Word> {
-    return this.secureHttpService.get(`word/${wordId}`)
-      .then(response => response.json() as Word)
-      .catch(this.errorHandleService.handleHttpError);
+  updateWord(word: Word): void {
+    this.wordDao.updateWord(word)
+      .subscribe(word => this.wordVault.get(word.id).next(word));
   }
+
 }

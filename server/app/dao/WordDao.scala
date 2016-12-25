@@ -58,7 +58,7 @@ class WordDao extends DbConnected {
     word.copy(id = Some(persistedWordId))
   }
 
-  def update(word: Word)(implicit session: DBSession) : Unit = {
+  def update(word: Word)(implicit session: DBSession) : Word = {
     sql"""UPDATE t_word SET
             word = ${word.word},
             importance = ${word.importance},
@@ -66,6 +66,7 @@ class WordDao extends DbConnected {
             usage_examples = ${word.usageExamples}
           WHERE id = ${word.id}"""
       .execute.apply
+    word
   }
 
 }

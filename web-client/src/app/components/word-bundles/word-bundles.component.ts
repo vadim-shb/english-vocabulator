@@ -1,8 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../services/user/user.service";
-import {Observable, BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {WordBundle} from "../../domain/word-bundle";
-import {WordBundleService} from "../../services/word-bundle/word-bundle.service";
+import {Word} from "../../domain/word";
 
 @Component({
   selector: 'app-word-bundles',
@@ -11,17 +11,23 @@ import {WordBundleService} from "../../services/word-bundle/word-bundle.service"
 })
 export class WordBundlesComponent implements OnInit {
 
-  activeWordBundleSubj: BehaviorSubject<WordBundle> = new BehaviorSubject<WordBundle>({name: '', importance: 5, words: []});
-  wordBundlesObs: Observable<WordBundle[]>;
+  activeWordBundleSubj: BehaviorSubject<WordBundle> = new BehaviorSubject<WordBundle>({
+    name: '',
+    importance: 5,
+    wordIds: []
+  });
+  private activeWordInBundleSubj: BehaviorSubject<Word> = new BehaviorSubject<Word>({
+    word: '',
+    meaning: '',
+    usageExamples: '',
+    importance: 5
+  });
 
-  constructor(private userService: UserService,
-              private wordBundleService: WordBundleService
-  ) {
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-     this.userService.signInIfNot();
-     this.wordBundlesObs = this.wordBundleService.getWordBundles();
+    this.userService.signInIfNot();
   }
 
 }

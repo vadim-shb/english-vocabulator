@@ -19,10 +19,12 @@ export class WordBundleEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    for (let i = 0; i <= 10; i++) { this.importanceValues.push({value: i, view: i}) }
+    for (let i = 0; i <= 10; i++) {
+      this.importanceValues.push({value: i, view: i})
+    }
 
     this.wordBundleObs.subscribe(wordBundle => {
-      this.wordBundle = wordBundle;
+      this.wordBundle = Object.assign({}, wordBundle);
       if (this.wordBundle.id) {
         this.title = 'Edit word bundle';
       } else {
@@ -36,7 +38,12 @@ export class WordBundleEditorComponent implements OnInit {
   }
 
   saveWordBundle() {
-    this.wordBundleService.addWordBundle(this.wordBundle);
+    if (this.wordBundle.id) {
+      this.wordBundleService.updateWordBundle(this.wordBundle);
+    } else {
+      this.wordBundleService.addWordBundle(this.wordBundle);
+    }
+
   }
 
 }

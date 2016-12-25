@@ -6,8 +6,7 @@
   </div>
   <div>
     <label for="word-bundle-importance">Importance:</label>
-    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance"
-            (change)="importanceChanged(wordBundle.importance)" [disabled]="wordBundleEditorDisabled">
+    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance" (change)="importanceChanged(wordBundle.importance)">
       <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
         {{importanceValue.view}}
       </option>

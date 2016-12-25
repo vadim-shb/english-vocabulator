@@ -6,7 +6,7 @@ case class WordBundle(
                        id: Option[Long],
                        name: String,
                        importance: Byte,
-                       words: Seq[Long]
+                       wordIds: Seq[Long]
                      )
 
 object WordBundle {

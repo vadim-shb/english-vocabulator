@@ -50,8 +50,7 @@ class WordController @Inject()(
             BadRequest
           } else {
             wordDao.findWord(wordId, ownerId = userId).map(persistedWord => {
-              wordDao.update(word)
-              Ok
+              Ok(Json.toJson(wordDao.update(word)))
             }).getOrElse(NotFound)
           }
         }).getOrElse(BadRequest)
