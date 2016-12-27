@@ -1,18 +1,17 @@
-<div class="word-bundle-edit">
-  <h2>{{title}}</h2>
-  <div>
-    <label for="word-bundle-name">Name:</label>
-    <input id="word-bundle-name" [(ngModel)]="wordBundle.name">
-  </div>
-  <div>
-    <label for="word-bundle-importance">Importance:</label>
-    <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance" (change)="importanceChanged(wordBundle.importance)">
-      <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
-        {{importanceValue.view}}
-      </option>
-    </select>
-  </div>
-  <div class="controls">
-    <button (click)="saveWordBundle()">Save</button>
-  </div>
+<h2>{{title}}</h2>
+<div>
+  <label for="word-bundle-name">Name:</label>
+  <input id="word-bundle-name" [(ngModel)]="wordBundle.name">
+</div>
+<div>
+  <label for="word-bundle-importance">Importance:</label>
+  <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance"
+          (change)="importanceChanged(wordBundle.importance)">
+    <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
+      {{importanceValue.view}}
+    </option>
+  </select>
+</div>
+<div class="controls">
+  <button (click)="saveWordBundle()">Save</button>
 </div>

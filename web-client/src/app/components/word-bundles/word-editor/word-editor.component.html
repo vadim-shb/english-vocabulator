@@ -1,20 +1,19 @@
-<div class="word-editor">
-  <h2>{{title}}</h2>
-  <div>
-    <label for="word">Word:</label>
-    <input id="word" [(ngModel)]="word.word"/>
-  </div>
-  <div>
-    <label for="importance">Importance:</label>
-    <select id="importance" [(ngModel)]="word.importance" (change)="importanceChanged(word.importance)" >
-      <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">{{importanceValue.view}}</option>
-    </select>
-  </div>
-  <label for="meaning">Meaning:</label>
-  <textarea id="meaning" [(ngModel)]="word.meaning"></textarea>
-  <label for="usageExamples">Usage examples:</label>
-  <textarea id="usageExamples" [(ngModel)]="word.usageExamples"></textarea>
-  <div class="controls">
-    <button (click)="saveWord()">Save</button>
-  </div>
+<h2>{{title}}</h2>
+<div>
+  <label for="word">Word:</label>
+  <input id="word" [(ngModel)]="word.word"/>
+</div>
+<div>
+  <label for="importance">Importance:</label>
+  <select id="importance" [(ngModel)]="word.importance" (change)="importanceChanged(word.importance)">
+    <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">{{importanceValue.view}}
+    </option>
+  </select>
+</div>
+<label for="meaning">Meaning:</label>
+<textarea id="meaning" [(ngModel)]="word.meaning"></textarea>
+<label for="usageExamples">Usage examples:</label>
+<textarea id="usageExamples" [(ngModel)]="word.usageExamples"></textarea>
+<div class="controls">
+  <button (click)="saveWord()">Save</button>
 </div>
