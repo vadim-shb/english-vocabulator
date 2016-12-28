@@ -19,19 +19,13 @@ export class WordBundlePickerComponent implements OnInit {
   constructor(private wordBundleService: WordBundleService) {
   }
 
-  private wordBundleAscNameComparator(wordBundle1: WordBundle, wordBundle2: WordBundle): number {
-    if (wordBundle1.name > wordBundle2.name) return 1;
-    if (wordBundle1.name < wordBundle2.name) return -1;
-    if (wordBundle1.name == wordBundle2.name) return wordBundle1.id - wordBundle2.id;
-  }
-
   ngOnInit() {
     this.wordBundleService.getWordBundleIds().subscribe(wordBundleIds => {
       let wordBundles = wordBundleIds.map(wordBundleIds => this.wordBundleService.getWordBundle(wordBundleIds));
       let wordBundlesObs: Observable<WordBundle[]> = EntityUtils.mergeObservables(wordBundles);
 
       wordBundlesObs.subscribe(wordBundles => {
-        this.wordBundles = wordBundles.sort(this.wordBundleAscNameComparator);
+        this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
       });
       wordBundlesObs.first().subscribe(wordBundles => {
         if (wordBundles[0]) {

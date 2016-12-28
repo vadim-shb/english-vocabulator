@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable, BehaviorSubject} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 import {WordBundle} from "../../domain/word-bundle";
 import {WordBundleDao} from "../../dao/word-bundle/word-bundle.dao";
 import {Word} from "../../domain/word";
@@ -7,40 +7,46 @@ import {Word} from "../../domain/word";
 @Injectable()
 export class WordBundleService {
 
-  private wordBundlesVault = new Map<number, BehaviorSubject<WordBundle>>();
+  private wordBundlesVault = new Map<number, ReplaySubject<WordBundle>>();
   private wordBundleIds: number[];
-  private wordBundleIdsSubj: BehaviorSubject<number[]>;
+  private wordBundleIdsSubj = new ReplaySubject<number[]>(1);
 
   constructor(private wordBundleDao: WordBundleDao) {
+    this.wordBundleDao.loadFullWordBundleList()
+      .subscribe((wordBundles: WordBundle[]) => {
+        this.wordBundleIdsSubj.next(wordBundles.map(wordBundle => wordBundle.id));
+        wordBundles.forEach((wordBundle: WordBundle) => {
+          let wordBundleSubject = new ReplaySubject<WordBundle>(1);
+          wordBundleSubject.next(wordBundle);
+          this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
+        });
+      });
+    this.wordBundleIdsSubj.subscribe(wordBundleIds => this.wordBundleIds = wordBundleIds);
   }
 
   getWordBundleIds(): Observable<number[]> {
-    return this.wordBundleDao.loadFullWordBundleList()
-      .flatMap((wordBundles: WordBundle[]) => {
-        this.wordBundleIds = [];
-        wordBundles.forEach((wordBundle: WordBundle) => {
-          this.wordBundlesVault.set(wordBundle.id, new BehaviorSubject(wordBundle));
-          this.wordBundleIds.push(wordBundle.id);
-        });
-
-        if (this.wordBundleIdsSubj) {
-          this.wordBundleIdsSubj.next(this.wordBundleIds);
-        } else {
-          this.wordBundleIdsSubj = new BehaviorSubject(this.wordBundleIds);
-        }
-
-        return this.wordBundleIdsSubj;
-      });
+    return this.wordBundleIdsSubj;
   }
 
   getWordBundle(wordBundleId: number): Observable<WordBundle> {
-    return this.wordBundlesVault.get(wordBundleId);
+    let cashedObservable = this.wordBundlesVault.get(wordBundleId);
+    if (cashedObservable) {
+      return cashedObservable;
+    } else {
+      let newObservable = new ReplaySubject<WordBundle>(1);
+      this.wordBundlesVault.set(wordBundleId, newObservable);
+      this.wordBundleDao.loadWordBundle(wordBundleId)
+        .subscribe(wordBundle => newObservable.next(wordBundle));
+      return newObservable;
+    }
   }
 
   addWordBundle(wordBundle: WordBundle): void {
     this.wordBundleDao.addWordBundle(wordBundle)
       .subscribe(wordBundle => {
-        this.wordBundlesVault.set(wordBundle.id, new BehaviorSubject(wordBundle));
+        let wordBundleSubject = new ReplaySubject<WordBundle>(1);
+        wordBundleSubject.next(wordBundle);
+        this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
         this.wordBundleIds.push(wordBundle.id);
         this.wordBundleIdsSubj.next(this.wordBundleIds);
       });

@@ -21,6 +21,7 @@ import {WordBundleEditorComponent} from "./components/word-bundles/word-bundle-e
 import {WordsInBundleComponent} from "./components/word-bundles/words-in-bundle/words-in-bundle.component";
 import {WordEditorComponent} from "./components/word-bundles/word-editor/word-editor.component";
 import {WordDao} from "./dao/word/word.dao";
+import {WordLearnQueueService} from "./services/word-learn-queue/word-learn-queue.service";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {WordDao} from "./dao/word/word.dao";
     UserService,
     WordService,
     WordBundleService,
+    WordLearnQueueService,
     WordDao,
     WordBundleDao
   ],

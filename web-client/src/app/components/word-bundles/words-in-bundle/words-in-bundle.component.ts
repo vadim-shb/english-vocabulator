@@ -20,19 +20,13 @@ export class WordsInBundleComponent implements OnInit {
   constructor(private wordService: WordService) {
   }
 
-  private wordAscAlphabeticalComparator(word1: Word, word2: Word): number {
-    if (word1.word > word2.word) return 1;
-    if (word1.word < word2.word) return -1;
-    if (word1.word == word2.word) return word1.id - word2.id;
-  }
-
   ngOnInit() {
     this.activeWordBundleObs.subscribe(wordBundle => {
       let wordObservables: Observable<Word>[] = wordBundle.wordIds
         .map(wordId => this.wordService.getWord(wordId));
       let wordsObservable: Observable<Word[]> = EntityUtils.mergeObservables(wordObservables);
       wordsObservable.subscribe(words => {
-        this.words = words.sort(this.wordAscAlphabeticalComparator);
+        this.words = words.sort(Word.wordAscAlphabeticalComparator);
       });
     });
     this.activeWordInBundleSubj.subscribe(word => this.activeWord = word);

@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 
 export class Entity {
   id?: number;
@@ -6,7 +6,7 @@ export class Entity {
 
 class ObservableEntityList<T extends Entity> {
 
-  private entitiesSubj: BehaviorSubject<T[]>;
+  private entitiesSubj = new ReplaySubject<T[]>(1);
   private entities = new Map<number, T>();
 
   private generateEntityList() {
@@ -25,13 +25,13 @@ class ObservableEntityList<T extends Entity> {
             isInitialised = true;
             this.entities.set(entity.id, entity);
             if (this.entities.size === observables.length) {
-              this.entitiesSubj = new BehaviorSubject<T[]>(this.generateEntityList());
+              this.entitiesSubj.next(this.generateEntityList());
             }
           }
         });
       });
     } else {
-      this.entitiesSubj = new BehaviorSubject<T[]>([]);
+      this.entitiesSubj.next([]);
     }
   }
 
@@ -42,7 +42,7 @@ class ObservableEntityList<T extends Entity> {
 }
 
 export class EntityUtils {
-  static mergeObservables<T extends Entity>(observables: Observable<T>[]) : Observable<T[]> {
+  static mergeObservables<T extends Entity>(observables: Observable<T>[]): Observable<T[]> {
     let list = new ObservableEntityList(observables);
     return list.getEntities();
   }
