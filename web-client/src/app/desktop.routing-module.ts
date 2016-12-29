@@ -3,8 +3,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/desktop/dashboard/dashboard.component";
 import {LearningComponent} from "./components/desktop/learning/learning.component";
 import {WordBundlesComponent} from "./components/desktop/word-bundles/word-bundles.component";
-import {SignUpComponent} from "./components/desktop/sign-up/sign-up.component";
-import {SignInComponent} from "./components/desktop/sign-in/sign-in.component";
+import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
+import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
 
 const routes: Routes = [
   {
