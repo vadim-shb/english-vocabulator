@@ -16,6 +16,7 @@ export class SecurityService {
 
   signIn(credentials: SecurityEmailPasswordCredentials) {
     return this.http.post('/api/security/sign-in', credentials)
+      .map(this.errorHandleService.checkHttpError)
       .toPromise()
       .then(response => {
         let authenticationResponse = response.json() as SecurityAuthenticationResponse;
@@ -26,11 +27,11 @@ export class SecurityService {
         this.userService.setUser(user);
         return user;
       })
-      .catch(this.errorHandleService.handleHttpError);
   }
 
   signUp(credentials: SecurityEmailPasswordCredentials) {
     return this.http.post('/api/security/sign-up', credentials)
+      .map(this.errorHandleService.checkHttpError)
       .toPromise()
       .then(response => {
         let authenticationResponse = response.json() as SecurityAuthenticationResponse;
@@ -41,6 +42,5 @@ export class SecurityService {
         this.userService.setUser(user);
         return user;
       })
-      .catch(this.errorHandleService.handleHttpError);
   }
 }
