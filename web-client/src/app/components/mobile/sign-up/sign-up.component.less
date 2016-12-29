@@ -1,0 +1,48 @@
+div {
+  &.about {
+    width: auto;
+    margin-left: 50px;
+    overflow: hidden;
+    li {
+      margin-bottom: 0.7em;
+    }
+  }
+  &.sign-up-component {
+    float: right;
+    width: 300px;
+    margin-right: 50px;
+  }
+  &.title, &.controls, &.sign-up-link {
+    text-align: center;
+  }
+  &.sign-in-link {
+    margin-top: 45px;
+    text-align: center;
+  }
+}
+
+input {
+  margin: auto;
+  margin-bottom: 15px;
+  width: 90%;
+}
+
+label {
+  margin-left: 5%;
+  margin-bottom: 5px;
+}
+
+input, label {
+  display: block;
+}
+
+@media screen and (max-width: 700px) {
+  div.sign-up-component {
+    width: 100%;
+    margin: auto;
+  }
+  div.about {
+    width: 100%;
+    margin: auto;
+  }
+}
