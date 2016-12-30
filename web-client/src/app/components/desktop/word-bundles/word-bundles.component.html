@@ -1,12 +1,14 @@
-<div class="column">
-<word-bundle-picker [activeWordBundleSubj]="activeWordBundleSubj"></word-bundle-picker>
-</div>
-<div class="column">
-<word-bundle-editor [wordBundleObs]="activeWordBundleSubj"></word-bundle-editor>
-</div>
-<div class="column">
-<words-in-bundle [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></words-in-bundle>
-</div>
-<div class="column">
-<word-editor [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></word-editor>
+<div class="flex-container" fxLayout="row" fxLayoutAlign="space-around start">
+  <div class="flex-item" fxFlex="24%">
+    <word-bundle-picker [activeWordBundleSubj]="activeWordBundleSubj"></word-bundle-picker>
+  </div>
+  <div class="flex-item" fxFlex="24%">
+    <word-bundle-editor [wordBundleObs]="activeWordBundleSubj"></word-bundle-editor>
+  </div>
+  <div class="flex-item" fxFlex="24%">
+    <words-in-bundle [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></words-in-bundle>
+  </div>
+  <div class="flex-item" fxFlex="24%">
+    <word-editor [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></word-editor>
+  </div>
 </div>

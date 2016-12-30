@@ -11,6 +11,7 @@ import {WordsInBundleComponent} from "./components/desktop/word-bundles/words-in
 import {WordEditorComponent} from "./components/desktop/word-bundles/word-editor/word-editor.component";
 import {AppCoreModule} from "./core.app.module";
 import {DesktopAppRoutingModule} from "./desktop.routing-module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {DesktopAppRoutingModule} from "./desktop.routing-module";
   ],
   imports: [
     AppCoreModule,
-    DesktopAppRoutingModule
+    DesktopAppRoutingModule,
+    FlexLayoutModule.forRoot()
   ],
   bootstrap: [RootComponent]
 })
