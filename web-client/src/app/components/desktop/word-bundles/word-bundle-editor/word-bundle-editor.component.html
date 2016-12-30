@@ -12,6 +12,9 @@
     </option>
   </select>
 </div>
-<div class="controls">
+
+<button class="red" (click)="removeWordBundle()">Remove</button>
+<div class="controls-right">
+  <button class="gray" (click)="cancelEditing()">Cancel</button>
   <button (click)="saveWordBundle()">Save</button>
 </div>

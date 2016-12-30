@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user/user.service";
-import {BehaviorSubject} from "rxjs";
+import {ReplaySubject} from "rxjs";
 import {WordBundle} from "../../../domain/word-bundle";
 import {Word} from "../../../domain/word";
 
@@ -11,17 +11,9 @@ import {Word} from "../../../domain/word";
 })
 export class WordBundlesComponent implements OnInit {
 
-  activeWordBundleSubj: BehaviorSubject<WordBundle> = new BehaviorSubject<WordBundle>({
-    name: '',
-    importance: 5,
-    wordIds: []
-  });
-  private activeWordInBundleSubj: BehaviorSubject<Word> = new BehaviorSubject<Word>({
-    word: '',
-    meaning: '',
-    usageExamples: '',
-    importance: 5
-  });
+  private editWordBundleSubj = new ReplaySubject<WordBundle>(1);
+  private activeWordBundleSubj = new ReplaySubject<WordBundle>(1);
+  private activeWordInBundleSubj = new ReplaySubject<Word>(1);
 
   constructor(private userService: UserService) {
   }

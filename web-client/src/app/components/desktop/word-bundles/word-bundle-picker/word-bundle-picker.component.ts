@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {WordBundle} from "../../../../domain/word-bundle";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
 
@@ -12,6 +12,7 @@ import {EntityUtils} from "../../../../utils/entity-utils";
 export class WordBundlePickerComponent implements OnInit {
 
   @Input() activeWordBundleSubj: BehaviorSubject<WordBundle>;
+  @Input() editWordBundleSubj: Subject<WordBundle>;
 
   private wordBundles: WordBundle[] = [];
   private activeWordBundle: WordBundle;
@@ -49,5 +50,9 @@ export class WordBundlePickerComponent implements OnInit {
 
   pickWordBundle(wordBundle: WordBundle) {
     this.activeWordBundleSubj.next(wordBundle);
+  }
+
+  editWordBundle() {
+    this.editWordBundleSubj.next(this.activeWordBundle);
   }
 }

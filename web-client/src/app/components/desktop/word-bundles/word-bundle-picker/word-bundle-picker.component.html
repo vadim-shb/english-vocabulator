@@ -1,5 +1,8 @@
 <h2>Words bundles</h2>
-<button id="add-word-bundle" class="btn green" (click)="addWordBundle()">+</button>
+<div class="controls">
+  <button id="add-word-bundle" class="green" (click)="addWordBundle()">New bundle</button>
+  <button id="edit-bundle" class="gray" (click)="editWordBundle()" title="Edit bundle"><i class="fa fa-pencil-square-o fa-lg"></i></button>
+</div>
 <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
   <p (click)="pickWordBundle(wordBundle)">{{wordBundle.name}}</p>
 </div>

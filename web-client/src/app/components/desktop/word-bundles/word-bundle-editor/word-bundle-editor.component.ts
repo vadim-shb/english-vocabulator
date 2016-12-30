@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from "@angular/core";
-import {Observable} from "rxjs";
+import {Subject} from "rxjs";
 import {WordBundle} from "../../../../domain/word-bundle";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 
@@ -10,7 +10,7 @@ import {WordBundleService} from "../../../../services/word-bundle/word-bundle.se
 })
 export class WordBundleEditorComponent implements OnInit {
 
-  @Input() wordBundleObs: Observable<WordBundle>;
+  @Input() editWordBundleSubj: Subject<WordBundle>;
   private wordBundle: WordBundle;
   private importanceValues = [];
   private title: string;
@@ -23,7 +23,7 @@ export class WordBundleEditorComponent implements OnInit {
       this.importanceValues.push({value: i, view: i})
     }
 
-    this.wordBundleObs.subscribe(wordBundle => {
+    this.editWordBundleSubj.subscribe(wordBundle => {
       this.wordBundle = Object.assign({}, wordBundle);
       if (this.wordBundle.id) {
         this.title = 'Edit word bundle';
@@ -43,7 +43,11 @@ export class WordBundleEditorComponent implements OnInit {
     } else {
       this.wordBundleService.addWordBundle(this.wordBundle);
     }
+    this.cancelEditing();
+  }
 
+  cancelEditing() {
+    this.editWordBundleSubj.next(null);
   }
 
 }

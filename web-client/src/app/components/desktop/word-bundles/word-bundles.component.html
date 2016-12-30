@@ -1,14 +1,14 @@
-<div class="flex-container" fxLayout="row" fxLayoutAlign="space-around start">
-  <div class="flex-item" fxFlex="24%">
-    <word-bundle-picker [activeWordBundleSubj]="activeWordBundleSubj"></word-bundle-picker>
+<div class="flex-container" fxLayout="row" fxLayoutAlign="center start">
+  <div class="flex-item" fxFlex="24%" *ngIf="!(editWordBundleSubj | async)">
+    <word-bundle-picker [activeWordBundleSubj]="activeWordBundleSubj" [editWordBundleSubj]="editWordBundleSubj"></word-bundle-picker>
   </div>
-  <div class="flex-item" fxFlex="24%">
-    <word-bundle-editor [wordBundleObs]="activeWordBundleSubj"></word-bundle-editor>
+  <div class="flex-item" fxFlex="24%" *ngIf="editWordBundleSubj | async">
+    <word-bundle-editor [editWordBundleSubj]="editWordBundleSubj"></word-bundle-editor>
   </div>
   <div class="flex-item" fxFlex="24%">
     <words-in-bundle [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></words-in-bundle>
   </div>
-  <div class="flex-item" fxFlex="24%">
+  <div class="flex-item" fxFlex="24%" *ngIf="activeWordInBundleSubj | async">
     <word-editor [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></word-editor>
   </div>
 </div>
