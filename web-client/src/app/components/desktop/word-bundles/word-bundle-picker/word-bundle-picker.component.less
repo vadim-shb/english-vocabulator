@@ -3,10 +3,27 @@
 }
 
 .selected {
-  background-color: #2e6da4;
+  background-color: rgba(18,102,186,0.85);
   color: #fff;
+}
+
+.controls {
+  margin-bottom: 1.5em;
 }
 
 .pick-button {
   cursor: pointer;
+  height: 2em;
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  &:last-child {
+    border-bottom: 1px solid #aaa;
+  }
+  p {
+    margin: 0;
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
+  }
 }
