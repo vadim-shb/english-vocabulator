@@ -5,6 +5,8 @@
     <i class="fa fa-pencil-square-o fa-lg"></i>
   </button>
 </div>
-<div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
-  <p (click)="pickWordBundle(wordBundle)">{{wordBundle.name}}</p>
+<div class="list">
+  <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
+    <p (click)="pickWordBundle(wordBundle)">{{wordBundle.name}}</p>
+  </div>
 </div>

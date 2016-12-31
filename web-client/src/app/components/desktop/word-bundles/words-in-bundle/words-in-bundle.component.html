@@ -1,5 +1,9 @@
 <h2>Words in bundle</h2>
-<button id="add-word" class="btn green" (click)="addWord()">+</button>
-<div class="pick-button" *ngFor="let word of words" [class.selected]="activeWord.id == word.id">
-  <p (click)="pickWord(word)">{{word.word}}</p>
+<div class="controls">
+  <button id="add-word" class="btn green" (click)="addWord()">New word</button>
+</div>
+<div class="list">
+  <div class="pick-button" *ngFor="let word of words" [class.selected]="activeWord && activeWord.id == word.id">
+    <p (click)="pickWord(word)">{{word.word}}</p>
+  </div>
 </div>
