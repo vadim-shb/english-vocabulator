@@ -22,12 +22,14 @@ export class WordsInBundleComponent implements OnInit {
 
   ngOnInit() {
     this.activeWordBundleObs.subscribe(wordBundle => {
-      let wordObservables: Observable<Word>[] = wordBundle.wordIds
-        .map(wordId => this.wordService.getWord(wordId));
-      let wordsObservable: Observable<Word[]> = EntityUtils.mergeObservables(wordObservables);
-      wordsObservable.subscribe(words => {
-        this.words = words.sort(Word.wordAscAlphabeticalComparator);
-      });
+      if (wordBundle) {
+        let wordObservables: Observable<Word>[] = wordBundle.wordIds
+          .map(wordId => this.wordService.getWord(wordId));
+        let wordsObservable: Observable<Word[]> = EntityUtils.mergeObservables(wordObservables);
+        wordsObservable.subscribe(words => {
+          this.words = words.sort(Word.wordAscAlphabeticalComparator);
+        });
+      }
     });
     this.activeWordInBundleSubj.subscribe(word => this.activeWord = word);
   }

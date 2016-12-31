@@ -48,7 +48,7 @@ export class WordBundleEditorComponent implements OnInit {
   }
 
   cancelEditing() {
-    this.editWordBundleSubj.next(null);
+    this.editWordBundleSubj.next(undefined);
   }
 
   showRemoveDialog() {

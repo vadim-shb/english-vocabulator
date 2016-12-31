@@ -5,7 +5,7 @@
   <div class="flex-item" fxFlex="24%" *ngIf="editWordBundleSubj | async">
     <word-bundle-editor [editWordBundleSubj]="editWordBundleSubj"></word-bundle-editor>
   </div>
-  <div class="flex-item" fxFlex="24%" *ngIf="activeWordInBundleSubj | async">
+  <div class="flex-item" fxFlex="24%" *ngIf="activeWordBundleSubj | async">
     <words-in-bundle [activeWordBundleObs]="activeWordBundleSubj" [activeWordInBundleSubj]="activeWordInBundleSubj"></words-in-bundle>
   </div>
   <div class="flex-item" fxFlex="24%" *ngIf="activeWordInBundleSubj | async">
