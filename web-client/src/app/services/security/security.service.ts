@@ -16,7 +16,7 @@ export class SecurityService {
 
   signIn(credentials: SecurityEmailPasswordCredentials) {
     return this.http.post('/api/security/sign-in', credentials)
-      .map(this.errorHandleService.checkHttpError)
+      .catch(response => this.errorHandleService.catchHttpError(response))
       .toPromise()
       .then(response => {
         let authenticationResponse = response.json() as SecurityAuthenticationResponse;
@@ -31,7 +31,7 @@ export class SecurityService {
 
   signUp(credentials: SecurityEmailPasswordCredentials) {
     return this.http.post('/api/security/sign-up', credentials)
-      .map(this.errorHandleService.checkHttpError)
+      .catch(response => this.errorHandleService.catchHttpError(response))
       .toPromise()
       .then(response => {
         let authenticationResponse = response.json() as SecurityAuthenticationResponse;

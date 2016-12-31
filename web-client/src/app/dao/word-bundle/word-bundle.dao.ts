@@ -34,4 +34,7 @@ export class WordBundleDao {
     return this.secureHttpService.put(`word-bundle/${wordBundleId}/word/${wordId}`);
   }
 
+  removeWordBundle(wordBundleId: number): Observable<Response> {
+    return this.secureHttpService.delete(`word-bundle/${wordBundleId}`);
+  }
 }

@@ -31,10 +31,7 @@ export class LearningComponent implements OnInit {
     this.userService.signInIfNot();
     this.wordBundleService.getWordBundleIds()
       .subscribe(wordBundleIds => {
-        console.log(wordBundleIds);
         let wordBundleObs = wordBundleIds.map(wordBundleId => this.wordBundleService.getWordBundle(wordBundleId));
-        console.log(wordBundleObs);
-        console.log(EntityUtils.mergeObservables(wordBundleObs));
         EntityUtils.mergeObservables(wordBundleObs)
           .subscribe((wordBundles: WordBundle[]) => {
             this.wordBundles = wordBundles;

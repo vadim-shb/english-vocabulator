@@ -70,4 +70,15 @@ class WordBundleController @Inject()(
     }
   }
 
+  def deleteWordBundle(userId: Long, wordBundleId: Long) = currentUserOrForbidden(userId) {
+    Action { implicit request =>
+      insideLocalTx { implicit session =>
+        if (wordBundleDao.removeWordBundle(wordBundleId, userId)) {
+          Ok
+        } else {
+          NotFound
+        }
+      }
+    }
+  }
 }

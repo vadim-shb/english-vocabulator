@@ -59,13 +59,21 @@ class WordBundleDao extends DbConnected {
     wordBundle
   }
 
-  def addWordToBundle(wordId: Long, wordBundleId: Long, userId: Long)(implicit session: DBSession) : Boolean = {
-    val insertedRowsNumber = sql"""INSERT INTO t_word_in_bundle(word_bundle_id,word_id)
-          WITH sub_word AS (SELECT id FROM t_word WHERE id = ${wordId} AND owner_id = ${userId}),
-               sub_word_bundle AS (SELECT id FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId})
-          SELECT sub_word_bundle.id, sub_word.id FROM sub_word_bundle, sub_word"""
-      .update.apply
+  def addWordToBundle(wordId: Long, wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
+    val insertedRowsNumber =
+      sql"""INSERT INTO t_word_in_bundle(word_bundle_id,word_id)
+            WITH sub_word AS (SELECT id FROM t_word WHERE id = ${wordId} AND owner_id = ${userId}),
+                 sub_word_bundle AS (SELECT id FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId})
+            SELECT sub_word_bundle.id, sub_word.id FROM sub_word_bundle, sub_word"""
+        .update.apply
     insertedRowsNumber == 1
+  }
+
+  def removeWordBundle(wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
+    val removedRowsNumber =
+      sql"""DELETE FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId}"""
+        .update.apply
+    removedRowsNumber == 1
   }
 
 }

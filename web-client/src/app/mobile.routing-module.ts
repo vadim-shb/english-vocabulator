@@ -3,23 +3,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/mobile/dashboard/dashboard.component";
 import {LearningComponent} from "./components/mobile/learning/learning.component";
 import {WordBundlesComponent} from "./components/mobile/word-bundles/word-bundles.component";
-import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
-import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
 
-const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/sign-in',
-    pathMatch: 'full'
-  },
-  {
-    path: 'sign-in',
-    component: SignInComponent
-  },
-  {
-    path: 'sign-up',
-    component: SignUpComponent
-  },
+const MOBILE_ROUTES: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
@@ -35,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(MOBILE_ROUTES)],
   exports: [RouterModule]
 })
 export class MobileAppRoutingModule {

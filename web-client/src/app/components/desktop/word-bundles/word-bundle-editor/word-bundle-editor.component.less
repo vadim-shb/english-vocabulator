@@ -17,3 +17,35 @@ select {
 div.controls-right {
   float: right;
 }
+
+div.dialog-frame {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  .dialog-window {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    width: 750px;
+    height: 115px;
+    top: 20%;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    p {
+      font-weight: bold;
+      margin-bottom: 50px;
+    }
+    div.controls {
+      float: left;
+      width: 100%;
+      text-align: left;
+      div.controls-right {
+        float: right;
+      }
+    }
+  }
+}

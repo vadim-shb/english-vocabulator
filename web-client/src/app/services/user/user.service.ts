@@ -24,6 +24,11 @@ export class UserService {
     localStorage.setItem('user', JSON.stringify(this.user));
   }
 
+  clearUser() {
+    delete this.user;
+    localStorage.removeItem('user');
+  }
+
   signInIfNot(): void {
     if (!this.user) {
       this.router.navigate(['/sign-in']);

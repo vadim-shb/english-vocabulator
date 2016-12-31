@@ -11,12 +11,21 @@ import {WordBundleService} from "./services/word-bundle/word-bundle.service";
 import {WordBundleDao} from "./dao/word-bundle/word-bundle.dao";
 import {WordDao} from "./dao/word/word.dao";
 import {WordLearnQueueService} from "./services/word-learn-queue/word-learn-queue.service";
+import {CoreAppRoutingModule} from "./core.routing-module";
+import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
+import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    CoreAppRoutingModule
+  ],
+  declarations: [
+    SignUpComponent,
+    SignInComponent
   ],
   providers: [
     ErrorHandleService,
@@ -32,7 +41,8 @@ import {WordLearnQueueService} from "./services/word-learn-queue/word-learn-queu
   exports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule
   ]
 })
 export class AppCoreModule {

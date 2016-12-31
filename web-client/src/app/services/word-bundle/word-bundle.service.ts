@@ -8,7 +8,7 @@ import {Word} from "../../domain/word";
 export class WordBundleService {
 
   private wordBundlesVault = new Map<number, ReplaySubject<WordBundle>>();
-  private wordBundleIds: number[];
+  private wordBundleIds = new Set<number>();
   private wordBundleIdsSubj = new ReplaySubject<number[]>(1);
 
   constructor(private wordBundleDao: WordBundleDao) {
@@ -21,7 +21,10 @@ export class WordBundleService {
           this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
         });
       });
-    this.wordBundleIdsSubj.subscribe(wordBundleIds => this.wordBundleIds = wordBundleIds);
+    this.wordBundleIdsSubj.subscribe(wordBundleIds => {
+      this.wordBundleIds.clear();
+      wordBundleIds.forEach(wordBundleId => this.wordBundleIds.add(wordBundleId));
+    });
   }
 
   getWordBundleIds(): Observable<number[]> {
@@ -47,8 +50,8 @@ export class WordBundleService {
         let wordBundleSubject = new ReplaySubject<WordBundle>(1);
         wordBundleSubject.next(wordBundle);
         this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
-        this.wordBundleIds.push(wordBundle.id);
-        this.wordBundleIdsSubj.next(this.wordBundleIds);
+        this.wordBundleIds.add(wordBundle.id);
+        this.wordBundleIdsSubj.next(Array.from(this.wordBundleIds.values()));
       });
   }
 
@@ -71,6 +74,15 @@ export class WordBundleService {
     this.wordBundleDao.loadWordBundle(wordBundleId)
       .subscribe(wordBundle => {
         this.wordBundlesVault.get(wordBundle.id).next(wordBundle)
+      });
+  }
+
+  removeWordBundle(wordBundleId: number) : Observable<any> {
+    return this.wordBundleDao.removeWordBundle(wordBundleId)
+      .map(() => {
+        this.wordBundlesVault.delete(wordBundleId);
+        this.wordBundleIds.delete(wordBundleId);
+        this.wordBundleIdsSubj.next(Array.from(this.wordBundleIds.values()));
       });
   }
 }

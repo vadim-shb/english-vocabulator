@@ -18,8 +18,8 @@
             CREATE INDEX t_word_bundle__owner_id ON t_word_bundle (owner_id);
 
             CREATE TABLE t_word_in_bundle (
-                word_bundle_id      BIGINT NOT NULL REFERENCES t_word_bundle (id),
-                word_id             BIGINT NOT NULL REFERENCES t_word (id)
+                word_bundle_id      BIGINT NOT NULL REFERENCES t_word_bundle (id) ON DELETE CASCADE,
+                word_id             BIGINT NOT NULL REFERENCES t_word (id) ON DELETE CASCADE
             );
 
             CREATE INDEX t_word_in_bundle__word_bundle_id ON t_word_in_bundle (word_bundle_id);

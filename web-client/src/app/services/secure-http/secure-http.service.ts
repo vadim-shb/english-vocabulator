@@ -19,7 +19,7 @@ export class SecureHttpService {
     let user = this.userService.getUser();
     if (user) {
       return this.http.get(`/api/user/${user.id}/${url}`, SecureHttpService.modifyOptions(user, options))
-        .map(this.errorHandleService.checkHttpError)
+        .catch(response => this.errorHandleService.catchHttpError(response))
     }
     else {
       this.notSignedInUserErrorHandler();
@@ -31,7 +31,7 @@ export class SecureHttpService {
     let user = this.userService.getUser();
     if (user) {
       return this.http.post(`/api/user/${user.id}/${url}`, data, SecureHttpService.modifyOptions(user, options))
-        .map(this.errorHandleService.checkHttpError)
+        .catch(response => this.errorHandleService.catchHttpError(response));
     }
     else {
       this.notSignedInUserErrorHandler();
@@ -43,7 +43,19 @@ export class SecureHttpService {
     let user = this.userService.getUser();
     if (user) {
       return this.http.put(`/api/user/${user.id}/${url}`, data, SecureHttpService.modifyOptions(user, options))
-        .map(this.errorHandleService.checkHttpError)
+        .catch(response => this.errorHandleService.catchHttpError(response))
+    }
+    else {
+      this.notSignedInUserErrorHandler();
+      return Observable.empty() as Observable<Response>;
+    }
+  }
+
+  delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+    let user = this.userService.getUser();
+    if (user) {
+      return this.http.delete(`/api/user/${user.id}/${url}`, SecureHttpService.modifyOptions(user, options))
+        .catch(response => this.errorHandleService.catchHttpError(response))
     }
     else {
       this.notSignedInUserErrorHandler();
@@ -69,5 +81,4 @@ export class SecureHttpService {
     }
     return result;
   }
-
 }

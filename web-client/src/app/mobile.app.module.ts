@@ -9,15 +9,11 @@ import {WordEditorComponent} from "./components/mobile/word-bundles/word-editor/
 import {MobileAppRoutingModule} from "./mobile.routing-module";
 import {AppCoreModule} from "./core.app.module";
 import {RootComponent} from "./components/responsive/root/root.component";
-import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
-import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
 import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
     RootComponent,
-    SignUpComponent,
-    SignInComponent,
     DashboardComponent,
     LearningComponent,
     WordBundlesComponent,

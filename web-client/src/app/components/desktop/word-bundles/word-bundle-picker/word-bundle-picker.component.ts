@@ -27,10 +27,11 @@ export class WordBundlePickerComponent implements OnInit {
 
       wordBundlesObs.subscribe(wordBundles => {
         this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
-      });
-      wordBundlesObs.first().subscribe(wordBundles => {
-        if (wordBundles[0]) {
+        if (!this.activeWordBundle && wordBundles[0]) {
           this.pickWordBundle(wordBundles[0]);
+        }
+        if (wordBundles.length === 0) {
+          this.activeWordBundleSubj.next(undefined);
         }
       });
     });
@@ -41,7 +42,7 @@ export class WordBundlePickerComponent implements OnInit {
   }
 
   addWordBundle() {
-    this.activeWordBundleSubj.next({
+    this.editWordBundleSubj.next({
       name: '',
       importance: 5,
       wordIds: []

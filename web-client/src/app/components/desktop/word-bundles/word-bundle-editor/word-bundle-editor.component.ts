@@ -14,6 +14,7 @@ export class WordBundleEditorComponent implements OnInit {
   private wordBundle: WordBundle;
   private importanceValues = [];
   private title: string;
+  private removeDialogShowSwitcher = false;
 
   constructor(private wordBundleService: WordBundleService) {
   }
@@ -48,6 +49,26 @@ export class WordBundleEditorComponent implements OnInit {
 
   cancelEditing() {
     this.editWordBundleSubj.next(null);
+  }
+
+  showRemoveDialog() {
+    this.removeDialogShowSwitcher = true;
+  }
+
+  hideRemoveDialog() {
+    this.removeDialogShowSwitcher = false;
+  }
+
+  removeBundleKeepWords() {
+    this.wordBundleService.removeWordBundle(this.wordBundle.id)
+      .subscribe(() => {
+        this.cancelEditing();
+      });
+  }
+
+  removeBundleWithWords() {
+
+    // this.cancelEditing();
   }
 
 }
