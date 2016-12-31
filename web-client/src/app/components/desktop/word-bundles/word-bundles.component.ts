@@ -13,7 +13,7 @@ export class WordBundlesComponent implements OnInit {
 
   private editWordBundleSubj = new ReplaySubject<WordBundle>(1);
   private activeWordBundleSubj = new ReplaySubject<WordBundle>(1);
-  private activeWordInBundleSubj = new ReplaySubject<Word>(1);
+  private activeWordSubj = new ReplaySubject<Word>(1);
 
   constructor(private userService: UserService) {
   }

@@ -13,7 +13,7 @@ import {EntityUtils} from "../../../../utils/entity-utils";
 export class WordsInBundleComponent implements OnInit {
 
   @Input() activeWordBundleObs: Observable<WordBundle>;
-  @Input() activeWordInBundleSubj: Subject<Word>;
+  @Input() activeWordSubj: Subject<Word>;
   private words: Word[];
   private activeWord: Word;
 
@@ -28,14 +28,17 @@ export class WordsInBundleComponent implements OnInit {
         let wordsObservable: Observable<Word[]> = EntityUtils.mergeObservables(wordObservables);
         wordsObservable.subscribe(words => {
           this.words = words.sort(Word.wordAscAlphabeticalComparator);
+          if (!this.activeWord && this.words[0]) {
+            this.activeWordSubj.next(this.words[0])
+          }
         });
       }
     });
-    this.activeWordInBundleSubj.subscribe(word => this.activeWord = word);
+    this.activeWordSubj.subscribe(word => this.activeWord = word);
   }
 
   addWord() {
-    this.activeWordInBundleSubj.next({
+    this.activeWordSubj.next({
       word: '',
       meaning: '',
       usageExamples: '',
@@ -44,7 +47,7 @@ export class WordsInBundleComponent implements OnInit {
   }
 
   pickWord(word: Word) {
-    this.activeWordInBundleSubj.next(word);
+    this.activeWordSubj.next(word);
   }
 
 }
