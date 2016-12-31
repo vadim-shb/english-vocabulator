@@ -4,6 +4,7 @@ import {WordBundle} from "../../../../domain/word-bundle";
 import {Word} from "../../../../domain/word";
 import {WordService} from "../../../../services/word/word.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
+import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 
 @Component({
   selector: 'words-in-bundle',
@@ -16,8 +17,10 @@ export class WordsInBundleComponent implements OnInit {
   @Input() activeWordSubj: Subject<Word>;
   private words: Word[];
   private activeWord: Word;
+  private activeWordBundle: WordBundle;
 
-  constructor(private wordService: WordService) {
+  constructor(private wordService: WordService,
+              private wordBundleService: WordBundleService) {
   }
 
   ngOnInit() {
@@ -35,6 +38,7 @@ export class WordsInBundleComponent implements OnInit {
       }
     });
     this.activeWordSubj.subscribe(word => this.activeWord = word);
+    this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
   }
 
   addWord() {
@@ -48,6 +52,10 @@ export class WordsInBundleComponent implements OnInit {
 
   pickWord(word: Word) {
     this.activeWordSubj.next(word);
+  }
+
+  unbindWordFromBundle() {
+      this.wordBundleService.unbindWordFromBundle(this.activeWordBundle, this.activeWord);
   }
 
 }

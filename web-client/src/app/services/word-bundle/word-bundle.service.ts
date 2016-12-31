@@ -16,9 +16,14 @@ export class WordBundleService {
       .subscribe((wordBundles: WordBundle[]) => {
         this.wordBundleIdsSubj.next(wordBundles.map(wordBundle => wordBundle.id));
         wordBundles.forEach((wordBundle: WordBundle) => {
-          let wordBundleSubject = new ReplaySubject<WordBundle>(1);
-          wordBundleSubject.next(wordBundle);
-          this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
+          let cashedObservable = this.wordBundlesVault.get(wordBundle.id);
+          if (cashedObservable) {
+            cashedObservable.next(wordBundle);
+          } else {
+            let wordBundleSubject = new ReplaySubject<WordBundle>(1);
+            wordBundleSubject.next(wordBundle);
+            this.wordBundlesVault.set(wordBundle.id, wordBundleSubject);
+          }
         });
       });
     this.wordBundleIdsSubj.subscribe(wordBundleIds => {
@@ -63,8 +68,15 @@ export class WordBundleService {
       });
   }
 
-  addWordToBundle(wordBundle: WordBundle, word: Word) {
+  bindWordToBundle(wordBundle: WordBundle, word: Word): void {
     this.wordBundleDao.addWordToBundle(wordBundle.id, word.id)
+      .subscribe(() => {
+        this.reloadWordBundle(wordBundle.id);
+      });
+  }
+
+  unbindWordFromBundle(wordBundle: WordBundle, word: Word): void {
+    this.wordBundleDao.removeWordFromBundle(wordBundle.id, word.id)
       .subscribe(() => {
         this.reloadWordBundle(wordBundle.id);
       });
@@ -73,11 +85,11 @@ export class WordBundleService {
   private reloadWordBundle(wordBundleId: number) {
     this.wordBundleDao.loadWordBundle(wordBundleId)
       .subscribe(wordBundle => {
-        this.wordBundlesVault.get(wordBundle.id).next(wordBundle)
+        this.wordBundlesVault.get(wordBundle.id).next(wordBundle);
       });
   }
 
-  removeWordBundle(wordBundleId: number) : Observable<any> {
+  removeWordBundle(wordBundleId: number): Observable<any> {
     return this.wordBundleDao.removeWordBundle(wordBundleId)
       .map(() => {
         this.wordBundlesVault.delete(wordBundleId);
@@ -85,4 +97,5 @@ export class WordBundleService {
         this.wordBundleIdsSubj.next(Array.from(this.wordBundleIds.values()));
       });
   }
+
 }

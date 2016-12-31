@@ -3,6 +3,7 @@ import {WordBundle} from "../../../../domain/word-bundle";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
+import set = Reflect.set;
 
 @Component({
   selector: 'word-bundle-picker',
@@ -27,6 +28,9 @@ export class WordBundlePickerComponent implements OnInit {
 
       wordBundlesObs.subscribe(wordBundles => {
         this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
+        if (this.activeWordBundle) {
+          this.pickWordBundle(wordBundles.filter(wordBundle => wordBundle.id == this.activeWordBundle.id)[0]);
+        }
         if (!this.activeWordBundle && wordBundles[0]) {
           this.pickWordBundle(wordBundles[0]);
         }

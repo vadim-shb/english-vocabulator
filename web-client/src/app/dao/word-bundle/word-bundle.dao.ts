@@ -30,11 +30,15 @@ export class WordBundleDao {
       .map(response => response.json() as WordBundle);
   }
 
+  removeWordBundle(wordBundleId: number): Observable<Response> {
+    return this.secureHttpService.delete(`word-bundle/${wordBundleId}`);
+  }
+
   addWordToBundle(wordBundleId: number, wordId: number): Observable<Response> {
     return this.secureHttpService.put(`word-bundle/${wordBundleId}/word/${wordId}`);
   }
 
-  removeWordBundle(wordBundleId: number): Observable<Response> {
-    return this.secureHttpService.delete(`word-bundle/${wordBundleId}`);
+  removeWordFromBundle(wordBundleId: number, wordId: number) : Observable<Response> {
+    return this.secureHttpService.delete(`word-bundle/${wordBundleId}/word/${wordId}`);
   }
 }

@@ -51,7 +51,7 @@ export class WordEditorComponent implements OnInit {
     } else {
       this.wordService.addWord(this.word) //todo: add word and connect it to the bundle in single request (when observables will be connected to server by websocket)
         .subscribe(word => {
-          this.wordBundleService.addWordToBundle(this.activeWordBundle, word);
+          this.wordBundleService.bindWordToBundle(this.activeWordBundle, word);
           this.editWordSubj.next(word)
         });
     }

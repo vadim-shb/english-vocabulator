@@ -58,6 +58,18 @@ class WordBundleController @Inject()(
     }
   }
 
+  def deleteWordBundle(userId: Long, wordBundleId: Long) = currentUserOrForbidden(userId) {
+    Action { implicit request =>
+      insideLocalTx { implicit session =>
+        if (wordBundleDao.removeWordBundle(wordBundleId = wordBundleId, userId = userId)) {
+          Ok
+        } else {
+          NotFound
+        }
+      }
+    }
+  }
+
   def addWordToBundle(userId: Long, wordBundleId: Long, wordId: Long) = currentUserOrForbidden(userId) {
     Action { implicit request =>
       insideLocalTx { implicit session =>
@@ -70,10 +82,10 @@ class WordBundleController @Inject()(
     }
   }
 
-  def deleteWordBundle(userId: Long, wordBundleId: Long) = currentUserOrForbidden(userId) {
+  def removeWordFromBundle(userId: Long, wordBundleId: Long, wordId: Long) = currentUserOrForbidden(userId) {
     Action { implicit request =>
       insideLocalTx { implicit session =>
-        if (wordBundleDao.removeWordBundle(wordBundleId, userId)) {
+        if (wordBundleDao.removeWordFromBundle(wordId = wordId, wordBundleId = wordBundleId, userId = userId)) {
           Ok
         } else {
           NotFound
@@ -81,4 +93,5 @@ class WordBundleController @Inject()(
       }
     }
   }
+
 }

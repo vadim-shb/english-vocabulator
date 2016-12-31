@@ -59,6 +59,13 @@ class WordBundleDao extends DbConnected {
     wordBundle
   }
 
+  def removeWordBundle(wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
+    val removedRowsNumber =
+      sql"""DELETE FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId}"""
+        .update.apply
+    removedRowsNumber == 1
+  }
+
   def addWordToBundle(wordId: Long, wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
     val insertedRowsNumber =
       sql"""INSERT INTO t_word_in_bundle(word_bundle_id,word_id)
@@ -69,11 +76,12 @@ class WordBundleDao extends DbConnected {
     insertedRowsNumber == 1
   }
 
-  def removeWordBundle(wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
-    val removedRowsNumber =
-      sql"""DELETE FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId}"""
+  def removeWordFromBundle(wordId: Long, wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
+    val removeRowsNumber =
+      sql"""DELETE FROM t_word_in_bundle WHERE word_bundle_id = ${wordBundleId} AND word_id = ${wordId} AND
+            1 = (SELECT count(id) FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId})"""
         .update.apply
-    removedRowsNumber == 1
+    removeRowsNumber > 0
   }
 
 }
