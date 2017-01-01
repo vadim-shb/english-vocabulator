@@ -1,8 +1,11 @@
 <h2>Words in bundle</h2>
 <div class="controls">
   <button id="add-word" class="btn green" (click)="addWord()">New word</button>
-  <button id="unbind-word" class="gray" (click)="unbindWordFromBundle()" title="Unbind word from bundle" *ngIf="activeWord">
+  <button id="unbind-word" class="gray" (click)="unbindWordFromBundle()" title="Unbind word from bundle" *ngIf="activeWord && (activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
     <i class="fa fa-chain-broken fa-lg"></i>
+  </button>
+  <button id="bind-word" class="gray" (click)="bindWordToBundle()" title="Bind word to bundle" *ngIf="activeWord && !(activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
+    <i class="fa fa-chain fa-lg"></i>
   </button>
 
   <button id="show-words-in-bundle" class="gray" (click)="setMode(wordsListMode.WORDS_IN_BUNDLE)" title="Show words in bundle" *ngIf="mode == wordsListMode.ALL_WORDS">
@@ -14,7 +17,7 @@
 </div>
 
 <div class="list" *ngIf="words && words.length > 0">
-  <div class="pick-button" *ngFor="let word of words" [class.selected]="activeWord && activeWord.id == word.id">
+  <div class="pick-button" *ngFor="let word of words" [class.selected]="activeWord && activeWord.id == word.id" [class.binded]="mode == wordsListMode.ALL_WORDS && activeWordBundle.wordIds.indexOf(word.id) + 1">
     <p (click)="pickWord(word)">{{word.word}}</p>
   </div>
 </div>

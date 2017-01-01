@@ -53,14 +53,10 @@ export class WordsInBundleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activeWordBundleObs.subscribe(wordBundle => {
-      if (wordBundle) {
-        this.wordsInBundleObs = this.wordService.getWordsByIds(wordBundle.wordIds);
-        this.setMode(WordsListMode.WORDS_IN_BUNDLE);
-      }
-    });
+    this.wordsInBundleObs = this.wordService.getWordsOfWordBundle(this.activeWordBundleObs);
     this.activeWordSubj.subscribe(word => this.activeWord = word);
     this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
+    this.setMode(WordsListMode.WORDS_IN_BUNDLE);
   }
 
   addWord() {
@@ -78,6 +74,10 @@ export class WordsInBundleComponent implements OnInit {
 
   unbindWordFromBundle() {
     this.wordBundleService.unbindWordFromBundle(this.activeWordBundle, this.activeWord);
+  }
+
+  bindWordToBundle() {
+    this.wordBundleService.bindWordToBundle(this.activeWordBundle, this.activeWord);
   }
 
 }
