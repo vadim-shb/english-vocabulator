@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {SecureHttpService} from "../../services/secure-http/secure-http.service";
 import {Word} from "../../domain/word";
 import {Observable} from "rxjs";
+import {Response} from "@angular/http";
 
 @Injectable()
 export class WordDao {
@@ -28,5 +29,9 @@ export class WordDao {
   updateWord(word: Word): Observable<Word> {
     return this.secureHttpService.put(`word/${word.id}`, word)
       .map(response => response.json() as Word)
+  }
+
+  removeWord(wordId: number) : Observable<Response> {
+    return this.secureHttpService.delete(`word/${wordId}`)
   }
 }

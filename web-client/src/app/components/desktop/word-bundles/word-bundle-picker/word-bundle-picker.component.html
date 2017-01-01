@@ -5,7 +5,7 @@
     <i class="fa fa-pencil-square-o fa-lg"></i>
   </button>
 </div>
-<div class="list">
+<div class="list" *ngIf="wordBundles && wordBundles.length > 0">
   <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
     <p (click)="pickWordBundle(wordBundle)">{{wordBundle.name}}</p>
   </div>

@@ -32,11 +32,13 @@ export class WordEditorComponent implements OnInit {
     this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
 
     this.editWordSubj.subscribe(word => {
-      this.word = Object.assign({}, word);
-      if (word.id) {
-        this.title = 'Edit word';
-      } else {
-        this.title = 'Add new word';
+      if (word) {
+        this.word = Object.assign({}, word);
+        if (word.id) {
+          this.title = 'Edit word';
+        } else {
+          this.title = 'Add new word';
+        }
       }
     });
   }

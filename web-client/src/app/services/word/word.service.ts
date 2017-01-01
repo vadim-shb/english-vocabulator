@@ -99,4 +99,16 @@ export class WordService {
     this.wordDao.updateWord(word)
       .subscribe(word => this.wordVault.get(word.id).next(word));
   }
+
+  removeWord(wordId: number) {
+    this.wordDao.removeWord(wordId)
+      .subscribe(() => {
+        this.wordVault.get(wordId).complete();
+        this.allWordIds.first().subscribe(wordIds => {
+          wordIds.splice(wordIds.indexOf(wordId), 1);
+          this.allWordIds.next(wordIds);
+        });
+        this.wordVault.delete(wordId);
+      });
+  }
 }

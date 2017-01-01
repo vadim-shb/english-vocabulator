@@ -69,4 +69,11 @@ class WordDao extends DbConnected {
     word
   }
 
+  def removeWord(wordId: Long, userId: Long)(implicit session: DBSession) : Boolean = {
+    val removeRowsNumber =
+      sql"""DELETE FROM t_word WHERE id = ${wordId} AND owner_id = ${userId}"""
+        .update.apply
+    removeRowsNumber > 0
+  }
+
 }

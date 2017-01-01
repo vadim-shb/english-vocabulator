@@ -58,4 +58,15 @@ class WordController @Inject()(
     }
   }
 
+  def removeWord(userId: Long, wordId: Long) = currentUserOrForbidden(userId) {
+    Action { implicit request =>
+      insideLocalTx { implicit session =>
+        if (wordDao.removeWord(wordId = wordId, userId = userId)) {
+          Ok
+        } else {
+          NotFound
+        }
+      }
+    }
+  }
 }

@@ -9,6 +9,7 @@ GET           /api/security/sign-out                                            
 POST          /api/user/:userId/word                                                    @controllers.WordController.createWord(userId: Long)
 PUT           /api/user/:userId/word/:wordId                                            @controllers.WordController.updateWord(userId: Long, wordId: Long)
 GET           /api/user/:userId/word/:wordId                                            @controllers.WordController.findWord(userId: Long, wordId: Long)
+DELETE        /api/user/:userId/word/:wordId                                            @controllers.WordController.removeWord(userId: Long, wordId: Long)
 GET           /api/user/:userId/words                                                   @controllers.WordController.findWords(userId: Long)
 GET           /api/user/:userId/word-bundles                                            @controllers.WordBundleController.findWordBundles(userId: Long)
 GET           /api/user/:userId/word-bundle/:wordBundleId                               @controllers.WordBundleController.findWordBundle(userId: Long, wordBundleId: Long)
