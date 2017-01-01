@@ -2,23 +2,47 @@ import {Injectable} from "@angular/core";
 import {Word} from "../../domain/word";
 import "rxjs/add/operator/toPromise";
 import "rxjs/Rx";
-import {Observable, ReplaySubject} from "rxjs";
+import {Observable, ReplaySubject, Subscription} from "rxjs";
 import {WordDao} from "../../dao/word/word.dao";
+import {EntityUtils} from "../../utils/entity-utils";
 
 @Injectable()
 export class WordService {
 
   private wordVault = new Map<number, ReplaySubject<Word>>();
+  private allWordIds = new ReplaySubject<number[]>(1);
+  private allWords = new ReplaySubject<Word[]>(1);
+  private allWordsByIdSubscription: Subscription;
 
   constructor(private wordDao: WordDao) {
-    wordDao.loadFullWordsList()
+    this.wordDao.loadFullWordsList()
       .subscribe((words: Word[]) => {
         words.forEach(word => {
           let wordObs = new ReplaySubject<Word>(1);
           wordObs.next(word);
           this.wordVault.set(word.id, wordObs);
         });
+        this.allWordIds.next(Array.from(this.wordVault.keys()));
       });
+    this.allWordIds.subscribe(wordIds => {
+      if (this.allWordsByIdSubscription) this.allWordsByIdSubscription.unsubscribe();
+      this.allWordsByIdSubscription = this.getWordsByIds(wordIds).subscribe(words => {
+        this.allWords.next(words);
+      });
+    });
+  }
+
+  getAllWords(): Observable<Word[]> {
+    return this.allWords;
+  }
+
+  getAllWordIds(): Observable<number[]> {
+    return this.allWordIds;
+  }
+
+  getWordsByIds(wordIds: number[]): Observable<Word[]> {
+    let wordObservables: Observable<Word>[] = wordIds.map(wordId => this.getWord(wordId));
+    return EntityUtils.mergeObservables(wordObservables);
   }
 
   getWord(wordId: number): Observable<Word> {
@@ -51,7 +75,11 @@ export class WordService {
     this.wordDao.addWord(word)
       .subscribe(word => {
         this.wordVault.set(word.id, newWordObs);
-        newWordObs.next(word)
+        newWordObs.next(word);
+        this.allWordIds.first().subscribe(wordIds => {
+          wordIds.push(word.id);
+          this.allWordIds.next(wordIds);
+        });
       });
     return newWordObs;
   }
@@ -60,5 +88,4 @@ export class WordService {
     this.wordDao.updateWord(word)
       .subscribe(word => this.wordVault.get(word.id).next(word));
   }
-
 }

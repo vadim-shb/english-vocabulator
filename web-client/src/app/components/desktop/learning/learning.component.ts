@@ -8,6 +8,10 @@ import {WordLearnQueueService} from "../../../services/word-learn-queue/word-lea
 import {WordService} from "../../../services/word/word.service";
 import {Observable} from "rxjs";
 
+enum WordLearnStage {
+  NO_PICKED_WORD, ASK_KNOW, CHECK_KNOW, VIEW_MEANING
+}
+
 @Component({
   selector: 'app-learning',
   templateUrl: './learning.component.html',
@@ -74,8 +78,4 @@ export class LearningComponent implements OnInit {
     this.activeWord = this.wordLearnQueueService.getNextWord();
     this.stage = WordLearnStage.ASK_KNOW;
   }
-}
-
-enum WordLearnStage {
-  NO_PICKED_WORD, ASK_KNOW, CHECK_KNOW, VIEW_MEANING
 }
