@@ -1,3 +1,48 @@
+.learning {
+  text-align: center;
+}
+
+label {
+  display: block;
+}
+
+select {
+  width: 40%;
+}
+
+.learn-area {
+  display: inline-block;
+  width: 70%;
+}
+
 .word-frame {
-  border: 1px solid #aaaaaa;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: 8em;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background-color: #fafaf6;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  vertical-align: middle;
+  p {
+    flex-grow: 1;
+    display: inline-block;
+  }
+}
+
+.controls {
+  text-align: initial;
+
+  button {
+    width: 45%;
+    height: 5em;
+    &.next {
+    width: 100%;
+
+    }
+    &.red {
+      float: right;
+    }
+  }
 }

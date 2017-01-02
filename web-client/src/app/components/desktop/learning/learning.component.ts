@@ -39,6 +39,9 @@ export class LearningComponent implements OnInit {
         EntityUtils.mergeObservables(wordBundleObs)
           .subscribe((wordBundles: WordBundle[]) => {
             this.wordBundles = wordBundles;
+            if (wordBundles[0]) {
+              this.selectWordBundle(wordBundles[0].id);
+            }
           });
       });
   }
