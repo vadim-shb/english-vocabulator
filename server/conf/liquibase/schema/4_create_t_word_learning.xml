@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="schema-7" author="vdshb">
+        <sql><![CDATA[
+            CREATE TABLE t_word_knowledge_test_resume (
+                id                 BIGSERIAL                    NOT NULL PRIMARY KEY,
+                user_id            BIGINT                       NOT NULL REFERENCES t_user (id) ON DELETE CASCADE,
+                word_id            BIGINT                       NOT NULL REFERENCES t_word (id) ON DELETE CASCADE,
+                test_result        VARCHAR(255)                 NOT NULL,
+                test_type          VARCHAR(255)                 NOT NULL,
+                test_date_time     TIMESTAMP WITHOUT TIME ZONE  NOT NULL DEFAULT (now() at time zone 'utc'),
+                test_duration_ms   INT                          NOT NULL
+            );
+        ]]></sql>
+        <rollback>
+            <sql>
+            DROP TABLE t_word_knowledge_test_resume;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

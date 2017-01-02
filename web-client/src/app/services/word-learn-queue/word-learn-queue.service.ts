@@ -1,41 +1,52 @@
 import {Injectable} from "@angular/core";
 import {Word} from "../../domain/word";
 import LinkedList from "typescript-collections/dist/lib/LinkedList";
+import {WordService} from "../word/word.service";
+import {WordKnowledgeTestResume, WordKnowledgeTestResultType} from "../../domain/word-knowledge-test";
 
 @Injectable()
 export class WordLearnQueueService {
 
-  private words = new LinkedList<LearnableWord>();
+  private wordsLearnQueue = new LinkedList<LearnableWord>();
 
-  constructor() {
+  constructor(private wordService: WordService) {
   }
 
   setWords(words: Word[]): void {
-    this.words.clear();
-    words.sort(Word.wordDecImportanceComparator).forEach(word => this.words.add({word: word, isRepeat: false}))
+    this.wordsLearnQueue.clear();
+    words.sort(Word.wordDecImportanceComparator).forEach(word => this.wordsLearnQueue.add({
+      word: word,
+      isRepeat: false
+    }))
   }
 
   getNextWord(): Word {
-    let result = this.words.first();
-    this.words.removeElementAtIndex(0);
+    let result = this.wordsLearnQueue.first();
+    this.wordsLearnQueue.removeElementAtIndex(0);
     if (!result.isRepeat) {
-      this.words.add(result);
+      this.wordsLearnQueue.add(result);
     }
     return result.word;
   }
 
-  countAnswer(word: Word, isRight: boolean) {
-    if (!isRight) {
-      if (this.words.size() > 4) {
-        this.words.add({word: word, isRepeat: true}, 2);
+  countAnswer(testResume: WordKnowledgeTestResume) {
+    if (testResume.testResult != WordKnowledgeTestResultType.KNOW) {
+      if (this.wordsLearnQueue.size() > 4) {
+        this.insertWordToLearnQueueById(testResume.wordId, 2);
       }
-      if (this.words.size() > 9) {
-        this.words.add({word: word, isRepeat: true}, 7);
+      if (this.wordsLearnQueue.size() > 9) {
+        this.insertWordToLearnQueueById(testResume.wordId, 7);
       }
-      if (this.words.size() > 20) {
-        this.words.add({word: word, isRepeat: true}, 15);
+      if (this.wordsLearnQueue.size() > 20) {
+        this.insertWordToLearnQueueById(testResume.wordId, 15);
       }
     }
+  }
+
+  private insertWordToLearnQueueById(wordId: number, position: number) {
+    this.wordService.getWord(wordId).first().subscribe(word => {
+      this.wordsLearnQueue.add({word: word, isRepeat: true}, position);
+    });
   }
 }
 

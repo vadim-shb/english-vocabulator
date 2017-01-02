@@ -12,7 +12,6 @@
             INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'assertive', 4, 'напористый',  '');
             INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'cautious',  4, 'осторожный',  '');
             INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'reliable',  5, 'надежный',    '');
-            INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'ambitious', 5, 'nooo',        '');
         </sql>
         <rollback>
             <sql>

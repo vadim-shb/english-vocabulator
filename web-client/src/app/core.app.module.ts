@@ -15,6 +15,8 @@ import {CoreAppRoutingModule} from "./core.routing-module";
 import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
 import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
 import {RouterModule} from "@angular/router";
+import {WordKnowledgeTestService} from "./services/learning/word-knowledge-test.service";
+import {WordKnowledgeTestDao} from "./dao/learning/word-knowledge-test.dao";
 
 @NgModule({
   imports: [
@@ -35,8 +37,10 @@ import {RouterModule} from "@angular/router";
     WordService,
     WordBundleService,
     WordLearnQueueService,
+    WordKnowledgeTestService,
     WordDao,
-    WordBundleDao
+    WordBundleDao,
+    WordKnowledgeTestDao
   ],
   exports: [
     BrowserModule,
