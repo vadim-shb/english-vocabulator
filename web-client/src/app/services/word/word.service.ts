@@ -5,7 +5,6 @@ import "rxjs/Rx";
 import {Observable, ReplaySubject, Subscription} from "rxjs";
 import {WordDao} from "../../dao/word/word.dao";
 import {EntityUtils} from "../../utils/entity-utils";
-import {WordBundle} from "../../domain/word-bundle";
 
 @Injectable()
 export class WordService {
@@ -44,16 +43,6 @@ export class WordService {
   getWordsByIds(wordIds: number[]): Observable<Word[]> {
     let wordObservables: Observable<Word>[] = wordIds.map(wordId => this.getWord(wordId));
     return EntityUtils.mergeObservables(wordObservables);
-  }
-
-  getWordsOfWordBundle(wordBundleObs: Observable<WordBundle>): Observable<Word[]> {
-    return wordBundleObs.flatMap(wordBundle => {
-      if (wordBundle) {
-        return this.getWordsByIds(wordBundle.wordIds)
-      } else {
-        return Observable.empty();
-      }
-    });
   }
 
   getWord(wordId: number): Observable<Word> {

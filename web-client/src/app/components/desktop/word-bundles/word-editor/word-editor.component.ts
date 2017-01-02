@@ -58,4 +58,8 @@ export class WordEditorComponent implements OnInit {
         });
     }
   }
+
+  removeWord() {
+    this.wordService.removeWord(this.word.id);
+  }
 }

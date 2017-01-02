@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from "@angular/core";
-import {Observable, Subject, Subscription} from "rxjs";
+import {Observable, Subject, Subscription, ReplaySubject} from "rxjs";
 import {WordBundle} from "../../../../domain/word-bundle";
 import {Word} from "../../../../domain/word";
 import {WordService} from "../../../../services/word/word.service";
@@ -19,7 +19,7 @@ export class WordsInBundleComponent implements OnInit {
 
   @Input() activeWordBundleObs: Observable<WordBundle>;
   @Input() activeWordSubj: Subject<Word>;
-  private wordsInBundleObs: Observable<Word[]>;
+  private wordsInBundleSubj = new ReplaySubject<Word[]>();
   private allWordsObs: Observable<Word[]> = this.wordService.getAllWords();
 
   private mode;
@@ -33,7 +33,15 @@ export class WordsInBundleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.wordsInBundleObs = this.wordService.getWordsOfWordBundle(this.activeWordBundleObs);
+    let wordsOfBundleSubscription: Subscription;
+    this.activeWordBundleObs.subscribe(wordBundle => {
+      if (wordsOfBundleSubscription) wordsOfBundleSubscription.unsubscribe();
+      wordsOfBundleSubscription = this.wordBundleService.getWordsOfWordBundle(wordBundle)
+        .subscribe(words => {
+          this.wordsInBundleSubj.next(words);
+        });
+    });
+
     this.activeWordSubj.subscribe(word => this.activeWord = word);
     this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
     /**
@@ -55,7 +63,7 @@ export class WordsInBundleComponent implements OnInit {
     }
 
     let wordsObservable;
-    if (mode === WordsListMode.WORDS_IN_BUNDLE) wordsObservable = this.wordsInBundleObs;
+    if (mode === WordsListMode.WORDS_IN_BUNDLE) wordsObservable = this.wordsInBundleSubj;
     if (mode === WordsListMode.ALL_WORDS) wordsObservable = this.allWordsObs;
 
     this.currentWordsSubscription = wordsObservable.subscribe(words => {

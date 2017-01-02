@@ -6,7 +6,7 @@
   </button>
 </div>
 <div class="list" *ngIf="wordBundles && wordBundles.length > 0">
-  <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id">
-    <p (click)="pickWordBundle(wordBundle)">{{wordBundle.name}}</p>
+  <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id" (click)="pickWordBundle(wordBundle)">
+    <p>{{wordBundle.name}}</p>
   </div>
 </div>
