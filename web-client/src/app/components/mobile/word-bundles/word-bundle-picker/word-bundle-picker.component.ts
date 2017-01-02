@@ -1,8 +1,9 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {WordBundle} from "../../../../domain/word-bundle";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
+import set = Reflect.set;
 
 @Component({
   selector: 'word-bundle-picker',
@@ -12,6 +13,7 @@ import {EntityUtils} from "../../../../utils/entity-utils";
 export class WordBundlePickerComponent implements OnInit {
 
   @Input() activeWordBundleSubj: BehaviorSubject<WordBundle>;
+  @Input() editWordBundleSubj: Subject<WordBundle>;
 
   private wordBundles: WordBundle[] = [];
   private activeWordBundle: WordBundle;
@@ -26,10 +28,14 @@ export class WordBundlePickerComponent implements OnInit {
 
       wordBundlesObs.subscribe(wordBundles => {
         this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
-      });
-      wordBundlesObs.first().subscribe(wordBundles => {
-        if (wordBundles[0]) {
+        if (this.activeWordBundle) {
+          this.pickWordBundle(wordBundles.filter(wordBundle => wordBundle.id == this.activeWordBundle.id)[0]);
+        }
+        if (!this.activeWordBundle && wordBundles[0]) {
           this.pickWordBundle(wordBundles[0]);
+        }
+        if (wordBundles.length === 0) {
+          this.activeWordBundleSubj.next(undefined);
         }
       });
     });
@@ -40,7 +46,7 @@ export class WordBundlePickerComponent implements OnInit {
   }
 
   addWordBundle() {
-    this.activeWordBundleSubj.next({
+    this.editWordBundleSubj.next({
       name: '',
       importance: 5,
       wordIds: []
@@ -49,5 +55,9 @@ export class WordBundlePickerComponent implements OnInit {
 
   pickWordBundle(wordBundle: WordBundle) {
     this.activeWordBundleSubj.next(wordBundle);
+  }
+
+  editWordBundle() {
+    this.editWordBundleSubj.next(this.activeWordBundle);
   }
 }

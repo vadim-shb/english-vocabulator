@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {WordKnowledgeTestDao} from "../../dao/learning/word-knowledge-test.dao";
+import {WordKnowledgeTestDao} from "../../dao/word-knowledge-test/word-knowledge-test.dao";
 import {WordKnowledgeTestResume} from "../../domain/word-knowledge-test";
 
 @Injectable()

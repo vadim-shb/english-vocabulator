@@ -1,7 +1,8 @@
 import {Component, OnInit, Input} from "@angular/core";
-import {Observable} from "rxjs";
+import {Subject} from "rxjs";
 import {WordBundle} from "../../../../domain/word-bundle";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
+import {WordService} from "../../../../services/word/word.service";
 
 @Component({
   selector: 'word-bundle-editor',
@@ -10,12 +11,14 @@ import {WordBundleService} from "../../../../services/word-bundle/word-bundle.se
 })
 export class WordBundleEditorComponent implements OnInit {
 
-  @Input() wordBundleObs: Observable<WordBundle>;
+  @Input() editWordBundleSubj: Subject<WordBundle>;
   private wordBundle: WordBundle;
   private importanceValues = [];
   private title: string;
+  private removeDialogShowSwitcher = false;
 
-  constructor(private wordBundleService: WordBundleService) {
+  constructor(private wordBundleService: WordBundleService,
+              private wordService: WordService) {
   }
 
   ngOnInit() {
@@ -23,7 +26,7 @@ export class WordBundleEditorComponent implements OnInit {
       this.importanceValues.push({value: i, view: i})
     }
 
-    this.wordBundleObs.subscribe(wordBundle => {
+    this.editWordBundleSubj.subscribe(wordBundle => {
       this.wordBundle = Object.assign({}, wordBundle);
       if (this.wordBundle.id) {
         this.title = 'Edit word bundle';
@@ -43,7 +46,33 @@ export class WordBundleEditorComponent implements OnInit {
     } else {
       this.wordBundleService.addWordBundle(this.wordBundle);
     }
+    this.cancelEditing();
+  }
 
+  cancelEditing() {
+    this.editWordBundleSubj.next(undefined);
+  }
+
+  showRemoveDialog() {
+    this.removeDialogShowSwitcher = true;
+  }
+
+  hideRemoveDialog() {
+    this.removeDialogShowSwitcher = false;
+  }
+
+  removeBundle() {
+    this.wordBundleService.removeWordBundle(this.wordBundle.id)
+      .subscribe(() => {
+        this.cancelEditing();
+      });
+  }
+
+  removeBundleWithWords() {
+    this.wordBundle.wordIds.forEach(wordId => {
+      this.wordService.removeWord(wordId);
+    });
+    this.removeBundle();
   }
 
 }

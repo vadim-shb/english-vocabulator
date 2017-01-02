@@ -15,8 +15,10 @@ import {CoreAppRoutingModule} from "./core.routing-module";
 import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
 import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
 import {RouterModule} from "@angular/router";
-import {WordKnowledgeTestService} from "./services/learning/word-knowledge-test.service";
-import {WordKnowledgeTestDao} from "./dao/learning/word-knowledge-test.dao";
+import {WordKnowledgeTestService} from "./services/word-knowledge-test/word-knowledge-test.service";
+import {WordKnowledgeTestDao} from "./dao/word-knowledge-test/word-knowledge-test.dao";
+import {RootComponent} from "./components/responsive/root/root.component";
+import {LearnComponent} from "./components/responsive/learn/learn.component";
 
 @NgModule({
   imports: [
@@ -26,8 +28,10 @@ import {WordKnowledgeTestDao} from "./dao/learning/word-knowledge-test.dao";
     CoreAppRoutingModule
   ],
   declarations: [
+    RootComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    LearnComponent
   ],
   providers: [
     ErrorHandleService,

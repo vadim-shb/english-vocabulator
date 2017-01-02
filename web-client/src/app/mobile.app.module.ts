@@ -1,6 +1,5 @@
 import {NgModule} from "@angular/core";
 import {DashboardComponent} from "./components/mobile/dashboard/dashboard.component";
-import {LearningComponent} from "./components/mobile/learning/learning.component";
 import {WordBundlesComponent} from "./components/mobile/word-bundles/word-bundles.component";
 import {WordBundlePickerComponent} from "./components/mobile/word-bundles/word-bundle-picker/word-bundle-picker.component";
 import {WordBundleEditorComponent} from "./components/mobile/word-bundles/word-bundle-editor/word-bundle-editor.component";
@@ -13,9 +12,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
-    RootComponent,
     DashboardComponent,
-    LearningComponent,
     WordBundlesComponent,
     WordBundlePickerComponent,
     WordBundleEditorComponent,

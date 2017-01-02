@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {Word} from "../../../../domain/word";
 import {WordService} from "../../../../services/word/word.service";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {WordBundle} from "../../../../domain/word-bundle";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 
@@ -12,7 +12,7 @@ import {WordBundleService} from "../../../../services/word-bundle/word-bundle.se
 })
 export class WordEditorComponent implements OnInit {
 
-  @Input() activeWordInBundleSubj: BehaviorSubject<Word>;
+  @Input() editWordSubj: Subject<Word>;
   @Input() activeWordBundleObs: Observable<WordBundle>;
 
   private title: string;
@@ -31,12 +31,14 @@ export class WordEditorComponent implements OnInit {
 
     this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
 
-    this.activeWordInBundleSubj.subscribe(word => {
-      this.word = Object.assign({}, word);
-      if (word.id) {
-        this.title = 'Edit word';
-      } else {
-        this.title = 'Add new word';
+    this.editWordSubj.subscribe(word => {
+      if (word) {
+        this.word = Object.assign({}, word);
+        if (word.id) {
+          this.title = 'Edit word';
+        } else {
+          this.title = 'Add new word';
+        }
       }
     });
   }
@@ -52,8 +54,12 @@ export class WordEditorComponent implements OnInit {
       this.wordService.addWord(this.word) //todo: add word and connect it to the bundle in single request (when observables will be connected to server by websocket)
         .subscribe(word => {
           this.wordBundleService.bindWordToBundle(this.activeWordBundle, word);
-          this.activeWordInBundleSubj.next(word)
+          this.editWordSubj.next(word)
         });
     }
+  }
+
+  removeWord() {
+    this.wordService.removeWord(this.word.id);
   }
 }

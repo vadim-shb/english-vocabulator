@@ -1,5 +1,5 @@
 <div class="flex-container" fxLayout="row" fxLayoutAlign="center start">
-  <div class="learning flex-item" fxFlex="400px">
+  <div class="learn flex-item" fxFlex="400px">
     <label>Learn bundle:
       <select (change)="selectWordBundle($event.target.value)">
         <option *ngFor="let wordBundle of wordBundles" [value]="wordBundle.id">{{wordBundle.name}}</option>
