@@ -32,6 +32,20 @@ export class WordsInBundleComponent implements OnInit {
               private wordBundleService: WordBundleService) {
   }
 
+  ngOnInit() {
+    this.wordsInBundleObs = this.wordService.getWordsOfWordBundle(this.activeWordBundleObs);
+    this.activeWordSubj.subscribe(word => this.activeWord = word);
+    this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
+    /**
+     * fixme: some angular trouble. Remove setTimeout if angular will not throw an error in devMode.
+     * See:
+     * https://github.com/angular/angular/issues/6005
+     * https://github.com/angular/angular/issues/10131
+     * https://github.com/angular/angular/issues/10762
+     **/
+    setTimeout(() => this.setMode(WordsListMode.WORDS_IN_BUNDLE));
+  }
+
   setMode(mode: WordsListMode) {
     if (this.mode === mode) return;
     this.mode = mode;
@@ -50,13 +64,6 @@ export class WordsInBundleComponent implements OnInit {
         this.activeWordSubj.next(this.words[0])
       }
     });
-  }
-
-  ngOnInit() {
-    this.wordsInBundleObs = this.wordService.getWordsOfWordBundle(this.activeWordBundleObs);
-    this.activeWordSubj.subscribe(word => this.activeWord = word);
-    this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
-    this.setMode(WordsListMode.WORDS_IN_BUNDLE);
   }
 
   addWord() {
