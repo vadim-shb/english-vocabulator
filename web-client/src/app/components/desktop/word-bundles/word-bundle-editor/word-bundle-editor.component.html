@@ -1,0 +1,33 @@
+<h2>{{title}}</h2>
+<div>
+  <label for="word-bundle-name">Name:</label>
+  <input id="word-bundle-name" [(ngModel)]="wordBundle.name">
+</div>
+<div>
+  <label for="word-bundle-importance">Importance:</label>
+  <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance"
+          (change)="importanceChanged(wordBundle.importance)">
+    <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
+      {{importanceValue.view}}
+    </option>
+  </select>
+</div>
+
+<button class="red" (click)="showRemoveDialog()" *ngIf="wordBundle.id">Remove</button>
+<div class="controls-right">
+  <button class="gray" (click)="cancelEditing()">Cancel</button>
+  <button (click)="saveWordBundle()">Save</button>
+</div>
+
+<div class="dialog-frame" *ngIf="removeDialogShowSwitcher">
+  <div class="dialog-window">
+    <p>Do you want to delete all the words in bundle, or just bundle itself?</p>
+    <div class="controls">
+      <button class="red" (click)="removeBundle()">Remove the bundle</button>
+      <button class="red" (click)="removeBundleWithWords()">Remove the bundle with all words</button>
+      <div class="controls-right">
+        <button class="gray" (click)="hideRemoveDialog()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

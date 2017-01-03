@@ -1,0 +1,19 @@
+<div class="sign-in-component">
+  <div class="title">
+    <h2>Sign in to vocabulator</h2>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" [(ngModel)]="credentials.email">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input id="password" [(ngModel)]="credentials.password" type="password">
+  </div>
+  <div class="controls">
+    <button (click)="signIn()">Sign in</button>
+  </div>
+  <div class="sign-up-link">
+    <p>New to vocabulator? <a [routerLink]="['/sign-up']">Create an account</a>.</p>
+  </div>
+</div>

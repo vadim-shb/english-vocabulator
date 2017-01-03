@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WebClient</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+</head>
+<body>
+  <script>
+     if (window.location.hostname == 'vocabulable.com' && !window.matchMedia('(min-width: 768px)').matches) {
+       window.location.replace('http://m.vocabulable.com');
+     }
+     if (window.location.hostname == 'm.vocabulable.com' && window.matchMedia('(min-width: 768px)').matches) {
+       window.location.replace('http://vocabulable.com');
+     }
+  </script>
+  <app-root>Loading...</app-root>
+</body>
+</html>

@@ -1,0 +1,94 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+input, textarea, select, button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border-radius: 0;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input, textarea, select {
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border: 1px solid #aaaaaa;
+  background: transparent;
+  color: #111;
+}
+
+.button-blue() {
+  .button-colored(#2e6da4, #337ab7, #fff, #204d74, #286090);
+}
+
+.button-green() {
+  .button-colored(#4cae4c, #5cb85c, #fff, #398439, #449d44);
+}
+
+.button-gray() {
+  .button-colored(#adadad, #e6e6e6, #000, #939393, #dadada);
+}
+
+.button-red() {
+  .button-colored(#d43f3a, #d9534f, #fff, #ac2925, #c9302c);
+}
+
+.button-colored(@borderColor, @backgroundColor, @fontColor, @hoverBorderColor, @hoverBackgroundColor) {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+
+  border: 1px solid @borderColor;
+  background: @backgroundColor;
+  color: @fontColor;
+  &:hover {
+    border-color: @hoverBorderColor;
+    background: @hoverBackgroundColor;
+    cursor: pointer;
+  }
+}
+
+.a-link() {
+  color: #337ab7;
+  font-weight: 400;
+  text-decoration: none;
+  &:hover {
+    color: #23527c;
+    text-decoration: underline;
+  }
+}
+
+// -- For sample reasons only... remove after mixins everyvhere...
+//.ng-if-vertical-animation(@ngIfClass, @showTime, @hideTime) {
+//  .@{ngIfClass}.ng-enter {
+//    transition: @showTime linear all;
+//  }
+//
+//  .@{ngIfClass}.ng-leave {
+//    transition: @hideTime linear all;
+//  }
+//
+//  .@{ngIfClass}.ng-enter {
+//    max-height: 0;
+//    opacity: 0;
+//  }
+//  .@{ngIfClass}.ng-enter.ng-enter-active {
+//    max-height: 100%;
+//    opacity: 1;
+//  }
+//  .@{ngIfClass}.ng-leave {
+//    max-height: 100%;
+//    opacity: 1;
+//  }
+//  .@{ngIfClass}.ng-leave.ng-leave-active {
+//    max-height: 0;
+//    opacity: 1;
+//  }
+//}

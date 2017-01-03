@@ -1,0 +1,44 @@
+@import "../../../../styles";
+
+a {
+  .a-link();
+}
+
+div {
+  &.sign-in-component {
+    width: 300px;
+    margin: auto;
+  }
+  &.title, &.controls, &.sign-up-link {
+    text-align: center;
+  }
+  &.sign-up-link {
+    margin-top: 45px;
+    text-align: center;
+  }
+}
+
+input {
+  margin: auto;
+  margin-bottom: 15px;
+  width: 90%;
+}
+
+label {
+  margin-left: 5%;
+  margin-bottom: 5px;
+}
+
+input, label {
+  display: block;
+}
+
+button {
+  .button-blue();
+}
+
+@media screen and (max-width: 700px) {
+  div.sign-in-component {
+    width: 100%;
+  }
+}

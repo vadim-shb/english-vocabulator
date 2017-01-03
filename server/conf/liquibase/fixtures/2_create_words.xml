@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="fixture-2" author="vdshb">
+        <comment>Add some words to system</comment>
+        <sql>
+            INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'ambitious', 4, 'амбициозный', 'There is an ambition man.');
+            INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'assertive', 4, 'напористый',  '');
+            INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'cautious',  4, 'осторожный',  '');
+            INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'reliable',  5, 'надежный',    '');
+        </sql>
+        <rollback>
+            <sql>
+                DELETE FROM t_word;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
