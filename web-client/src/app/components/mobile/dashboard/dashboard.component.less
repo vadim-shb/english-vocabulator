@@ -1,3 +1,5 @@
+@import "../../../../styles";
+
 div.center {
   width: 550px;
   margin: auto;
@@ -5,6 +7,13 @@ div.center {
 }
 
 a {
+  .button-blue();
+  &.green {
+    .button-green();
+    margin: 10px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
   width: 250px;
   text-align: center;
   margin: 10px;
@@ -30,6 +39,7 @@ a {
     width: 100%;
     text-align: center;
   }
+
   a, a.long, a.right {
     display: block;
     width: auto;
