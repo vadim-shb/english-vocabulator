@@ -2,6 +2,8 @@ name := "vocabulator"
 
 version := "1.0"
 
+packageName in Universal := "vocabulator"
+
 lazy val `vocabulator` = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.7"

@@ -5,6 +5,9 @@ echo $'\n#backports\n' | sudo tee -a /etc/apt/sources.list
 echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
 
+# linux utils install
+sudo apt-get install -y zip
+
 # java install
 aptitude -y -t jessie-backports install openjdk-8-jdk
 lastJavaHome=$(find /usr/lib/jvm -maxdepth 1 -type d -name '*openjdk*' | head -n 1)

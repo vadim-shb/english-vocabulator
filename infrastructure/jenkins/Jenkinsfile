@@ -1,0 +1,77 @@
+doNpmCache = true
+
+stage('get sources') {
+    node {
+        git 'https://github.com/vadim-shb/english-vocabulator.git'
+        stash name: 'server-source', includes: 'server/**'
+        stash name: 'web-client-source', includes: 'web-client/**'
+        sh 'rm -rf ./*'
+    }
+}
+stage('build') {
+    parallel(
+            'server': {
+                node {
+                    unstash 'server-source'
+                    dir('server') {
+                        sh 'sbt -mem 200 dist'
+                        dir('target/universal') {
+                            sh 'unzip vocabulator.zip'
+                            dir('vocabulator') {
+                                sh 'zip -r dist.zip ./*'
+                                sh 'jfrog rt upload dist.zip effectivelang/server/effectivelang.zip'
+                            }
+                        }
+                    }
+                }
+            },
+            'web-client': {
+                node {
+                    unstash 'web-client-source'
+                    dir('web-client') {
+                        if (!doNpmCache) {
+                            sh 'rm -rf ./node_modules'
+                        }
+                        sh 'npm install'
+                        sh 'rm -rf angular-cli.json'
+                        sh 'cp angular-cli.json.template angular-cli.json'
+                    }
+                    stash name: 'prepared-web-client-source', includes: 'web-client/**'
+                }
+                parallel(
+                        'desktop': {
+                            node {
+                                unstash 'prepared-web-client-source'
+                                dir('web-client') {
+                                    sh 'sed -i \'s/${main-script}/desktop.main.ts/\' angular-cli.json'
+                                    sh 'ng build --prod'
+                                    dir('dist') {
+                                        sh 'zip -r dist.zip ./*'
+                                        sh 'jfrog rt upload dist.zip effectivelang/web-client/desktop.zip'
+                                    }
+                                }
+                            }
+                        },
+                        'mobile': {
+                            node {
+                                unstash 'prepared-web-client-source'
+                                dir('web-client') {
+                                    sh 'sed -i \'s/${main-script}/mobile.main.ts/\' angular-cli.json'
+                                    sh 'ng build --prod'
+                                    dir('dist') {
+                                        sh 'zip -r dist.zip ./*'
+                                        sh 'jfrog rt upload dist.zip effectivelang/web-client/mobile.zip'
+                                    }
+                                }
+                            }
+                        }
+                )
+            }
+    )
+}
+
+//stage('Deploy') {
+//    node {
+////        sh '/path/to/yourapp/bin/yourapp -Dconfig.file=/path/to/production.conf
+//    }
+//}
