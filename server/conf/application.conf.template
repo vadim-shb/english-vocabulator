@@ -29,3 +29,5 @@ db {
 
 # Evolutions configuration
 play.evolutions.db.vocabulator_db.autoApply=true
+
+play.crypto.secret="${app-secret}"
