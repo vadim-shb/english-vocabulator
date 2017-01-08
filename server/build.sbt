@@ -23,6 +23,6 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc"         %% "scalikejdbc-jsr310"             % scalikejdbcV,
   "org.scalikejdbc"         %% "scalikejdbc-play-dbapi-adapter" % scalikejdbcV,
   "org.apache.commons"      %  "commons-lang3"                  % "3.4",
-  "com.ticketfly"           %% "play-liquibase"                 % "1.0",
+  "com.ticketfly"           %% "play-liquibase"                 % "1.3",
   "org.lazyluke"            %  "log4jdbc-remix"                 % "0.2.7"
 )
