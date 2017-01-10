@@ -1,8 +1,9 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {WordBundle} from "../../../../domain/word-bundle";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
+import {WordBundleScreen} from "../word-bundles.component";
 import set = Reflect.set;
 
 @Component({
@@ -12,11 +13,13 @@ import set = Reflect.set;
 })
 export class WordBundlePickerComponent implements OnInit {
 
-  @Input() activeWordBundleSubj: BehaviorSubject<WordBundle>;
+  @Input() activeWordBundleSubj: Subject<WordBundle>;
   @Input() editWordBundleSubj: Subject<WordBundle>;
+  @Input() currentScreenSubj: Subject<WordBundleScreen>;
 
   private wordBundles: WordBundle[] = [];
   private activeWordBundle: WordBundle;
+  private pickedWordBundleSubscription: Subscription;
 
   constructor(private wordBundleService: WordBundleService) {
   }
@@ -28,15 +31,6 @@ export class WordBundlePickerComponent implements OnInit {
 
       wordBundlesObs.subscribe(wordBundles => {
         this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
-        if (this.activeWordBundle) {
-          this.pickWordBundle(wordBundles.filter(wordBundle => wordBundle.id == this.activeWordBundle.id)[0]);
-        }
-        if (!this.activeWordBundle && wordBundles[0]) {
-          this.pickWordBundle(wordBundles[0]);
-        }
-        if (wordBundles.length === 0) {
-          this.activeWordBundleSubj.next(undefined);
-        }
       });
     });
 
@@ -54,10 +48,19 @@ export class WordBundlePickerComponent implements OnInit {
   }
 
   pickWordBundle(wordBundle: WordBundle) {
-    this.activeWordBundleSubj.next(wordBundle);
+    if (this.pickedWordBundleSubscription) {
+      this.pickedWordBundleSubscription.unsubscribe();
+    }
+    this.pickedWordBundleSubscription = this.wordBundleService.getWordBundle(wordBundle.id).subscribe(wordBundle => {
+      this.activeWordBundleSubj.next(wordBundle);
+    });
   }
 
   editWordBundle() {
     this.editWordBundleSubj.next(this.activeWordBundle);
+  }
+
+  editWordsInBundle() {
+    this.currentScreenSubj.next(WordBundleScreen.PICK_WORD);
   }
 }

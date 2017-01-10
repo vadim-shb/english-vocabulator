@@ -19,7 +19,7 @@ export class WordsInBundleComponent implements OnInit {
 
   @Input() activeWordBundleObs: Observable<WordBundle>;
   @Input() activeWordSubj: Subject<Word>;
-  private wordsInBundleSubj = new ReplaySubject<Word[]>();
+  private wordsInBundleSubj = new ReplaySubject<Word[]>(1);
   private allWordsObs: Observable<Word[]> = this.wordService.getAllWords();
 
   private mode;

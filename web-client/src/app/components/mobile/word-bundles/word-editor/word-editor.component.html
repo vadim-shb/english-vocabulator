@@ -15,6 +15,7 @@
 <label for="usageExamples">Usage examples:</label>
 <textarea id="usageExamples" [(ngModel)]="word.usageExamples"></textarea>
 <div class="controls">
-  <button id="remove" class="red" (click)="removeWord()" *ngIf="word && word.id">Remove</button>
+  <button id="remove" (click)="removeWord()" *ngIf="word && word.id">Remove</button>
   <button id="save" (click)="saveWord()">Save</button>
+  <button id="cancel" (click)="cancel()">Cancel</button>
 </div>

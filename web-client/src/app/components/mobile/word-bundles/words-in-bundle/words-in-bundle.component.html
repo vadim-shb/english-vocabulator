@@ -3,14 +3,14 @@
   <button id="add-word" class="btn green" (click)="addWord()">New word</button>
   <button id="unbind-word" class="gray" title="Unbind word from bundle"
           (click)="unbindWordFromBundle()"
-          *ngIf="activeWord && (activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
+          *ngIf="activeWord && activeWordBundle && (activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
     <i class="fa fa-chain-broken fa-lg"></i>
   </button>
   <button id="bind-word"
           class="gray"
           title="Bind word to bundle"
           (click)="bindWordToBundle()"
-          *ngIf="activeWord && !(activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
+          *ngIf="activeWord && activeWordBundle && !(activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
     <i class="fa fa-chain fa-lg"></i>
   </button>
 
@@ -28,13 +28,21 @@
           *ngIf="mode == wordsListMode.WORDS_IN_BUNDLE">
     <i class="fa fa-circle fa-lg"></i>
   </button>
+
+  <button id="edit-word"
+          class="gray"
+          title="Edit word"
+          (click)="editWord()"
+          *ngIf="activeWord">
+    <i class="fa fa-pencil-square-o fa-lg"></i>
+  </button>
 </div>
 
 <div class="list" *ngIf="words && words.length > 0">
   <div class="pick-button"
        *ngFor="let word of words"
        [class.selected]="activeWord && activeWord.id == word.id"
-       [class.binded]="mode == wordsListMode.ALL_WORDS && activeWordBundle.wordIds.indexOf(word.id) + 1"
+       [class.binded]="mode == wordsListMode.ALL_WORDS && (activeWordBundleObs | async).wordIds.indexOf(word.id) + 1"
        (click)="pickWord(word)">
     <p>{{word.word}}</p>
   </div>

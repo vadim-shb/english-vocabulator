@@ -13,6 +13,7 @@ import {WordBundleService} from "../../../../services/word-bundle/word-bundle.se
 export class WordEditorComponent implements OnInit {
 
   @Input() editWordSubj: Subject<Word>;
+  @Input() activeWordSubj: Subject<Word>;
   @Input() activeWordBundleObs: Observable<WordBundle>;
 
   private title: string;
@@ -50,16 +51,29 @@ export class WordEditorComponent implements OnInit {
   saveWord() {
     if (this.word.id) {
       this.wordService.updateWord(this.word);
+      this.editWordSubj.next(undefined);
     } else {
       this.wordService.addWord(this.word) //todo: add word and connect it to the bundle in single request (when observables will be connected to server by websocket)
         .subscribe(word => {
           this.wordBundleService.bindWordToBundle(this.activeWordBundle, word);
-          this.editWordSubj.next(word)
+          let subscription = this.wordBundleService.getWordsOfWordBundle(this.activeWordBundle)
+            .subscribe(words => {
+              if (~words.indexOf(word)) {
+                this.activeWordSubj.next(word);
+                this.editWordSubj.next(undefined);
+                subscription.unsubscribe();
+              }
+            });
         });
     }
   }
 
   removeWord() {
     this.wordService.removeWord(this.word.id);
+    this.editWordSubj.next(undefined);
+  }
+
+  cancel() {
+    this.editWordSubj.next(undefined);
   }
 }

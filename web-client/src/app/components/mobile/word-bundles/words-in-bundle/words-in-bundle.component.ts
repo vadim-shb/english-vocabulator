@@ -19,7 +19,8 @@ export class WordsInBundleComponent implements OnInit {
 
   @Input() activeWordBundleObs: Observable<WordBundle>;
   @Input() activeWordSubj: Subject<Word>;
-  private wordsInBundleSubj = new ReplaySubject<Word[]>();
+  @Input() editWordSubj: Subject<Word>;
+  private wordsInBundleSubj = new ReplaySubject<Word[]>(1);
   private allWordsObs: Observable<Word[]> = this.wordService.getAllWords();
 
   private mode;
@@ -35,11 +36,13 @@ export class WordsInBundleComponent implements OnInit {
   ngOnInit() {
     let wordsOfBundleSubscription: Subscription;
     this.activeWordBundleObs.subscribe(wordBundle => {
-      if (wordsOfBundleSubscription) wordsOfBundleSubscription.unsubscribe();
-      wordsOfBundleSubscription = this.wordBundleService.getWordsOfWordBundle(wordBundle)
-        .subscribe(words => {
-          this.wordsInBundleSubj.next(words);
-        });
+      if (wordBundle) {
+        if (wordsOfBundleSubscription) wordsOfBundleSubscription.unsubscribe();
+        wordsOfBundleSubscription = this.wordBundleService.getWordsOfWordBundle(wordBundle)
+          .subscribe(words => {
+            this.wordsInBundleSubj.next(words);
+          });
+      }
     });
 
     this.activeWordSubj.subscribe(word => this.activeWord = word);
@@ -68,14 +71,24 @@ export class WordsInBundleComponent implements OnInit {
 
     this.currentWordsSubscription = wordsObservable.subscribe(words => {
       this.words = words.sort(Word.wordAscAlphabeticalComparator);
-      if ((!this.activeWord || !~this.words.indexOf(this.activeWord)) && this.words[0]) {
-        this.activeWordSubj.next(this.words[0])
-      }
+      this.activateFirstWordIfNoActiveWordInList();
     });
   }
 
+  private activateFirstWordIfNoActiveWordInList() {
+    if (this.words[0]) {
+      if (this.activeWord) {
+        if (this.words.filter(word => word.id == this.activeWord.id).length === 0) {
+          this.activeWordSubj.next(this.words[0])
+        }
+      } else {
+        this.activeWordSubj.next(this.words[0])
+      }
+    }
+  }
+
   addWord() {
-    this.activeWordSubj.next({
+    this.editWordSubj.next({
       word: '',
       meaning: '',
       usageExamples: '',
@@ -93,6 +106,10 @@ export class WordsInBundleComponent implements OnInit {
 
   bindWordToBundle() {
     this.wordBundleService.bindWordToBundle(this.activeWordBundle, this.activeWord);
+  }
+
+  editWord() {
+    this.editWordSubj.next(this.activeWord);
   }
 
 }

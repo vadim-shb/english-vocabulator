@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {WordBundle} from "../../../../domain/word-bundle";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
 import set = Reflect.set;
@@ -17,6 +17,7 @@ export class WordBundlePickerComponent implements OnInit {
 
   private wordBundles: WordBundle[] = [];
   private activeWordBundle: WordBundle;
+  private pickedWordBundleSubscription: Subscription;
 
   constructor(private wordBundleService: WordBundleService) {
   }
@@ -54,7 +55,12 @@ export class WordBundlePickerComponent implements OnInit {
   }
 
   pickWordBundle(wordBundle: WordBundle) {
-    this.activeWordBundleSubj.next(wordBundle);
+    if (this.pickedWordBundleSubscription) {
+      this.pickedWordBundleSubscription.unsubscribe();
+    }
+    this.pickedWordBundleSubscription = this.wordBundleService.getWordBundle(wordBundle.id).subscribe(wordBundle => {
+      this.activeWordBundleSubj.next(wordBundle);
+    });
   }
 
   editWordBundle() {
