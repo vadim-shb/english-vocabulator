@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { WordBundlesComponent } from './word-bundles.component';
 
-describe('WordBundlesComponent', () => {
+describe('WordAndBundleEditorComponent', () => {
   let component: WordBundlesComponent;
   let fixture: ComponentFixture<WordBundlesComponent>;
 

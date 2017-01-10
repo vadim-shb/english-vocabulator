@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/mobile/dashboard/dashboard.component";
-import {WordBundlesComponent} from "./components/mobile/word-bundles/word-bundles.component";
+import {WordAndBundleEditorComponent} from "./components/mobile/word-and-bundle-editor/word-and-bundle-editor.component";
 
 const MOBILE_ROUTES: Routes = [
   {
@@ -10,7 +10,7 @@ const MOBILE_ROUTES: Routes = [
   },
   {
     path: 'word-bundles',
-    component: WordBundlesComponent
+    component: WordAndBundleEditorComponent
   }
 ];
 

@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/desktop/dashboard/dashboard.component";
-import {WordBundlesComponent} from "./components/desktop/word-bundles/word-bundles.component";
+import {WordAndBundleEditorComponent} from "./components/desktop/word-and-bundle-editor/word-and-bundle-editor.component";
 
 const DESKTOP_ROUTES: Routes = [
   {
@@ -10,7 +10,7 @@ const DESKTOP_ROUTES: Routes = [
   },
   {
     path: 'word-bundles',
-    component: WordBundlesComponent
+    component: WordAndBundleEditorComponent
   }
 ];
 

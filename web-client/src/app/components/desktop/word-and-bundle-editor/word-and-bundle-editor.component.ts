@@ -6,11 +6,11 @@ import {Word} from "../../../domain/word";
 import {WordService} from "../../../services/word/word.service";
 
 @Component({
-  selector: 'app-word-bundles',
-  templateUrl: './word-bundles.component.html',
-  styleUrls: ['./word-bundles.component.less']
+  selector: 'word-and-bundle-editor',
+  templateUrl: './word-and-bundle-editor.component.html',
+  styleUrls: ['./word-and-bundle-editor.component.less']
 })
-export class WordBundlesComponent implements OnInit {
+export class WordAndBundleEditorComponent implements OnInit {
 
   private editWordBundleSubj = new ReplaySubject<WordBundle>(1);
   private activeWordBundleSubj = new ReplaySubject<WordBundle>(1);

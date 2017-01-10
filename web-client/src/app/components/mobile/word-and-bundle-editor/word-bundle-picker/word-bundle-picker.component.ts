@@ -3,8 +3,8 @@ import {WordBundle} from "../../../../domain/word-bundle";
 import {Observable, Subject, Subscription} from "rxjs";
 import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
 import {EntityUtils} from "../../../../utils/entity-utils";
-import {WordBundleScreen} from "../word-bundles.component";
 import set = Reflect.set;
+import {WordBundleScreen} from "../word-and-bundle-editor.component";
 
 @Component({
   selector: 'word-bundle-picker',

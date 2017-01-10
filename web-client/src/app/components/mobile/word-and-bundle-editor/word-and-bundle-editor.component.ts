@@ -13,11 +13,11 @@ export enum WordBundleScreen {
 }
 
 @Component({
-  selector: 'app-word-bundles',
-  templateUrl: './word-bundles.component.html',
-  styleUrls: ['./word-bundles.component.less']
+  selector: 'word-and-bundle-editor',
+  templateUrl: './word-and-bundle-editor.component.html',
+  styleUrls: ['./word-and-bundle-editor.component.less']
 })
-export class WordBundlesComponent implements OnInit {
+export class WordAndBundleEditorComponent implements OnInit {
 
   private editWordBundleSubj = new ReplaySubject<WordBundle>(1);
   private editWordSubj = new ReplaySubject<Word>(1);
