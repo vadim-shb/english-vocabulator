@@ -3,14 +3,14 @@
   <button id="add-word" class="btn green" (click)="addWord()">New word</button>
   <button id="unbind-word" class="gray" title="Unbind word from bundle"
           (click)="unbindWordFromBundle()"
-          *ngIf="activeWord && (activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
+          *ngIf="(wordAndBundleEditorService.activeWordSubj | async) && ((wordAndBundleEditorService.activeWordBundleSubj | async).wordIds.indexOf((wordAndBundleEditorService.activeWordSubj | async).id) + 1)">
     <i class="fa fa-chain-broken fa-lg"></i>
   </button>
   <button id="bind-word"
           class="gray"
           title="Bind word to bundle"
           (click)="bindWordToBundle()"
-          *ngIf="activeWord && !(activeWordBundle.wordIds.indexOf(activeWord.id) + 1)">
+          *ngIf="(wordAndBundleEditorService.activeWordSubj | async) && !((wordAndBundleEditorService.activeWordBundleSubj | async).wordIds.indexOf((wordAndBundleEditorService.activeWordSubj | async).id) + 1)">
     <i class="fa fa-chain fa-lg"></i>
   </button>
 
@@ -18,23 +18,23 @@
           class="gray"
           title="Show words in bundle"
           (click)="setMode(wordsListMode.WORDS_IN_BUNDLE)"
-          *ngIf="mode == wordsListMode.ALL_WORDS">
+          *ngIf="wordsInBundleService.mode == wordsListMode.ALL_WORDS">
     <i class="fa fa-adjust fa-lg"></i>
   </button>
   <button id="show-all-words"
           class="gray"
           title="Show all words"
           (click)="setMode(wordsListMode.ALL_WORDS)"
-          *ngIf="mode == wordsListMode.WORDS_IN_BUNDLE">
+          *ngIf="wordsInBundleService.mode == wordsListMode.WORDS_IN_BUNDLE">
     <i class="fa fa-circle fa-lg"></i>
   </button>
 </div>
 
-<div class="list" *ngIf="words && words.length > 0">
+<div class="list" *ngIf="(wordsInBundleService.wordsObs | async) && (wordsInBundleService.wordsObs | async).length > 0">
   <div class="pick-button"
-       *ngFor="let word of words"
-       [class.selected]="activeWord && activeWord.id == word.id"
-       [class.binded]="mode == wordsListMode.ALL_WORDS && activeWordBundle.wordIds.indexOf(word.id) + 1"
+       *ngFor="let word of wordsInBundleService.wordsObs | async"
+       [class.selected]="(wordAndBundleEditorService.activeWordSubj | async) && (wordAndBundleEditorService.activeWordSubj | async).id == word.id"
+       [class.binded]="wordsInBundleService.mode == wordsListMode.ALL_WORDS && (wordAndBundleEditorService.activeWordBundleSubj | async).wordIds.indexOf(word.id) + 1"
        (click)="pickWord(word)">
     <p>{{word.word}}</p>
   </div>

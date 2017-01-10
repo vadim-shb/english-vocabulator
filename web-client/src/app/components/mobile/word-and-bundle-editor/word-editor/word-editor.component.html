@@ -1,21 +1,21 @@
-<h2>{{title}}</h2>
+<h2>{{wordEditorService.title}}</h2>
 <div>
   <label for="word">Word:</label>
-  <input id="word" [(ngModel)]="word.word"/>
+  <input id="word" [(ngModel)]="wordEditorService.word.word"/>
 </div>
 <div>
   <label for="importance">Importance:</label>
-  <select id="importance" [(ngModel)]="word.importance" (change)="importanceChanged(word.importance)">
-    <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">{{importanceValue.view}}
+  <select id="importance" [(ngModel)]="wordEditorService.word.importance" (change)="importanceChanged(wordEditorService.word.importance)">
+    <option *ngFor="let importanceValue of wordEditorService.importanceValues" [value]="importanceValue.value">{{importanceValue.view}}
     </option>
   </select>
 </div>
 <label for="meaning">Meaning:</label>
-<textarea id="meaning" [(ngModel)]="word.meaning"></textarea>
+<textarea id="meaning" [(ngModel)]="wordEditorService.word.meaning"></textarea>
 <label for="usageExamples">Usage examples:</label>
-<textarea id="usageExamples" [(ngModel)]="word.usageExamples"></textarea>
+<textarea id="usageExamples" [(ngModel)]="wordEditorService.word.usageExamples"></textarea>
 <div class="controls">
-  <button id="remove" (click)="removeWord()" *ngIf="word && word.id">Remove</button>
+  <button id="remove" (click)="removeWord()" *ngIf="wordEditorService.word && wordEditorService.word.id">Remove</button>
   <button id="save" (click)="saveWord()">Save</button>
   <button id="cancel" (click)="cancel()">Cancel</button>
 </div>

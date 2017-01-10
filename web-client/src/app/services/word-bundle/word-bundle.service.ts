@@ -4,6 +4,7 @@ import {WordBundle} from "../../domain/word-bundle";
 import {WordBundleDao} from "../../dao/word-bundle/word-bundle.dao";
 import {Word} from "../../domain/word";
 import {WordService} from "../word/word.service";
+import {EntityUtils} from "../../utils/entity-utils";
 
 @Injectable()
 export class WordBundleService {
@@ -37,6 +38,13 @@ export class WordBundleService {
 
   getWordBundleIds(): Observable<number[]> {
     return this.wordBundleIdsSubj;
+  }
+
+  getAllWordBundles(): Observable<WordBundle[]> {
+    return this.getWordBundleIds().flatMap(wordBundleIds => {
+      let wordBundles = wordBundleIds.map(wordBundleIds => this.getWordBundle(wordBundleIds));
+      return EntityUtils.mergeObservables(wordBundles);
+    });
   }
 
   getWordBundle(wordBundleId: number): Observable<WordBundle> {

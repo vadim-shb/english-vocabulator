@@ -1,9 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user/user.service";
-import {ReplaySubject, Subscription, BehaviorSubject} from "rxjs";
-import {WordBundle} from "../../../domain/word-bundle";
-import {Word} from "../../../domain/word";
-import {WordService} from "../../../services/word/word.service";
+import {BehaviorSubject} from "rxjs";
+import {WordAndBundleEditorService} from "../../component-services/word-and-bundle-editor/word-and-bundle-editor.service";
 
 export enum WordBundleScreen {
   PICK_WORD_BUNDLE,
@@ -18,38 +16,18 @@ export enum WordBundleScreen {
   styleUrls: ['./word-and-bundle-editor.component.less']
 })
 export class WordAndBundleEditorComponent implements OnInit {
-
-  private editWordBundleSubj = new ReplaySubject<WordBundle>(1);
-  private editWordSubj = new ReplaySubject<Word>(1);
-  private activeWordBundleSubj = new ReplaySubject<WordBundle>(1);
-  private activeWordSubj = new ReplaySubject<Word>(1);
-
-  private activeWordCurrentSubscription: Subscription;
   private wordBundleScreen = WordBundleScreen;
+
   private currentScreenSubj = new BehaviorSubject<WordBundleScreen>(WordBundleScreen.PICK_WORD_BUNDLE);
 
   constructor(private userService: UserService,
-              private wordService: WordService) {
+              private wordAndBundleEditorService: WordAndBundleEditorService) {
   }
 
   ngOnInit() {
     this.userService.signInIfNot();
 
-    this.activeWordSubj.subscribe(word => {
-      if (word && word.id) {
-        this.activeWordCurrentSubscription = this.wordService.getWord(word.id).subscribe(
-          () => {
-          },
-          () => {
-          },
-          () => {
-            this.activeWordSubj.next(undefined);
-            this.activeWordCurrentSubscription.unsubscribe();
-          })
-      }
-    });
-
-    this.editWordBundleSubj.subscribe(editWordBundle => {
+    this.wordAndBundleEditorService.editWordBundleSubj.subscribe(editWordBundle => {
       if (editWordBundle) {
         this.currentScreenSubj.next(WordBundleScreen.EDIT_WORD_BUNDLE);
       } else {
@@ -57,7 +35,7 @@ export class WordAndBundleEditorComponent implements OnInit {
       }
     });
 
-    this.editWordSubj.subscribe(editWord => {
+    this.wordAndBundleEditorService.editWordSubj.subscribe(editWord => {
       if (editWord) {
         this.currentScreenSubj.next(WordBundleScreen.EDIT_WORD);
       } else {

@@ -1,8 +1,5 @@
-import {Component, OnInit, Input} from "@angular/core";
-import {Subject} from "rxjs";
-import {WordBundle} from "../../../../domain/word-bundle";
-import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
-import {WordService} from "../../../../services/word/word.service";
+import {Component, OnInit} from "@angular/core";
+import {WordBundleEditorService} from "../../../component-services/word-and-bundle-editor/word-bundle-editor/word-bundle-editor.service";
 
 @Component({
   selector: 'word-bundle-editor',
@@ -11,46 +8,24 @@ import {WordService} from "../../../../services/word/word.service";
 })
 export class WordBundleEditorComponent implements OnInit {
 
-  @Input() editWordBundleSubj: Subject<WordBundle>;
-  private wordBundle: WordBundle;
-  private importanceValues = [];
-  private title: string;
   private removeDialogShowSwitcher = false;
 
-  constructor(private wordBundleService: WordBundleService,
-              private wordService: WordService) {
+  constructor(private wordBundleEditorService: WordBundleEditorService) {
   }
 
   ngOnInit() {
-    for (let i = 0; i <= 10; i++) {
-      this.importanceValues.push({value: i, view: i})
-    }
-
-    this.editWordBundleSubj.subscribe(wordBundle => {
-      this.wordBundle = Object.assign({}, wordBundle);
-      if (this.wordBundle.id) {
-        this.title = 'Edit word bundle';
-      } else {
-        this.title = 'New word bundle';
-      }
-    });
   }
 
   importanceChanged(newImportance: string) {
-    this.wordBundle.importance = parseInt(newImportance);
+    this.wordBundleEditorService.wordBundleImportanceChanged(newImportance);
   }
 
   saveWordBundle() {
-    if (this.wordBundle.id) {
-      this.wordBundleService.updateWordBundle(this.wordBundle);
-    } else {
-      this.wordBundleService.addWordBundle(this.wordBundle);
-    }
-    this.cancelEditing();
+    this.wordBundleEditorService.saveWordBundle();
   }
 
   cancelEditing() {
-    this.editWordBundleSubj.next(undefined);
+    this.wordBundleEditorService.cancelEditing();
   }
 
   showRemoveDialog() {
@@ -62,17 +37,11 @@ export class WordBundleEditorComponent implements OnInit {
   }
 
   removeBundle() {
-    this.wordBundleService.removeWordBundle(this.wordBundle.id)
-      .subscribe(() => {
-        this.cancelEditing();
-      });
+    this.wordBundleEditorService.removeWordBundle();
   }
 
   removeBundleWithWords() {
-    this.wordBundle.wordIds.forEach(wordId => {
-      this.wordService.removeWord(wordId);
-    });
-    this.removeBundle();
+    this.wordBundleEditorService.removeBundleWithWords();
   }
 
 }

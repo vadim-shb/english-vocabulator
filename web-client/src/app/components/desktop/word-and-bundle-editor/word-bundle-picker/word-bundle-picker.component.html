@@ -1,12 +1,17 @@
 <h2>Words bundles</h2>
 <div class="controls">
   <button id="add-word-bundle" class="green" (click)="addWordBundle()">New bundle</button>
-  <button id="edit-bundle" class="gray" (click)="editWordBundle()" title="Edit bundle" *ngIf="activeWordBundleSubj | async">
+  <button id="edit-bundle" class="gray" (click)="editWordBundle()" title="Edit bundle" *ngIf="wordAndBundleEditorService.activeWordBundleSubj | async">
     <i class="fa fa-pencil-square-o fa-lg"></i>
   </button>
 </div>
-<div class="list" *ngIf="wordBundles && wordBundles.length > 0">
-  <div class="pick-button" *ngFor="let wordBundle of wordBundles" [class.selected]="activeWordBundle.id == wordBundle.id" (click)="pickWordBundle(wordBundle)">
+<div class="list" *ngIf="(wordAndBundleEditorService.allWordBundlesObs | async) && (wordAndBundleEditorService.allWordBundlesObs | async).length > 0">
+  <div
+    class="pick-button"
+    *ngFor="let wordBundle of wordAndBundleEditorService.allWordBundlesObs | async"
+    [class.selected]="(wordAndBundleEditorService.activeWordBundleSubj | async) && (wordAndBundleEditorService.activeWordBundleSubj | async).id == wordBundle.id"
+    (click)="pickWordBundle(wordBundle)"
+  >
     <p>{{wordBundle.name}}</p>
   </div>
 </div>

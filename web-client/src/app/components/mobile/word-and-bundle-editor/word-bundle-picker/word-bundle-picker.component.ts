@@ -1,10 +1,9 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {WordBundle} from "../../../../domain/word-bundle";
-import {Observable, Subject, Subscription} from "rxjs";
-import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
-import {EntityUtils} from "../../../../utils/entity-utils";
-import set = Reflect.set;
+import {Subject} from "rxjs";
 import {WordBundleScreen} from "../word-and-bundle-editor.component";
+import {WordAndBundleEditorService} from "../../../component-services/word-and-bundle-editor/word-and-bundle-editor.service";
+import {WordBundlePickerService} from "../../../component-services/word-and-bundle-editor/word-bundle-picker/word-bundle-picker.service";
 
 @Component({
   selector: 'word-bundle-picker',
@@ -13,51 +12,25 @@ import {WordBundleScreen} from "../word-and-bundle-editor.component";
 })
 export class WordBundlePickerComponent implements OnInit {
 
-  @Input() activeWordBundleSubj: Subject<WordBundle>;
-  @Input() editWordBundleSubj: Subject<WordBundle>;
   @Input() currentScreenSubj: Subject<WordBundleScreen>;
 
-  private wordBundles: WordBundle[] = [];
-  private activeWordBundle: WordBundle;
-  private pickedWordBundleSubscription: Subscription;
-
-  constructor(private wordBundleService: WordBundleService) {
+  constructor(private wordAndBundleEditorService: WordAndBundleEditorService,
+              private wordBundlePickerService: WordBundlePickerService) {
   }
 
   ngOnInit() {
-    this.wordBundleService.getWordBundleIds().subscribe(wordBundleIds => {
-      let wordBundles = wordBundleIds.map(wordBundleIds => this.wordBundleService.getWordBundle(wordBundleIds));
-      let wordBundlesObs: Observable<WordBundle[]> = EntityUtils.mergeObservables(wordBundles);
-
-      wordBundlesObs.subscribe(wordBundles => {
-        this.wordBundles = wordBundles.sort(WordBundle.wordBundleAscNameComparator);
-      });
-    });
-
-    this.activeWordBundleSubj.subscribe(activeWordBundle => {
-      this.activeWordBundle = activeWordBundle;
-    });
   }
 
   addWordBundle() {
-    this.editWordBundleSubj.next({
-      name: '',
-      importance: 5,
-      wordIds: []
-    });
+    this.wordBundlePickerService.addWordBundle();
   }
 
   pickWordBundle(wordBundle: WordBundle) {
-    if (this.pickedWordBundleSubscription) {
-      this.pickedWordBundleSubscription.unsubscribe();
-    }
-    this.pickedWordBundleSubscription = this.wordBundleService.getWordBundle(wordBundle.id).subscribe(wordBundle => {
-      this.activeWordBundleSubj.next(wordBundle);
-    });
+    this.wordBundlePickerService.pickWordBundle(wordBundle);
   }
 
   editWordBundle() {
-    this.editWordBundleSubj.next(this.activeWordBundle);
+    this.wordBundlePickerService.editWordBundle();
   }
 
   editWordsInBundle() {

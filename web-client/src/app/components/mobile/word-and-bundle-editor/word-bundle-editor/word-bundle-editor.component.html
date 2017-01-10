@@ -1,19 +1,19 @@
-<h2>{{title}}</h2>
+<h2>{{wordBundleEditorService.title}}</h2>
 <div>
   <label for="word-bundle-name">Name:</label>
-  <input id="word-bundle-name" [(ngModel)]="wordBundle.name">
+  <input id="word-bundle-name" [(ngModel)]="wordBundleEditorService.wordBundle.name">
 </div>
 <div>
   <label for="word-bundle-importance">Importance:</label>
-  <select id="word-bundle-importance" [(ngModel)]="wordBundle.importance"
-          (change)="importanceChanged(wordBundle.importance)">
-    <option *ngFor="let importanceValue of importanceValues" [value]="importanceValue.value">
+  <select id="word-bundle-importance" [(ngModel)]="wordBundleEditorService.wordBundle.importance"
+          (change)="importanceChanged(wordBundleEditorService.wordBundle.importance)">
+    <option *ngFor="let importanceValue of wordBundleEditorService.importanceValues" [value]="importanceValue.value">
       {{importanceValue.view}}
     </option>
   </select>
 </div>
 
-<button class="red" (click)="showRemoveDialog()" *ngIf="wordBundle.id">Remove</button>
+<button class="red" (click)="showRemoveDialog()" *ngIf="wordBundleEditorService.wordBundle.id">Remove</button>
 <div class="controls-right">
   <button class="gray" (click)="cancelEditing()">Cancel</button>
   <button (click)="saveWordBundle()">Save</button>

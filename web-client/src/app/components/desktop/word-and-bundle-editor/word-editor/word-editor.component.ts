@@ -1,9 +1,5 @@
-import {Component, OnInit, Input} from "@angular/core";
-import {Word} from "../../../../domain/word";
-import {WordService} from "../../../../services/word/word.service";
-import {Observable, Subject} from "rxjs";
-import {WordBundle} from "../../../../domain/word-bundle";
-import {WordBundleService} from "../../../../services/word-bundle/word-bundle.service";
+import {Component, OnInit} from "@angular/core";
+import {WordEditorService} from "../../../component-services/word-and-bundle-editor/word-editor/word-editor.service";
 
 @Component({
   selector: 'word-editor',
@@ -12,54 +8,21 @@ import {WordBundleService} from "../../../../services/word-bundle/word-bundle.se
 })
 export class WordEditorComponent implements OnInit {
 
-  @Input() editWordSubj: Subject<Word>;
-  @Input() activeWordBundleObs: Observable<WordBundle>;
-
-  private title: string;
-  private word: Word;
-  private activeWordBundle: WordBundle;
-  private importanceValues = [];
-
-  constructor(private wordService: WordService,
-              private wordBundleService: WordBundleService) {
+  constructor(private wordEditorService: WordEditorService) {
   }
 
   ngOnInit() {
-    for (var i = 0; i <= 10; i++) {
-      this.importanceValues.push({value: i, view: i})
-    }
-
-    this.activeWordBundleObs.subscribe(wordBundle => this.activeWordBundle = wordBundle);
-
-    this.editWordSubj.subscribe(word => {
-      if (word) {
-        this.word = Object.assign({}, word);
-        if (word.id) {
-          this.title = 'Edit word';
-        } else {
-          this.title = 'Add new word';
-        }
-      }
-    });
   }
 
   importanceChanged(newImportance: string) {
-    this.word.importance = parseInt(newImportance);
+    this.wordEditorService.wordImportanceChanged(newImportance);
   }
 
   saveWord() {
-    if (this.word.id) {
-      this.wordService.updateWord(this.word);
-    } else {
-      this.wordService.addWord(this.word) //todo: add word and connect it to the bundle in single request (when observables will be connected to server by websocket)
-        .subscribe(word => {
-          this.wordBundleService.bindWordToBundle(this.activeWordBundle, word);
-          this.editWordSubj.next(word)
-        });
-    }
+    this.wordEditorService.saveWord();
   }
 
   removeWord() {
-    this.wordService.removeWord(this.word.id);
+    this.wordEditorService.removeWord();
   }
 }
