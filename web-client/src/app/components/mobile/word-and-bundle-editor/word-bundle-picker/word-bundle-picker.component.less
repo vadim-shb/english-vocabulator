@@ -1,18 +1,27 @@
 @import "../../../../../styles";
 
-button {
-  .button-blue();
-  &.gray {
-    .button-gray();
-  }
+h2 {
+  display: inline-block;
+}
+
+#back {
+  .button-gray();
+  margin-right: 20px;
+  display: inline-block;
 }
 
 #edit-bundle, #edit-words-in-bundle {
+  .button-gray();
   float: right;
+  margin-left: @inter-button-width;
+}
+
+#add-word-bundle {
+  .button-green();
 }
 
 .selected {
-  background-color: rgba(18,102,186,0.85);
+  background-color: rgba(18, 102, 186, 0.85);
   color: #fff;
 }
 

@@ -1,10 +1,12 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, Input} from "@angular/core";
 import {Word} from "../../../../domain/word";
 import {WordAndBundleEditorService} from "../../../component-services/word-and-bundle-editor/word-and-bundle-editor.service";
 import {
   WordsInBundleService,
   WordsListMode
 } from "../../../component-services/word-and-bundle-editor/words-in-bundle/words-in-bundle.service";
+import {Subject} from "rxjs";
+import {WordBundleScreen} from "../word-and-bundle-editor.component";
 
 
 @Component({
@@ -14,6 +16,8 @@ import {
 })
 export class WordsInBundleComponent implements OnInit {
   private wordsListMode = WordsListMode;
+
+  @Input() currentScreenSubj: Subject<WordBundleScreen>;
 
   constructor(private wordsInBundleService: WordsInBundleService,
               private wordAndBundleEditorService: WordAndBundleEditorService) {
@@ -48,4 +52,7 @@ export class WordsInBundleComponent implements OnInit {
     });
   }
 
+  backToWordBundlesList() {
+    this.currentScreenSubj.next(WordBundleScreen.PICK_WORD_BUNDLE);
+  }
 }

@@ -1,14 +1,23 @@
 @import "../../../../../styles";
 
-button {
-  .button-blue();
-  &.gray {
-    .button-gray();
-  }
+#add-word {
+  .button-green();
+}
+
+#back {
+  .button-gray();
+  display: inline-block;
+}
+
+h2 {
+  display: inline-block;
+  margin-left: 20px;
 }
 
 #bind-word, #unbind-word, #show-words-in-bundle, #show-all-words, #edit-word {
+  .button-gray();
   float: right;
+  margin-left: @inter-button-width;
 }
 
 .binded {

@@ -18,7 +18,8 @@ export class WordsInBundleService {
   private wordsInBundleSubj = new ReplaySubject<Word[]>(1);
   private allWordsObs: Observable<Word[]> = this.wordService.getAllWords().map(words => words.sort(Word.wordAscAlphabeticalComparator));
 
-  private visibleWordsSubscription: Subscription;
+  private firstWordActivatorSubscription: Subscription;
+  private emptyWordsDeactivatorSubscription: Subscription;
 
   constructor(private wordService: WordService,
               private wordBundleService: WordBundleService,
@@ -58,14 +59,18 @@ export class WordsInBundleService {
     if (mode === WordsListMode.ALL_WORDS) this.wordsObs = this.allWordsObs;
 
     this.activateFirstWordIfNoActiveWordInList();
+    this.deactivateWordIfEmptyList();
   }
 
   private activateFirstWordIfNoActiveWordInList() {
-    if (this.visibleWordsSubscription) {
-      this.visibleWordsSubscription.unsubscribe();
+    if (this.firstWordActivatorSubscription) {
+      this.firstWordActivatorSubscription.unsubscribe();
     }
 
-    this.visibleWordsSubscription = this.wordsObs.subscribe(words => {
+    this.firstWordActivatorSubscription = this.wordsObs.subscribe(words => {
+      if (words.length === 0) {
+        this.wordAndBundleEditorService.activeWordSubj.next(undefined);
+      }
 
       Observable.of(0)
         .takeUntil(this.wordAndBundleEditorService.activeWordSubj)
@@ -86,6 +91,18 @@ export class WordsInBundleService {
           }
         }
       });
+    });
+  }
+
+  private deactivateWordIfEmptyList() {
+    if (this.emptyWordsDeactivatorSubscription) {
+      this.emptyWordsDeactivatorSubscription.unsubscribe();
+    }
+
+    this.emptyWordsDeactivatorSubscription = this.wordsObs.subscribe(words => {
+      if (words.length === 0) {
+        this.wordAndBundleEditorService.activeWordSubj.next(undefined);
+      }
     });
   }
 

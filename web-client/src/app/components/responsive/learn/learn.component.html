@@ -1,6 +1,10 @@
+<a id="back" [routerLink]="['/dashboard']">
+  <i class="fa fa-arrow-left fa-lg"></i>
+</a>
+<h2>Learn words meanings</h2>
 <div class="flex-container" fxLayout="row" fxLayoutAlign="center start">
   <div class="learn flex-item" fxFlex="400px">
-    <label>Learn bundle:
+    <label>bundle:
       <select (change)="selectWordBundle($event.target.value)">
         <option *ngFor="let wordBundle of wordBundles" [value]="wordBundle.id">{{wordBundle.name}}</option>
       </select>

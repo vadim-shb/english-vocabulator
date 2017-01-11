@@ -1,6 +1,9 @@
+<a id="back" [routerLink]="['/dashboard']">
+  <i class="fa fa-arrow-left fa-lg"></i>
+</a>
 <h2>Words bundles</h2>
 <div class="controls">
-  <button id="add-word-bundle" class="green" (click)="addWordBundle()">New bundle</button>
+  <button id="add-word-bundle" (click)="addWordBundle()">New bundle</button>
   <button id="edit-words-in-bundle" class="gray" (click)="editWordsInBundle()" title="Edit words in bundle" *ngIf="wordAndBundleEditorService.activeWordBundleSubj | async">
     <i class="fa fa-list fa-lg"></i>
   </button>

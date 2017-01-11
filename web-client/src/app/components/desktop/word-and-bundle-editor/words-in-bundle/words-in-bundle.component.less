@@ -1,18 +1,20 @@
 @import "../../../../../styles";
 
-button {
-  .button-blue();
-  &.gray {
-    .button-gray();
-  }
+#add-word {
+  .button-green();
 }
 
 #bind-word, #unbind-word, #show-words-in-bundle, #show-all-words {
+  .button-gray();
   float: right;
 }
 
+#bind-word, #unbind-word {
+  margin-left: @inter-button-width;
+}
+
 .binded {
-  background-color: rgba(111, 232, 46,0.15);
+  background-color: rgba(111, 232, 46, 0.15);
   color: #000;
   &.selected {
     color: rgba(233, 237, 35, 0.94);
@@ -20,7 +22,7 @@ button {
 }
 
 .selected {
-  background-color: rgba(18,102,186,0.85);
+  background-color: rgba(18, 102, 186, 0.85);
   color: #fff;
 }
 

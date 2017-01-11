@@ -1,12 +1,17 @@
-  <div *ngIf="(currentScreenSubj | async) == wordBundleScreen.PICK_WORD_BUNDLE ">
-    <word-bundle-picker [currentScreenSubj]="currentScreenSubj"></word-bundle-picker>
-  </div>
-  <div *ngIf="(currentScreenSubj | async) == wordBundleScreen.EDIT_WORD_BUNDLE">
-    <word-bundle-editor></word-bundle-editor>
-  </div>
-  <div *ngIf="(currentScreenSubj | async) == wordBundleScreen.PICK_WORD">
-    <words-in-bundle></words-in-bundle>
-  </div>
-  <div *ngIf="(currentScreenSubj | async) == wordBundleScreen.EDIT_WORD">
-    <word-editor></word-editor>
-  </div>
+<word-bundle-picker
+  [currentScreenSubj]="currentScreenSubj"
+  *ngIf="(currentScreenSubj | async) == wordBundleScreen.PICK_WORD_BUNDLE">
+</word-bundle-picker>
+
+<word-bundle-editor
+  *ngIf="(currentScreenSubj | async) == wordBundleScreen.EDIT_WORD_BUNDLE">
+</word-bundle-editor>
+
+<words-in-bundle
+  [currentScreenSubj]="currentScreenSubj"
+  *ngIf="(currentScreenSubj | async) == wordBundleScreen.PICK_WORD">
+</words-in-bundle>
+
+<word-editor
+  *ngIf="(currentScreenSubj | async) == wordBundleScreen.EDIT_WORD">
+</word-editor>

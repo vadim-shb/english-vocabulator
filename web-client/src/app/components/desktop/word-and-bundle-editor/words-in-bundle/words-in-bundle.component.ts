@@ -30,6 +30,7 @@ export class WordsInBundleComponent implements OnInit {
   }
 
   addWord() {
+    this.wordAndBundleEditorService.activeWordSubj.next(undefined);
     this.wordsInBundleService.addWord();
   }
 

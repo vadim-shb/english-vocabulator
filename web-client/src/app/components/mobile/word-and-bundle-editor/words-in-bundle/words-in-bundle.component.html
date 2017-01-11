@@ -1,13 +1,16 @@
+<button id="back" (click)="backToWordBundlesList()">
+    <i class="fa fa-arrow-left fa-lg"></i>
+</button>
 <h2>Words in bundle</h2>
 <div class="controls">
-  <button id="add-word" class="btn green" (click)="addWord()">New word</button>
-  <button id="unbind-word" class="gray" title="Unbind word from bundle"
+  <button id="add-word" (click)="addWord()">New word</button>
+  <button id="unbind-word"
+          title="Unbind word from bundle"
           (click)="unbindWordFromBundle()"
           *ngIf="(wordAndBundleEditorService.activeWordSubj | async) && (wordAndBundleEditorService.activeWordBundleSubj | async) && ((wordAndBundleEditorService.activeWordBundleSubj | async).wordIds.indexOf((wordAndBundleEditorService.activeWordSubj | async).id) + 1)">
     <i class="fa fa-chain-broken fa-lg"></i>
   </button>
   <button id="bind-word"
-          class="gray"
           title="Bind word to bundle"
           (click)="bindWordToBundle()"
           *ngIf="(wordAndBundleEditorService.activeWordSubj | async) && (wordAndBundleEditorService.activeWordBundleSubj | async) && !((wordAndBundleEditorService.activeWordBundleSubj | async).wordIds.indexOf((wordAndBundleEditorService.activeWordSubj | async).id) + 1)">
@@ -15,14 +18,12 @@
   </button>
 
   <button id="show-words-in-bundle"
-          class="gray"
           title="Show words in bundle"
           (click)="setMode(wordsListMode.WORDS_IN_BUNDLE)"
           *ngIf="wordsInBundleService.mode == wordsListMode.ALL_WORDS">
     <i class="fa fa-adjust fa-lg"></i>
   </button>
   <button id="show-all-words"
-          class="gray"
           title="Show all words"
           (click)="setMode(wordsListMode.ALL_WORDS)"
           *ngIf="wordsInBundleService.mode == wordsListMode.WORDS_IN_BUNDLE">
@@ -30,7 +31,6 @@
   </button>
 
   <button id="edit-word"
-          class="gray"
           title="Edit word"
           (click)="editWord()"
           *ngIf="(wordAndBundleEditorService.activeWordSubj | async)">
