@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {UserService} from "../../../services/user/user.service";
 import {WordAndBundleEditorService} from "../../component-services/word-and-bundle-editor/word-and-bundle-editor.service";
 
 @Component({
@@ -9,12 +8,10 @@ import {WordAndBundleEditorService} from "../../component-services/word-and-bund
 })
 export class WordAndBundleEditorComponent implements OnInit {
 
-  constructor(private userService: UserService,
-              private wordAndBundleEditorService: WordAndBundleEditorService) {
+  constructor(private wordAndBundleEditorService: WordAndBundleEditorService) {
   }
 
   ngOnInit() {
-    this.userService.signInIfNot();
   }
 
 }

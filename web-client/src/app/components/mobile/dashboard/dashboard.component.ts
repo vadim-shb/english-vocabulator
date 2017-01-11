@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {UserService} from "../../../services/user/user.service";
+import {Component, OnInit} from "@angular/core";
 
 @Component({
   selector: 'app-dashboard',
@@ -8,10 +7,10 @@ import {UserService} from "../../../services/user/user.service";
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor() {
+  }
 
   ngOnInit() {
-    this.userService.signInIfNot();
   }
 
 }

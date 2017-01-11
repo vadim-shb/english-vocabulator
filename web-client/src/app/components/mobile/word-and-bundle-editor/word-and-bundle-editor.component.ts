@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {UserService} from "../../../services/user/user.service";
 import {BehaviorSubject} from "rxjs";
 import {WordAndBundleEditorService} from "../../component-services/word-and-bundle-editor/word-and-bundle-editor.service";
 
@@ -20,13 +19,10 @@ export class WordAndBundleEditorComponent implements OnInit {
 
   private currentScreenSubj = new BehaviorSubject<WordBundleScreen>(WordBundleScreen.PICK_WORD_BUNDLE);
 
-  constructor(private userService: UserService,
-              private wordAndBundleEditorService: WordAndBundleEditorService) {
+  constructor(private wordAndBundleEditorService: WordAndBundleEditorService) {
   }
 
   ngOnInit() {
-    this.userService.signInIfNot();
-
     this.wordAndBundleEditorService.editWordBundleSubj.subscribe(editWordBundle => {
       if (editWordBundle) {
         this.currentScreenSubj.next(WordBundleScreen.EDIT_WORD_BUNDLE);

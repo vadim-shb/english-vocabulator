@@ -5,7 +5,7 @@
 # API
 POST          /api/security/sign-in                                           @controllers.SecurityController.signIn
 POST          /api/security/sign-up                                           @controllers.SecurityController.signUp
-GET           /api/security/sign-out                                          @controllers.SecurityController.signOut
+GET           /api/user/:userId/security/sign-out                             @controllers.SecurityController.signOut(userId: Long)
 POST          /api/user/:userId/word                                          @controllers.WordController.createWord(userId: Long)
 PUT           /api/user/:userId/word/:wordId                                  @controllers.WordController.updateWord(userId: Long, wordId: Long)
 GET           /api/user/:userId/word/:wordId                                  @controllers.WordController.findWord(userId: Long, wordId: Long)

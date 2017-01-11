@@ -9,9 +9,11 @@ import {AppCoreModule} from "./core.app.module";
 import {RootComponent} from "./components/responsive/root/root.component";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {WordAndBundleEditorComponent} from "./components/mobile/word-and-bundle-editor/word-and-bundle-editor.component";
+import {MobileRootComponent} from "./components/mobile/mobile-root/mobile-root.component";
 
 @NgModule({
   declarations: [
+    MobileRootComponent,
     DashboardComponent,
     WordAndBundleEditorComponent,
     WordBundlePickerComponent,

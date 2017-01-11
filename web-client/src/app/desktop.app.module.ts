@@ -9,9 +9,13 @@ import {AppCoreModule} from "./core.app.module";
 import {DesktopAppRoutingModule} from "./desktop.routing-module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {WordAndBundleEditorComponent} from "./components/desktop/word-and-bundle-editor/word-and-bundle-editor.component";
+import {HeaderComponent} from "./components/desktop/header/header.component";
+import {DesktopRootComponent} from "./components/desktop/desktop-root/desktop-root.component";
 
 @NgModule({
   declarations: [
+    DesktopRootComponent,
+    HeaderComponent,
     DashboardComponent,
     WordAndBundleEditorComponent,
     WordBundlePickerComponent,
