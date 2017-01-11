@@ -2,7 +2,6 @@ import {Routes, RouterModule} from "@angular/router";
 import {SignUpComponent} from "./components/responsive/sign-up/sign-up.component";
 import {SignInComponent} from "./components/responsive/sign-in/sign-in.component";
 import {NgModule} from "@angular/core";
-import {LearnComponent} from "./components/responsive/learn/learn.component";
 
 const CORE_ROUTES: Routes = [
   {
@@ -17,10 +16,6 @@ const CORE_ROUTES: Routes = [
   {
     path: 'sign-up',
     component: SignUpComponent
-  },
-  {
-    path: 'learn',
-    component: LearnComponent
   }
 ];
 

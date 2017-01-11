@@ -62,7 +62,7 @@ export class WordEditorService {
           this.wordAndBundleEditorService.activeWordBundleSubj.first().subscribe(activeWordBundle => {
             this.wordBundleService.bindWordToBundle(activeWordBundle, word);
 
-            let subscription = this.wordBundleService.getWordsOfWordBundle(activeWordBundle)
+            let subscription = this.wordBundleService.getWordsOfWordBundle(activeWordBundle.id)
               .subscribe(words => {
                 if (~words.indexOf(word)) {
                   this.wordAndBundleEditorService.activeWordSubj.next(word);

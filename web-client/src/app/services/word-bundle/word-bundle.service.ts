@@ -60,14 +60,15 @@ export class WordBundleService {
     }
   }
 
-  getWordsOfWordBundle(wordBundle: WordBundle): Observable<Word[]> {
-    let cachedWordsObs = this.wordBundleWordsVault.get(wordBundle.id);
+  getWordsOfWordBundle(wordBundleId: number): Observable<Word[]> {
+    let cachedWordsObs = this.wordBundleWordsVault.get(wordBundleId);
     if (cachedWordsObs) {
       return cachedWordsObs;
     } else {
       let wordBundleWordsSubj = new ReplaySubject<Word[]>(1);
+      this.wordBundleWordsVault.set(wordBundleId, wordBundleWordsSubj);
       let wordSubscription: Subscription;
-      this.getWordBundle(wordBundle.id).subscribe(wordBundle => {
+      this.getWordBundle(wordBundleId).subscribe(wordBundle => {
         if (wordSubscription) wordSubscription.unsubscribe();
         wordSubscription = this.wordService.getWordsByIds(wordBundle.wordIds)
           .subscribe(words => {

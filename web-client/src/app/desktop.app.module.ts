@@ -11,6 +11,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {WordAndBundleEditorComponent} from "./components/desktop/word-and-bundle-editor/word-and-bundle-editor.component";
 import {HeaderComponent} from "./components/desktop/header/header.component";
 import {DesktopRootComponent} from "./components/desktop/desktop-root/desktop-root.component";
+import {LearnComponent} from "./components/desktop/learn/learn.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {DesktopRootComponent} from "./components/desktop/desktop-root/desktop-ro
     WordBundlePickerComponent,
     WordBundleEditorComponent,
     WordsInBundleComponent,
-    WordEditorComponent
+    WordEditorComponent,
+    LearnComponent
   ],
   imports: [
     AppCoreModule,

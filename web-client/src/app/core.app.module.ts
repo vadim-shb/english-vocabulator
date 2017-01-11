@@ -18,12 +18,12 @@ import {RouterModule} from "@angular/router";
 import {WordKnowledgeTestService} from "./services/word-knowledge-test/word-knowledge-test.service";
 import {WordKnowledgeTestDao} from "./dao/word-knowledge-test/word-knowledge-test.dao";
 import {RootComponent} from "./components/responsive/root/root.component";
-import {LearnComponent} from "./components/responsive/learn/learn.component";
 import {WordAndBundleEditorService} from "./components/component-services/word-and-bundle-editor/word-and-bundle-editor.service";
 import {WordBundlePickerService} from "./components/component-services/word-and-bundle-editor/word-bundle-picker/word-bundle-picker.service";
 import {WordBundleEditorService} from "./components/component-services/word-and-bundle-editor/word-bundle-editor/word-bundle-editor.service";
 import {WordsInBundleService} from "./components/component-services/word-and-bundle-editor/words-in-bundle/words-in-bundle.service";
 import {WordEditorService} from "./components/component-services/word-and-bundle-editor/word-editor/word-editor.service";
+import {LearnService} from "./components/component-services/learn/learn.service";
 
 @NgModule({
   imports: [
@@ -35,8 +35,7 @@ import {WordEditorService} from "./components/component-services/word-and-bundle
   declarations: [
     RootComponent,
     SignUpComponent,
-    SignInComponent,
-    LearnComponent
+    SignInComponent
   ],
   providers: [
     ErrorHandleService,
@@ -55,7 +54,8 @@ import {WordEditorService} from "./components/component-services/word-and-bundle
     WordBundlePickerService,
     WordBundleEditorService,
     WordsInBundleService,
-    WordEditorService
+    WordEditorService,
+    LearnService
   ],
   exports: [
     BrowserModule,

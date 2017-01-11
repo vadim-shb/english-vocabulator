@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/desktop/dashboard/dashboard.component";
 import {WordAndBundleEditorComponent} from "./components/desktop/word-and-bundle-editor/word-and-bundle-editor.component";
 import {DesktopRootComponent} from "./components/desktop/desktop-root/desktop-root.component";
+import {LearnComponent} from "./components/desktop/learn/learn.component";
 
 const DESKTOP_ROUTES: Routes = [
   {
@@ -16,6 +17,10 @@ const DESKTOP_ROUTES: Routes = [
       {
         path: 'word-bundles',
         component: WordAndBundleEditorComponent
+      },
+      {
+        path: 'learn',
+        component: LearnComponent
       }
     ]
   }

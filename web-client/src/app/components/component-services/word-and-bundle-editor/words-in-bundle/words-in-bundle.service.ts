@@ -29,7 +29,7 @@ export class WordsInBundleService {
     this.wordAndBundleEditorService.activeWordBundleSubj.subscribe(wordBundle => {
       if (wordsOfBundleSubscription) wordsOfBundleSubscription.unsubscribe();
       if (wordBundle) {
-        wordsOfBundleSubscription = this.wordBundleService.getWordsOfWordBundle(wordBundle)
+        wordsOfBundleSubscription = this.wordBundleService.getWordsOfWordBundle(wordBundle.id)
           .map(words => words.sort(Word.wordAscAlphabeticalComparator))
           .subscribe(words => {
             this.wordsInBundleSubj.next(words);

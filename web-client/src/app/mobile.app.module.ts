@@ -10,6 +10,7 @@ import {RootComponent} from "./components/responsive/root/root.component";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {WordAndBundleEditorComponent} from "./components/mobile/word-and-bundle-editor/word-and-bundle-editor.component";
 import {MobileRootComponent} from "./components/mobile/mobile-root/mobile-root.component";
+import {LearnComponent} from "./components/mobile/learn/learn.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {MobileRootComponent} from "./components/mobile/mobile-root/mobile-root.c
     WordBundlePickerComponent,
     WordBundleEditorComponent,
     WordsInBundleComponent,
-    WordEditorComponent
+    WordEditorComponent,
+    LearnComponent
   ],
   imports: [
     AppCoreModule,

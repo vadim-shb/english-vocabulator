@@ -1,0 +1,29 @@
+<div class="flex-container" fxLayout="row" fxLayoutAlign="center start">
+  <div class="learn flex-item" fxFlex="400px">
+    <h2>Learn words meanings</h2>
+    <label>bundle:
+      <select (change)="selectWordBundle($event.target.value)">
+        <option *ngFor="let wordBundle of learnService.wordBundles" [value]="wordBundle.id">{{wordBundle.name}}</option>
+      </select>
+    </label>
+    <div class="learn-area">
+      <div class="word-frame" *ngIf="learnService.stage == wordLearnStage.ASK_KNOW">
+        <p>{{learnService.activeWord.word}}</p>
+      </div>
+      <div class="word-frame" *ngIf="learnService.stage == wordLearnStage.CHECK_KNOW || learnService.stage == wordLearnStage.VIEW_MEANING">
+        <p>{{learnService.activeWord.word}} - {{learnService.activeWord.meaning}}</p>
+      </div>
+      <div class="controls" *ngIf="learnService.stage == wordLearnStage.ASK_KNOW">
+        <button id="know-button" (click)="doKnow()">Know</button>
+        <button id="do-not-know-button" (click)="doNotKnow()">Do not know</button>
+      </div>
+      <div class="controls" *ngIf="learnService.stage == wordLearnStage.CHECK_KNOW">
+        <button id="self-check-correct" (click)="selfCheckCorrect()">Right</button>
+        <button id="self-check-wrong" (click)="selfCheckWrong()">Wrong</button>
+      </div>
+      <div class="controls" *ngIf="learnService.stage == wordLearnStage.VIEW_MEANING">
+        <button id="next-word" (click)="nextWord()">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>

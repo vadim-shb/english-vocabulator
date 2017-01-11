@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./components/mobile/dashboard/dashboard.component";
 import {WordAndBundleEditorComponent} from "./components/mobile/word-and-bundle-editor/word-and-bundle-editor.component";
 import {MobileRootComponent} from "./components/mobile/mobile-root/mobile-root.component";
+import {LearnComponent} from "./components/mobile/learn/learn.component";
 
 const MOBILE_ROUTES: Routes = [
   {
@@ -16,6 +17,10 @@ const MOBILE_ROUTES: Routes = [
       {
         path: 'word-bundles',
         component: WordAndBundleEditorComponent
+      },
+      {
+        path: 'learn',
+        component: LearnComponent
       }
     ]
   }
