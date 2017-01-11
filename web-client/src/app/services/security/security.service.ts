@@ -5,13 +5,17 @@ import {ErrorHandleService} from "../error-handle/error-handle.service";
 import "rxjs/add/operator/toPromise";
 import {UserService} from "../user/user.service";
 import {SecurityAuthenticationResponse, SecurityEmailPasswordCredentials} from "../../domain/security";
+import {SecureHttpService} from "../secure-http/secure-http.service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class SecurityService {
 
   constructor(private http: Http,
+              private secureHttpService: SecureHttpService,
               private errorHandleService: ErrorHandleService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   signIn(credentials: SecurityEmailPasswordCredentials) {
@@ -42,5 +46,13 @@ export class SecurityService {
         this.userService.setUser(user);
         return user;
       })
+  }
+
+  signOut() {
+    this.secureHttpService.get('security/sign-out')
+      .subscribe(() => {
+        this.userService.clearUser();
+        this.router.navigate(['/sign-in']);
+      });
   }
 }

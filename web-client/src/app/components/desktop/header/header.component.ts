@@ -1,7 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {UserService} from "../../../services/user/user.service";
-import {SecureHttpService} from "../../../services/secure-http/secure-http.service";
+import {SecurityService} from "../../../services/security/security.service";
 
 @Component({
   selector: 'app-header',
@@ -10,19 +8,13 @@ import {SecureHttpService} from "../../../services/secure-http/secure-http.servi
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private secureHttpService: SecureHttpService,
-              private router: Router,
-              private userService: UserService) {
+  constructor(private securityService: SecurityService) {
   }
 
   ngOnInit() {
   }
 
   signOut() {
-    this.secureHttpService.get('security/sign-out')
-      .subscribe(() => {
-        this.userService.clearUser();
-        this.router.navigate(['/sign-in']);
-      });
+    this.securityService.signOut();
   }
 }
