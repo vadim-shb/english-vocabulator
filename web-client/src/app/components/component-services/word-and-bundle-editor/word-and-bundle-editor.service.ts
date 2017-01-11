@@ -39,6 +39,14 @@ export class WordAndBundleEditorService {
 
   private activateFirstWordBundleIfNoActiveBundle() {
     this.allWordBundlesObs.subscribe(wordBundles => {
+      Observable.of(0)
+        .takeUntil(this.activeWordBundleSubj)
+        .subscribe(() => {
+          if (wordBundles[0]) {
+            this.activateWordBundle(wordBundles[0]);
+          }
+        });
+
       this.activeWordBundleSubj.first().subscribe(activeWordBundle => {
         if (!activeWordBundle && wordBundles[0]) {
           this.activateWordBundle(wordBundles[0]);

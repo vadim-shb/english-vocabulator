@@ -41,15 +41,13 @@ export class WordsInBundleService {
 
   private setInitialMode() {
     /**
-     * todo(2017-01-10): if everithing ok with lots of data - remove this comments.
      * fixme: some angular trouble. Remove setTimeout if angular will not throw an error in devMode.
      * See:
      * https://github.com/angular/angular/issues/6005
      * https://github.com/angular/angular/issues/10131
      * https://github.com/angular/angular/issues/10762
      **/
-    // setTimeout(() => this.setMode(WordsListMode.WORDS_IN_BUNDLE));
-    this.setMode(WordsListMode.WORDS_IN_BUNDLE);
+    setTimeout(() => this.setMode(WordsListMode.WORDS_IN_BUNDLE));
   }
 
   setMode(mode: WordsListMode) {
@@ -68,14 +66,23 @@ export class WordsInBundleService {
     }
 
     this.visibleWordsSubscription = this.wordsObs.subscribe(words => {
+
+      Observable.of(0)
+        .takeUntil(this.wordAndBundleEditorService.activeWordSubj)
+        .subscribe(() => {
+          if (words[0]) {
+            this.wordAndBundleEditorService.activeWordSubj.next(words[0]);
+          }
+        });
+
       this.wordAndBundleEditorService.activeWordSubj.first().subscribe(activeWord => {
         if (words[0]) {
           if (activeWord) {
             if (words.filter(word => word.id == activeWord.id).length === 0) {
-              this.wordAndBundleEditorService.activeWordSubj.next(words[0])
+              this.wordAndBundleEditorService.activeWordSubj.next(words[0]);
             }
           } else {
-            this.wordAndBundleEditorService.activeWordSubj.next(words[0])
+            this.wordAndBundleEditorService.activeWordSubj.next(words[0]);
           }
         }
       });
