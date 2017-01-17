@@ -34,7 +34,7 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao, 
   private def sendRegistrationEmail(securityUser: SecurityUser, emailConfirmationToken: String) = {
     val email = Email(
       subject = "Effectivelang registration confirmation",
-      from = "robot <robot@effectivelang.com>",
+      from = "Effectivelang.com <robot@effectivelang.com>",
       to = Seq(s"${securityUser.email.split("@")(0)} TO <${securityUser.email}>"),
       bodyText = Some(
         s"""Welcome to Effective Lang!
@@ -44,6 +44,13 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao, 
            |
            |https://effectivelang.com/api/security/activate-account/${emailConfirmationToken}
            |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
            |The Effective Lang Team
            |https://effectivelang.com
            |""".stripMargin),
@@ -52,7 +59,7 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao, 
            |<style>
            |    body {
            |        font-family: Arial, Helvetica, sans-serif;
-           |        font-size: 16px;
+           |        font-size: 20px;
            |        margin: 20px;
            |    }
            |    p {
@@ -65,29 +72,12 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao, 
            |    div {
            |        margin-bottom: 15px;
            |    }
-           |    a.activator {
+           |    a {
            |        text-decoration: none;
-           |    }
-           |    a.activator {
-           |        padding-left: 10px;
-           |        padding-right: 10px;
-           |        padding-top: 6px;
-           |        padding-bottom: 6px;
-           |
-           |        border: 1px solid #2e6da4;
-           |        background: #337ab7;
-           |        color: #fff;
-           |    }
-           |    a.activator:hover {
-           |        border-color: #204d74;
-           |        background: #286090;
-           |        cursor: pointer;
-           |    }
-           |    a.link {
            |        color: #337ab7;
            |        font-weight: 400;
            |    }
-           |    a.link:hover {
+           |    a:hover {
            |        color: #23527c;
            |        text-decoration: underline;
            |    }
@@ -97,7 +87,7 @@ class SecurityService @Inject()(configuration: Configuration, userDao: UserDao, 
            |    <p>It is just one step before you can start improving your vocabulary reactively!</p>
            |</div>
            |<div>
-           |    <p>To activate your account please press the button:</p>
+           |    <p>To activate your account please follow the link:</p>
            |    <a class="activator" href="https://effectivelang.com/api/security/activate-account/${emailConfirmationToken}">Activate
            |        the account</a>
            |</div>
