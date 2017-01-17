@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="schema-1" author="vdshb">
+    <changeSet id="schema-1" author="vdshb" context="main">
         <sql>
             CREATE TABLE t_user (
                 id                              BIGSERIAL                       NOT NULL PRIMARY KEY,

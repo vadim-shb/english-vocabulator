@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="fixture-2" author="vdshb">
+    <changeSet id="fixture-2" author="vdshb" context="development">
         <comment>Add some words to system</comment>
         <sql>
             INSERT INTO t_word (owner_id, word, importance, meaning, usage_examples) VALUES (1, 'ambitious', 4, 'амбициозный', 'There is an ambition man.');

@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="fixture-1" author="vdshb">
+    <changeSet id="fixture-1" author="vdshb" context="development">
         <comment>Add a user to system</comment>
         <sql>
             INSERT INTO t_user (email, salt, password_hash) VALUES ('user@domain.com', 'Z2YTKR', 'a933ffa9272f446f0f4132472e48a9a43d6381592d702aafc03f0795700b7b26012fc1137e39f9444a6741ee0d0f3b7a130be2b7eb9cb7f9ebcc067a4f5169e2'); --/password is '1234'
