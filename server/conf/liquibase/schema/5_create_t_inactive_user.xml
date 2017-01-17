@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="schema-5" author="vdshb">
+        <sql>
+            CREATE TABLE t_inactive_user (
+                id                              BIGSERIAL                       NOT NULL PRIMARY KEY,
+                email                           VARCHAR(1000)                   NOT NULL,
+                salt                            VARCHAR(6)                      NOT NULL,
+                password_hash                   VARCHAR(128)                    NOT NULL,
+                email_confirmation_token        VARCHAR(128)                    NOT NULL,
+                creation_date                   TIMESTAMP WITHOUT TIME ZONE     NOT NULL DEFAULT (now() at time zone 'utc')
+            );
+
+            ALTER TABLE t_inactive_user ADD CONSTRAINT email_min_length CHECK (length(email) >= 3);
+
+            CREATE INDEX t_inactive_user__email ON t_inactive_user (email);
+            CREATE INDEX t_inactive_user__email_confirmation_token ON t_inactive_user (email_confirmation_token);
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE t_inactive_user;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

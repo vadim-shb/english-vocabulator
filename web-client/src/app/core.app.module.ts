@@ -24,6 +24,8 @@ import {WordBundleEditorService} from "./components/component-services/word-and-
 import {WordsInBundleService} from "./components/component-services/word-and-bundle-editor/words-in-bundle/words-in-bundle.service";
 import {WordEditorService} from "./components/component-services/word-and-bundle-editor/word-editor/word-editor.service";
 import {LearnService} from "./components/component-services/learn/learn.service";
+import {ActivateAccountInvitationComponent} from "./components/responsive/activate-account-invitation/activate-account-invitation.component";
+import {RegistrationCompleteComponent} from "./components/responsive/registration-complete/registration-complete.component";
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import {LearnService} from "./components/component-services/learn/learn.service"
   declarations: [
     RootComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    ActivateAccountInvitationComponent,
+    RegistrationCompleteComponent
   ],
   providers: [
     ErrorHandleService,

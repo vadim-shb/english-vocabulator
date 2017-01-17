@@ -5,6 +5,7 @@
 # API
 POST          /api/security/sign-in                                           @controllers.SecurityController.signIn
 POST          /api/security/sign-up                                           @controllers.SecurityController.signUp
+GET           /api/security/activate-account/:emailConfirmationToken          @controllers.SecurityController.activateAccount(emailConfirmationToken: String)
 GET           /api/user/:userId/security/sign-out                             @controllers.SecurityController.signOut(userId: Long)
 POST          /api/user/:userId/word                                          @controllers.WordController.createWord(userId: Long)
 PUT           /api/user/:userId/word/:wordId                                  @controllers.WordController.updateWord(userId: Long, wordId: Long)

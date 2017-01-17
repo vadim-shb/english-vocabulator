@@ -35,17 +35,7 @@ export class SecurityService {
 
   signUp(credentials: SecurityEmailPasswordCredentials) {
     return this.http.post('/api/security/sign-up', credentials)
-      .catch(response => this.errorHandleService.catchHttpError(response))
-      .toPromise()
-      .then(response => {
-        let authenticationResponse = response.json() as SecurityAuthenticationResponse;
-        let user: User = {
-          id: authenticationResponse.user.id,
-          accessToken: authenticationResponse.accessToken
-        };
-        this.userService.setUser(user);
-        return user;
-      })
+      .catch(response => this.errorHandleService.catchHttpError(response));
   }
 
   signOut() {

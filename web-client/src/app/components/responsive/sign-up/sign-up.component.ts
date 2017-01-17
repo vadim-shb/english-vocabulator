@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
 
   signUp() {
     this.securityService.signUp(this.credentials)
-      .then(() => this.router.navigate(['/dashboard']));
+      .subscribe(() => this.router.navigate(['/activate-account-invitation']));
   }
 
 }

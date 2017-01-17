@@ -12,7 +12,7 @@
         "favicon.png"
       ],
       "index": "index.html",
-      "main": "mobile.main.ts",
+      "main": "desktop.main.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
       "prefix": "app",

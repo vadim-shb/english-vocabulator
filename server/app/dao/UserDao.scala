@@ -4,15 +4,25 @@ import javax.inject.Singleton
 
 import domain.{SecurityUser, SecurityUserSessionTokens, User}
 import persistence.DbConnected
-import scalikejdbc._, jsr310._
+import scalikejdbc._
+import scalikejdbc.jsr310._
 
 @Singleton
 class UserDao extends DbConnected {
 
-  def userMapper(rs: WrappedResultSet)(implicit session: DBSession) = {
+  def userMapper(rs: WrappedResultSet) = {
     User(
       id = rs.long("id"),
       email = rs.string("email")
+    )
+  }
+
+  def securityUserMapper(rs: WrappedResultSet) = {
+    SecurityUser(
+      id = rs.longOpt("id"),
+      email = rs.string("email"),
+      salt = rs.string("salt"),
+      passwordHash = rs.string("password_hash")
     )
   }
 
@@ -26,9 +36,25 @@ class UserDao extends DbConnected {
     )
   }
 
-  def addUser(user: SecurityUser): SecurityUser = {
+  def addInactiveUser(user: SecurityUser, emailConfirmationToken: String): Unit = {
     insideLocalTx { implicit session =>
-      val persistedUserId =sql"""INSERT INTO t_user(
+      sql"""INSERT INTO t_inactive_user(
+                           email,
+                           salt,
+                           password_hash,
+                           email_confirmation_token
+                        ) VALUES (
+                           ${user.email},
+                           ${user.salt},
+                           ${user.passwordHash},
+                           ${emailConfirmationToken}
+                        )""".update.apply
+    }
+  }
+
+  def addUser(user: SecurityUser)(implicit session: DBSession): SecurityUser = {
+    val persistedUserId =
+      sql"""INSERT INTO t_user(
                            email,
                            salt,
                            password_hash
@@ -36,22 +62,23 @@ class UserDao extends DbConnected {
                            ${user.email},
                            ${user.salt},
                            ${user.passwordHash}
-                        )""".updateAndReturnGeneratedKey().apply
-      user.copy(id = Some(persistedUserId))
-    }
+                        )""".updateAndReturnGeneratedKey.apply
+    user.copy(id = Some(persistedUserId))
+  }
+
+  def clearInactiveUsersWithEmail(email: String)(implicit session: DBSession): Unit = {
+      sql"""DELETE FROM t_inactive_user WHERE email = ${email}""".update.apply
+  }
+
+  def findInactiveUser(emailConfirmationToken: String)(implicit session: DBSession): Option[SecurityUser] = {
+    sql"""SELECT * FROM t_inactive_user WHERE email_confirmation_token = ${emailConfirmationToken}"""
+      .map(securityUserMapper).single.apply
   }
 
   def findSecurityUserByEmail(email: String): Option[SecurityUser] = {
     insideReadOnly { implicit session =>
       sql"""SELECT * FROM t_user WHERE email = ${email}"""
-        .map(rs =>
-          SecurityUser(
-            id = rs.longOpt("id"),
-            email = rs.string("email"),
-            salt = rs.string("salt"),
-            passwordHash = rs.string("password_hash")
-          )
-        ).single.apply
+        .map(securityUserMapper).single.apply
     }
   }
 

@@ -1,5 +1,6 @@
 DROP TABLE databasechangelog;
 DROP TABLE databasechangeloglock;
+DROP TABLE t_inactive_user;
 DROP TABLE t_word_knowledge_test_resume;
 DROP TABLE t_word_in_bundle;
 DROP TABLE t_word_bundle;
