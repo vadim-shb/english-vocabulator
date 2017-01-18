@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Word} from "../../domain/word";
 import {WordService} from "../word/word.service";
-import {WordKnowledgeTestResume, WordKnowledgeTestResultType} from "../../domain/word-knowledge-test";
+import {WordKnowledgeTestResume} from "../../domain/word-knowledge-test";
+import {WordKnowledgeTestResultType} from "../../domain/enum/word-knowledge-test-result-type";
 
 class WordRepeat {
   word: Word;

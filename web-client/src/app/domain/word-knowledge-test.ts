@@ -1,11 +1,6 @@
 import {Word} from "./word";
-export enum WordKnowledgeTestType {
-  MEANING
-}
-
-export enum WordKnowledgeTestResultType {
-  DO_NOT_KNOW, KNOW, KNOW_FAIL
-}
+import {WordKnowledgeTestType} from "./enum/word-knowledge-test-type";
+import {WordKnowledgeTestResultType} from "./enum/word-knowledge-test-result-type";
 
 export class WordKnowledgeTestResumeDTO {
   id?: number;

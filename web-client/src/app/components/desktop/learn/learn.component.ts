@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {LearnService, WordLearnStage} from "../../component-services/learn/learn.service";
+import {WordKnowledgeTestType} from "../../../domain/enum/word-knowledge-test-type";
 
 @Component({
   selector: 'word-learn',
@@ -8,6 +9,7 @@ import {LearnService, WordLearnStage} from "../../component-services/learn/learn
 })
 export class LearnComponent implements OnInit {
   private wordLearnStage = WordLearnStage;
+  private wordKnowledgeTestType = WordKnowledgeTestType;
 
   constructor(private learnService: LearnService) {
   }
@@ -17,6 +19,10 @@ export class LearnComponent implements OnInit {
 
   selectWordBundle(wordBundleId) {
     this.learnService.selectWordBundle(parseInt(wordBundleId));
+  }
+
+  selectWordKnowledgeTestType(wordKnowledgeTestType: WordKnowledgeTestType) {
+    this.learnService.selectWordKnowledgeTestType(wordKnowledgeTestType);
   }
 
   doNotKnow() {

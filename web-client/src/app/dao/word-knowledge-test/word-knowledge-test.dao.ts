@@ -1,12 +1,9 @@
 import {Injectable} from "@angular/core";
 import {SecureHttpService} from "../../services/secure-http/secure-http.service";
 import {Observable} from "rxjs";
-import {
-  WordKnowledgeTestResume,
-  WordKnowledgeTestResumeDTO,
-  WordKnowledgeTestType,
-  WordKnowledgeTestResultType
-} from "../../domain/word-knowledge-test";
+import {WordKnowledgeTestResume, WordKnowledgeTestResumeDTO} from "../../domain/word-knowledge-test";
+import {WordKnowledgeTestType} from "../../domain/enum/word-knowledge-test-type";
+import {WordKnowledgeTestResultType} from "../../domain/enum/word-knowledge-test-result-type";
 
 @Injectable()
 export class WordKnowledgeTestDao {

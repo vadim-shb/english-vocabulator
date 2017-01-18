@@ -1,24 +1,29 @@
 import {Injectable} from "@angular/core";
-import {
-  WordKnowledgeTestResumeCreator,
-  WordKnowledgeTestType,
-  WordKnowledgeTestResultType,
-  WordKnowledgeTestResume
-} from "../../../domain/word-knowledge-test";
+import {WordKnowledgeTestResumeCreator, WordKnowledgeTestResume} from "../../../domain/word-knowledge-test";
 import {Word} from "../../../domain/word";
 import {WordBundle} from "../../../domain/word-bundle";
 import {WordKnowledgeTestService} from "../../../services/word-knowledge-test/word-knowledge-test.service";
 import {WordLearnQueueService} from "../../../services/word-learn-queue/word-learn-queue.service";
 import {WordBundleService} from "../../../services/word-bundle/word-bundle.service";
 import {Subscription} from "rxjs";
+import {SelectOption} from "../../../utils/select-option";
+import {WordKnowledgeTestType} from "../../../domain/enum/word-knowledge-test-type";
+import {WordKnowledgeTestResultType} from "../../../domain/enum/word-knowledge-test-result-type";
 
 export enum WordLearnStage {
   NO_PICKED_WORD, ASK_KNOW, CHECK_KNOW, VIEW_MEANING
 }
 
+
 @Injectable()
 export class LearnService {
 
+  wordKnowledgeTestTypes: SelectOption[] = [
+    {value: WordKnowledgeTestType.MEANING, label: 'Meaning'},
+    {value: WordKnowledgeTestType.REVERSE_TRANSLATE, label: 'Reverse translate'}
+  ];
+
+  wordKnowledgeTestType: WordKnowledgeTestType = WordKnowledgeTestType.MEANING;
   wordBundles: WordBundle[];
   activeWord: Word;
   stage: WordLearnStage = WordLearnStage.NO_PICKED_WORD;
@@ -48,6 +53,12 @@ export class LearnService {
       this.stage = WordLearnStage.ASK_KNOW;
       this.testResumeCreator.startTest(this.activeWord, WordKnowledgeTestType.MEANING);
     });
+  }
+
+
+  selectWordKnowledgeTestType(wordKnowledgeTestType: WordKnowledgeTestType) {
+    this.wordKnowledgeTestType = wordKnowledgeTestType;
+    this.activeWord = this.wordLearnQueueService.getNextWord();
   }
 
   doNotKnowAnswer() {
@@ -84,6 +95,6 @@ export class LearnService {
   nextWord() {
     this.activeWord = this.wordLearnQueueService.getNextWord();
     this.stage = WordLearnStage.ASK_KNOW;
-    this.testResumeCreator.startTest(this.activeWord, WordKnowledgeTestType.MEANING);
+    this.testResumeCreator.startTest(this.activeWord, this.wordKnowledgeTestType);
   }
 }

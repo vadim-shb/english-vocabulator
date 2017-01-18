@@ -6,14 +6,22 @@
         <option *ngFor="let wordBundle of learnService.wordBundles" [value]="wordBundle.id">{{wordBundle.name}}</option>
       </select>
     </label>
+    <label class="learning-type">learning type:
+      <select (change)="selectWordKnowledgeTestType($event.target.value)">
+        <option *ngFor="let selectOption of learnService.wordKnowledgeTestTypes" [value]="selectOption.value">{{selectOption.label}}</option>
+      </select>
+    </label>
     <div class="learn-area">
       <div class="word-frame" *ngIf="learnService.stage == wordLearnStage.ASK_KNOW">
-        <p>{{learnService.activeWord.word}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.MEANING">{{learnService.activeWord.word}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.REVERSE_TRANSLATE">{{learnService.activeWord.meaning}}</p>
       </div>
       <div class="word-frame" *ngIf="learnService.stage == wordLearnStage.CHECK_KNOW || learnService.stage == wordLearnStage.VIEW_MEANING">
-        <p>{{learnService.activeWord.word}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.MEANING">{{learnService.activeWord.word}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.REVERSE_TRANSLATE">{{learnService.activeWord.meaning}}</p>
         <span></span>
-        <p>{{learnService.activeWord.meaning}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.MEANING">{{learnService.activeWord.meaning}}</p>
+        <p *ngIf="learnService.wordKnowledgeTestType == wordKnowledgeTestType.REVERSE_TRANSLATE">{{learnService.activeWord.word}}</p>
       </div>
       <div class="controls" *ngIf="learnService.stage == wordLearnStage.ASK_KNOW">
         <button id="know-button" (click)="doKnow()">Know</button>
