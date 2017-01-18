@@ -11,7 +11,9 @@
         <p>{{learnService.activeWord.word}}</p>
       </div>
       <div class="word-frame" *ngIf="learnService.stage == wordLearnStage.CHECK_KNOW || learnService.stage == wordLearnStage.VIEW_MEANING">
-        <p>{{learnService.activeWord.word}} - {{learnService.activeWord.meaning}}</p>
+        <p>{{learnService.activeWord.word}}</p>
+        <span></span>
+        <p>{{learnService.activeWord.meaning}}</p>
       </div>
       <div class="controls" *ngIf="learnService.stage == wordLearnStage.ASK_KNOW">
         <button id="know-button" (click)="doKnow()">Know</button>
