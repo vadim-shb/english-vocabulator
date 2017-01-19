@@ -69,9 +69,10 @@ class WordBundleDao extends DbConnected {
   def addWordToBundle(wordId: Long, wordBundleId: Long, userId: Long)(implicit session: DBSession): Boolean = {
     val insertedRowsNumber =
       sql"""INSERT INTO t_word_in_bundle(word_bundle_id,word_id)
-            WITH sub_word AS (SELECT id FROM t_word WHERE id = ${wordId} AND owner_id = ${userId}),
-                 sub_word_bundle AS (SELECT id FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId})
-            SELECT sub_word_bundle.id, sub_word.id FROM sub_word_bundle, sub_word"""
+            SELECT ${wordBundleId}, ${wordId}
+            WHERE EXISTS (SELECT id FROM t_word_bundle WHERE id = ${wordBundleId} AND owner_id = ${userId}) AND
+                  EXISTS (SELECT id FROM t_word WHERE id = ${wordId} AND owner_id = ${userId}) AND
+              NOT EXISTS (SELECT *  FROM t_word_in_bundle WHERE word_bundle_id = ${wordBundleId} AND word_id = ${wordId})"""
         .update.apply
     insertedRowsNumber == 1
   }
